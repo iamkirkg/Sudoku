@@ -38,6 +38,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -90,7 +92,9 @@
     <None Include=".vs\Sudoku\v15\Server\sqlite3\storage.ide-wal" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AquaGauge.cs" />
+    <Compile Include="AquaGauge.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="AquaGauge.Designer.cs">
       <DependentUpon>AquaGauge.cs</DependentUpon>
     </Compile>
