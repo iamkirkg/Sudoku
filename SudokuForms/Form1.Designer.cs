@@ -38,7 +38,9 @@
             this.q63 = new System.Windows.Forms.TableLayoutPanel();
             this.q66 = new System.Windows.Forms.TableLayoutPanel();
             this.q00 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
+            this.q00.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -50,12 +52,12 @@
             this.tableLayoutPanel1.Controls.Add(this.q03, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.q06, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.q30, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.q33, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.q36, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.q60, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.q63, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.q66, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.q00, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.q33, 1, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
@@ -64,23 +66,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1569, 1141);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // q00
-            // 
-            this.q00.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.q00.ColumnCount = 3;
-            this.q00.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.q00.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.q00.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
-            this.q00.Location = new System.Drawing.Point(3, 3);
-            this.q00.Name = "q00";
-            this.q00.RowCount = 3;
-            this.q00.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.q00.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.q00.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
-            this.q00.Size = new System.Drawing.Size(516, 372);
-            this.q00.TabIndex = 0;
-            this.q00.Paint += new System.Windows.Forms.PaintEventHandler(this.q00_Paint);
             // 
             // q03
             // 
@@ -218,6 +203,33 @@
             this.q66.TabIndex = 8;
             this.q66.Paint += new System.Windows.Forms.PaintEventHandler(this.q66_Paint);
             // 
+            // q00
+            // 
+            this.q00.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.q00.ColumnCount = 3;
+            this.q00.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.q00.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.q00.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
+            this.q00.Controls.Add(this.textBox1, 0, 0);
+            this.q00.Location = new System.Drawing.Point(3, 3);
+            this.q00.Name = "q00";
+            this.q00.RowCount = 3;
+            this.q00.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.q00.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.q00.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
+            this.q00.Size = new System.Drawing.Size(516, 372);
+            this.q00.TabIndex = 0;
+            this.q00.Paint += new System.Windows.Forms.PaintEventHandler(this.q00_Paint);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(4, 4);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(151, 99);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -227,6 +239,8 @@
             this.Name = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.q00.ResumeLayout(false);
+            this.q00.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -243,6 +257,7 @@
         private System.Windows.Forms.TableLayoutPanel q60;
         private System.Windows.Forms.TableLayoutPanel q63;
         private System.Windows.Forms.TableLayoutPanel q66;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
