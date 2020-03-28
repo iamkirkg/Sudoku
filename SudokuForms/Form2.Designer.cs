@@ -47,6 +47,7 @@
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,6 +83,7 @@
             this.tableLayoutPanel1.Controls.Add(this.textBox17, 7, 1);
             this.tableLayoutPanel1.Controls.Add(this.textBox18, 8, 1);
             this.tableLayoutPanel1.Controls.Add(this.textBox6, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBox1, 0, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 9;
@@ -140,6 +142,7 @@
             this.textBox5.Size = new System.Drawing.Size(100, 89);
             this.textBox5.TabIndex = 4;
             this.textBox5.Text = "  1    2    3    4    5    6    7    8    9";
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // textBox7
             // 
@@ -177,6 +180,7 @@
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(100, 26);
             this.textBox11.TabIndex = 10;
+            this.textBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
             // 
             // textBox12
             // 
@@ -184,6 +188,7 @@
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(100, 26);
             this.textBox12.TabIndex = 11;
+            this.textBox12.TextChanged += new System.EventHandler(this.textBox12_TextChanged);
             // 
             // textBox13
             // 
@@ -198,6 +203,7 @@
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(100, 26);
             this.textBox14.TabIndex = 13;
+            this.textBox14.TextChanged += new System.EventHandler(this.textBox14_TextChanged);
             // 
             // textBox15
             // 
@@ -236,6 +242,15 @@
             this.textBox6.TabIndex = 5;
             this.textBox6.Text = "   1   2   3   4   5   6   7   8   9";
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(4, 198);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(100, 90);
+            this.richTextBox1.TabIndex = 18;
+            this.richTextBox1.Text = "I am richTextBox1";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -271,5 +286,6 @@
         private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.TextBox textBox17;
         private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
