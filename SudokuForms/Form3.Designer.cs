@@ -51,6 +51,7 @@
             this.button1.Text = "1 2 3 4 5 6 7 8 9";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.KeyPress += Button1_KeyPress1;
             // 
             // button2
             // 
@@ -62,6 +63,7 @@
             this.button2.Text = "1 2 3 4 5 6 7 8 9";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.KeyPress += Button2_KeyPress1;
             // 
             // button3
             // 
@@ -73,6 +75,7 @@
             this.button3.Text = "1 2 3 4 5 6 7 8 9";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.KeyPress += Button3_KeyPress1;
             // 
             // button4
             // 
@@ -84,6 +87,7 @@
             this.button4.Text = "1 2 3 4 5 6 7 8 9";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.KeyPress += Button4_KeyPress1;
             // 
             // button5
             // 
@@ -95,6 +99,7 @@
             this.button5.Text = "1 2 3 4 5 6 7 8 9";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.KeyPress += Button5_KeyPress1;
             // 
             // button6
             // 
@@ -106,6 +111,7 @@
             this.button6.Text = "1 2 3 4 5 6 7 8 9";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.KeyPress += Button6_KeyPress1;
             // 
             // button7
             // 
@@ -117,6 +123,7 @@
             this.button7.Text = "1 2 3 4 5 6 7 8 9";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.KeyPress += Button7_KeyPress1;
             // 
             // button8
             // 
@@ -128,6 +135,7 @@
             this.button8.Text = "1 2 3 4 5 6 7 8 9";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.KeyPress += Button8_KeyPress1;
             // 
             // button9
             // 
@@ -139,6 +147,7 @@
             this.button9.Text = "1 2 3 4 5 6 7 8 9";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.button9.KeyPress += Button9_KeyPress1;
             // 
             // button10
             // 
@@ -181,6 +190,87 @@
             this.Text = "Form3";
             this.ResumeLayout(false);
 
+        }
+
+        private void Button1_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button1.Text = e.KeyChar.ToString();
+            }
+        }
+
+        private void Button2_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button2.Text = e.KeyChar.ToString();
+            }
+        }
+
+        private void Button3_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button3.Text = e.KeyChar.ToString();
+            }
+        }
+
+        private void Button4_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button4.Text = e.KeyChar.ToString();
+            }
+        }
+
+        private void Button5_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button5.Text = e.KeyChar.ToString();
+            }
+        }
+
+        private void Button6_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button6.Text = e.KeyChar.ToString();
+            }
+        }
+
+        private void Button7_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button7.Text = e.KeyChar.ToString();
+            }
+        }
+
+        private void Button8_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button8.Text = e.KeyChar.ToString();
+            }
+        }
+
+        private void Button9_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '1' && e.KeyChar <= '9')
+            {
+                button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                button9.Text = e.KeyChar.ToString();
+            }
         }
 
         #endregion

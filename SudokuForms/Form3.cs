@@ -19,7 +19,6 @@ namespace SudokuForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            button1.Text = "abc";
         }
 
         private void button5_Click(object sender, EventArgs e)
