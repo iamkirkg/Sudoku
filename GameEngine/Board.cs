@@ -9,26 +9,33 @@ namespace GameEngine
             public Square(int argSector)
             {
                 iWinner = 0;
-                rgf = new bool[] { true, true, true, true, true, true, true, true, true };
                 sector = argSector;
+                rgf = new bool[] { true, true, true, true, true, true, true, true, true };
+                text = "1 2 3 4 5 6 7 8 9";
             }
             public int iWinner { get; set; } // When there's only one left.
             public int sector { get; }       // What sector we're in.
+            public String text { get; set; } // '1 2 3 4 5 6 7 8 9', getting replaced by spaces.
             public bool[] rgf { get; set; }  // 'true' means it could be, 'false' means it can't be.
         }
 
         public static void WinnerWinner(Square sq, int iWinner)
         {
-            // Note that iWinner is [1..9], but our array is [0..8].
             sq.iWinner = iWinner;
             for (int i = 0; i <= 8; i++)
             {
                 sq.rgf[i] = false;
             }
-            sq.rgf[iWinner-1] = true;
+            sq.rgf[iWinner] = true;
         }
 
-        public Square[,] GameBoard = new Square[9, 9] 
+        public static void Loser(Square sq, int iLoser, char chLoser)
+        {
+            sq.rgf[iLoser] = false;
+            sq.text.Replace(chLoser, ' ');
+        }
+
+        public Square[,] unusedGameBoard = new Square[9, 9] 
         {
             { new Square(0), new Square(0), new Square(0), new Square(1), new Square(1), new Square(1), new Square(2), new Square(2), new Square(2) },
             { new Square(0), new Square(0), new Square(0), new Square(1), new Square(1), new Square(1), new Square(2), new Square(2), new Square(2) },

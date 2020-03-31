@@ -19,6 +19,7 @@ namespace SudokuForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
+            //Application.Run(new Form2());
 
             //BoardLayout.Square foo;
 
@@ -34,14 +35,6 @@ namespace SudokuForms
                 { new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(8), new BoardLayout.Square(8), new BoardLayout.Square(8) },
                 { new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(8), new BoardLayout.Square(8), new BoardLayout.Square(8) }
             };
-
-            for (int i = 0; i <= 8; i++)
-                {
-                int j = GameBoard[0, i].sector;
-                Console.WriteLine(j);
-                };
-
-            //Application.Run(new Form2());
 
             Application.Run(new Form3());
         }

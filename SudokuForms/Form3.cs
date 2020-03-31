@@ -38,13 +38,32 @@ namespace SudokuForms
         {
         }
 
-        private void WWinner(BoardLayout.Square sq, Button btn, char keyChar)
+        private void Winner(int row, int col, Button btn, char keyChar)
         {
             if (keyChar >= '1' && keyChar <= '9')
-                {
+            {
                 btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 btn.Text = keyChar.ToString();
-                BoardLayout.WinnerWinner(sq, keyChar - '0');
+                BoardLayout.WinnerWinner(myGameBoard[row, col], keyChar - '1');
+
+                // Walk every square in the board. If it's in this sector, or row, or 
+                // column, but isn't us, then keyChar is a Loser.
+                for (int x = 0; x <= 8; x++)
+                {
+                    for (int y = 0; y <= 8; y++)
+                    {
+                        if (x == row ||
+                            y == col ||
+                            myGameBoard[x, y].sector == myGameBoard[row, col].sector
+                            )
+                        {
+                            if (!(x == row && y == col))
+                            {
+                                BoardLayout.Loser(myGameBoard[x, y], keyChar - '1', keyChar);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

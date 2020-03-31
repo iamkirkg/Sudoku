@@ -187,47 +187,47 @@ namespace SudokuForms
 
         private void sq00_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[0, 0], btn00, e.KeyChar);
+            Winner(0, 0, btn00, e.KeyChar);
         }
 
         private void sq01_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[0, 1], btn01, e.KeyChar);
+            Winner(0, 1, btn01, e.KeyChar);
         }
 
         private void sq02_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[0, 2], btn02, e.KeyChar);
+            Winner(0, 2, btn02, e.KeyChar);
         }
 
         private void sq10_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[1, 0], btn10, e.KeyChar);
+            Winner(1, 0, btn10, e.KeyChar);
         }
 
         private void sq11_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[1, 1], btn11, e.KeyChar);
+            Winner(1, 1, btn11, e.KeyChar);
         }
 
         private void sq12_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[1, 2], btn12, e.KeyChar);
+            Winner(1, 2, btn12, e.KeyChar);
         }
 
         private void sq20_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[2, 0], btn20, e.KeyChar);
+            Winner(2, 0, btn20, e.KeyChar);
         }
 
         private void sq21_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[2, 1], btn21, e.KeyChar);
+            Winner(2, 1, btn21, e.KeyChar);
         }
 
         private void sq22_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            WWinner(myGameBoard[2, 2], btn22, e.KeyChar);
+            Winner(2, 2, btn22, e.KeyChar);
         }
 
         #endregion
