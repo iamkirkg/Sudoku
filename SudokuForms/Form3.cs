@@ -36,12 +36,16 @@ namespace SudokuForms
 
         private void btnStep_Click(object sender, EventArgs e)
         {
-            WWinner(myGameBoard[4, 5], 3);
         }
 
-        private void WWinner(BoardLayout.Square sq, int iWinner)
+        private void WWinner(BoardLayout.Square sq, Button btn, char keyChar)
         {
-            BoardLayout.WinnerWinner(sq, iWinner);
+            if (keyChar >= '1' && keyChar <= '9')
+                {
+                btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                btn.Text = keyChar.ToString();
+                BoardLayout.WinnerWinner(sq, keyChar - '0');
+            }
         }
     }
 }

@@ -19,12 +19,13 @@ namespace GameEngine
 
         public static void WinnerWinner(Square sq, int iWinner)
         {
+            // Note that iWinner is [1..9], but our array is [0..8].
             sq.iWinner = iWinner;
             for (int i = 0; i <= 8; i++)
             {
                 sq.rgf[i] = false;
             }
-            sq.rgf[iWinner] = true;
+            sq.rgf[iWinner-1] = true;
         }
 
         public Square[,] GameBoard = new Square[9, 9] 
