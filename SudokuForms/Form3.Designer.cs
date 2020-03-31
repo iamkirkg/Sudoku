@@ -1,4 +1,6 @@
-﻿namespace SudokuForms
+﻿using GameEngine;
+
+namespace SudokuForms
 {
     partial class Form3
     {
@@ -28,254 +30,256 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
+            this.sq00 = new System.Windows.Forms.Button();
+            this.sq01 = new System.Windows.Forms.Button();
+            this.sq02 = new System.Windows.Forms.Button();
+            this.sq10 = new System.Windows.Forms.Button();
+            this.sq11 = new System.Windows.Forms.Button();
+            this.sq12 = new System.Windows.Forms.Button();
+            this.sq20 = new System.Windows.Forms.Button();
+            this.sq21 = new System.Windows.Forms.Button();
+            this.sq22 = new System.Windows.Forms.Button();
+            this.btnStep = new System.Windows.Forms.Button();
+            this.btnGo = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // sq00
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(2, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(110, 144);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "1 2 3 4 5 6 7 8 9";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.KeyPress += Button1_KeyPress1;
+            this.sq00.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq00.Location = new System.Drawing.Point(2, 2);
+            this.sq00.Name = "sq00";
+            this.sq00.Size = new System.Drawing.Size(110, 144);
+            this.sq00.TabIndex = 0;
+            this.sq00.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq00.UseVisualStyleBackColor = true;
+            this.sq00.KeyPress += sq00_KeyPress;
             // 
-            // button2
+            // sq01
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(118, 2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(110, 144);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "1 2 3 4 5 6 7 8 9";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.KeyPress += Button2_KeyPress1;
+            this.sq01.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq01.Location = new System.Drawing.Point(118, 2);
+            this.sq01.Name = "sq01";
+            this.sq01.Size = new System.Drawing.Size(110, 144);
+            this.sq01.TabIndex = 1;
+            this.sq01.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq01.UseVisualStyleBackColor = true;
+            this.sq01.KeyPress += sq01_KeyPress;
             // 
-            // button3
+            // sq02
             // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(233, 2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(110, 144);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "1 2 3 4 5 6 7 8 9";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.KeyPress += Button3_KeyPress1;
+            this.sq02.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq02.Location = new System.Drawing.Point(233, 2);
+            this.sq02.Name = "sq02";
+            this.sq02.Size = new System.Drawing.Size(110, 144);
+            this.sq02.TabIndex = 2;
+            this.sq02.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq02.UseVisualStyleBackColor = true;
+            this.sq02.KeyPress += sq02_KeyPress;
             // 
-            // button4
+            // sq10
             // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(2, 148);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(110, 144);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "1 2 3 4 5 6 7 8 9";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.KeyPress += Button4_KeyPress1;
+            this.sq10.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq10.Location = new System.Drawing.Point(2, 148);
+            this.sq10.Name = "sq10";
+            this.sq10.Size = new System.Drawing.Size(110, 144);
+            this.sq10.TabIndex = 3;
+            this.sq10.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq10.UseVisualStyleBackColor = true;
+            this.sq10.KeyPress += sq10_KeyPress;
             // 
-            // button5
+            // sq11
             // 
-            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(118, 148);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(110, 144);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "1 2 3 4 5 6 7 8 9";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.KeyPress += Button5_KeyPress1;
+            this.sq11.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq11.Location = new System.Drawing.Point(118, 148);
+            this.sq11.Name = "sq11";
+            this.sq11.Size = new System.Drawing.Size(110, 144);
+            this.sq11.TabIndex = 4;
+            this.sq11.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq11.UseVisualStyleBackColor = true;
+            this.sq11.KeyPress += sq11_KeyPress;
             // 
-            // button6
+            // sq12
             // 
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(233, 148);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(110, 144);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "1 2 3 4 5 6 7 8 9";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.KeyPress += Button6_KeyPress1;
+            this.sq12.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq12.Location = new System.Drawing.Point(233, 148);
+            this.sq12.Name = "sq12";
+            this.sq12.Size = new System.Drawing.Size(110, 144);
+            this.sq12.TabIndex = 5;
+            this.sq12.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq12.UseVisualStyleBackColor = true;
+            this.sq12.KeyPress += sq12_KeyPress;
             // 
-            // button7
+            // sq20
             // 
-            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(2, 298);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(110, 144);
-            this.button7.TabIndex = 6;
-            this.button7.Text = "1 2 3 4 5 6 7 8 9";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.KeyPress += Button7_KeyPress1;
+            this.sq20.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq20.Location = new System.Drawing.Point(2, 298);
+            this.sq20.Name = "sq20";
+            this.sq20.Size = new System.Drawing.Size(110, 144);
+            this.sq20.TabIndex = 6;
+            this.sq20.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq20.UseVisualStyleBackColor = true;
+            this.sq20.KeyPress += sq20_KeyPress;
             // 
-            // button8
+            // sq21
             // 
-            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(118, 298);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(110, 144);
-            this.button8.TabIndex = 7;
-            this.button8.Text = "1 2 3 4 5 6 7 8 9";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.KeyPress += Button8_KeyPress1;
+            this.sq21.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq21.Location = new System.Drawing.Point(118, 298);
+            this.sq21.Name = "sq21";
+            this.sq21.Size = new System.Drawing.Size(110, 144);
+            this.sq21.TabIndex = 7;
+            this.sq21.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq21.UseVisualStyleBackColor = true;
+            this.sq21.KeyPress += sq21_KeyPress;
             // 
-            // button9
+            // sq22
             // 
-            this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.Location = new System.Drawing.Point(233, 298);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(110, 144);
-            this.button9.TabIndex = 8;
-            this.button9.Text = "1 2 3 4 5 6 7 8 9";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.KeyPress += Button9_KeyPress1;
+            this.sq22.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sq22.Location = new System.Drawing.Point(233, 298);
+            this.sq22.Name = "sq22";
+            this.sq22.Size = new System.Drawing.Size(110, 144);
+            this.sq22.TabIndex = 8;
+            this.sq22.Text = "1 2 3 4 5 6 7 8 9";
+            this.sq22.UseVisualStyleBackColor = true;
+            this.sq22.KeyPress += sq22_KeyPress;
             // 
-            // button10
+            // btnStep
             // 
-            this.button10.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button10.Location = new System.Drawing.Point(374, 38);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(112, 72);
-            this.button10.TabIndex = 9;
-            this.button10.Text = "Step";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStep.Location = new System.Drawing.Point(374, 38);
+            this.btnStep.Name = "Step";
+            this.btnStep.Size = new System.Drawing.Size(112, 72);
+            this.btnStep.TabIndex = 9;
+            this.btnStep.Text = "Step";
+            this.btnStep.UseVisualStyleBackColor = true;
+            this.btnStep.Click += new System.EventHandler(this.btnStep_Click);
             // 
-            // button11
+            // btnGo
             // 
-            this.button11.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button11.Location = new System.Drawing.Point(374, 126);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(112, 72);
-            this.button11.TabIndex = 10;
-            this.button11.Text = "Go";
-            this.button11.UseVisualStyleBackColor = true;
+            this.btnGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGo.Location = new System.Drawing.Point(374, 126);
+            this.btnGo.Name = "Go";
+            this.btnGo.Size = new System.Drawing.Size(112, 72);
+            this.btnGo.TabIndex = 10;
+            this.btnGo.Text = "Go";
+            this.btnGo.UseVisualStyleBackColor = true;
             // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 516);
-            this.Controls.Add(this.button11);
-            this.Controls.Add(this.button10);
-            this.Controls.Add(this.button9);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnGo);
+            this.Controls.Add(this.btnStep);
+            this.Controls.Add(this.sq22);
+            this.Controls.Add(this.sq21);
+            this.Controls.Add(this.sq20);
+            this.Controls.Add(this.sq12);
+            this.Controls.Add(this.sq11);
+            this.Controls.Add(this.sq10);
+            this.Controls.Add(this.sq02);
+            this.Controls.Add(this.sq01);
+            this.Controls.Add(this.sq00);
             this.Name = "Form3";
             this.Text = "Form3";
             this.ResumeLayout(false);
 
         }
 
-        private void Button1_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq00_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
+            int iChar = e.KeyChar - '0';
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button1.Text = e.KeyChar.ToString();
+                sq00.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq00.Text = e.KeyChar.ToString();
+                WWinner(myGameBoard[4,5], iChar);
             }
         }
 
-        private void Button2_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq01_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button2.Text = e.KeyChar.ToString();
+                sq01.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq01.Text = e.KeyChar.ToString();
             }
         }
 
-        private void Button3_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq02_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button3.Text = e.KeyChar.ToString();
+                sq02.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq02.Text = e.KeyChar.ToString();
             }
         }
 
-        private void Button4_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq10_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button4.Text = e.KeyChar.ToString();
+                sq10.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq10.Text = e.KeyChar.ToString();
             }
         }
 
-        private void Button5_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq11_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button5.Text = e.KeyChar.ToString();
+                sq11.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq11.Text = e.KeyChar.ToString();
             }
         }
 
-        private void Button6_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq12_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button6.Text = e.KeyChar.ToString();
+                sq12.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq12.Text = e.KeyChar.ToString();
             }
         }
 
-        private void Button7_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq20_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button7.Text = e.KeyChar.ToString();
+                sq20.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq20.Text = e.KeyChar.ToString();
             }
         }
 
-        private void Button8_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq21_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button8.Text = e.KeyChar.ToString();
+                sq21.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq21.Text = e.KeyChar.ToString();
             }
         }
 
-        private void Button9_KeyPress1(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void sq22_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar >= '1' && e.KeyChar <= '9')
             {
-                button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                button9.Text = e.KeyChar.ToString();
+                sq22.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                sq22.Text = e.KeyChar.ToString();
             }
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button sq00;
+        private System.Windows.Forms.Button sq01;
+        private System.Windows.Forms.Button sq02;
+        private System.Windows.Forms.Button sq10;
+        private System.Windows.Forms.Button sq11;
+        private System.Windows.Forms.Button sq12;
+        private System.Windows.Forms.Button sq20;
+        private System.Windows.Forms.Button sq21;
+        private System.Windows.Forms.Button sq22;
+        private System.Windows.Forms.Button btnStep;
+        private System.Windows.Forms.Button btnGo;
     }
 }

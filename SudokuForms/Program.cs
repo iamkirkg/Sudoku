@@ -37,7 +37,7 @@ namespace SudokuForms
 
             for (int i = 0; i <= 8; i++)
                 {
-                int j = GameBoard[0, i].q;
+                int j = GameBoard[0, i].sector;
                 Console.WriteLine(j);
                 };
 
