@@ -8,30 +8,54 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using GameEngine;
-
 namespace SudokuForms
 {
     public partial class Form3 : Form
     {
-        public BoardLayout.Square[,] myGameBoard;
+        public Board.Square[,] myBoard;
 
         public Form3()
         {
             InitializeComponent();
 
-            myGameBoard = new BoardLayout.Square[9, 9]
+            myBoard = new Board.Square[9, 9]
             {
-                { new BoardLayout.Square(0), new BoardLayout.Square(0), new BoardLayout.Square(0), new BoardLayout.Square(1), new BoardLayout.Square(1), new BoardLayout.Square(1), new BoardLayout.Square(2), new BoardLayout.Square(2), new BoardLayout.Square(2) },
-                { new BoardLayout.Square(0), new BoardLayout.Square(0), new BoardLayout.Square(0), new BoardLayout.Square(1), new BoardLayout.Square(1), new BoardLayout.Square(1), new BoardLayout.Square(2), new BoardLayout.Square(2), new BoardLayout.Square(2) },
-                { new BoardLayout.Square(0), new BoardLayout.Square(0), new BoardLayout.Square(0), new BoardLayout.Square(1), new BoardLayout.Square(1), new BoardLayout.Square(1), new BoardLayout.Square(2), new BoardLayout.Square(2), new BoardLayout.Square(2) },
-                { new BoardLayout.Square(3), new BoardLayout.Square(3), new BoardLayout.Square(3), new BoardLayout.Square(4), new BoardLayout.Square(4), new BoardLayout.Square(4), new BoardLayout.Square(5), new BoardLayout.Square(5), new BoardLayout.Square(5) },
-                { new BoardLayout.Square(3), new BoardLayout.Square(3), new BoardLayout.Square(3), new BoardLayout.Square(4), new BoardLayout.Square(4), new BoardLayout.Square(4), new BoardLayout.Square(5), new BoardLayout.Square(5), new BoardLayout.Square(5) },
-                { new BoardLayout.Square(3), new BoardLayout.Square(3), new BoardLayout.Square(3), new BoardLayout.Square(4), new BoardLayout.Square(4), new BoardLayout.Square(4), new BoardLayout.Square(5), new BoardLayout.Square(5), new BoardLayout.Square(5) },
-                { new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(8), new BoardLayout.Square(8), new BoardLayout.Square(8) },
-                { new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(8), new BoardLayout.Square(8), new BoardLayout.Square(8) },
-                { new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(6), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(7), new BoardLayout.Square(8), new BoardLayout.Square(8), new BoardLayout.Square(8) }
+                { new Board.Square(0, btn00), new Board.Square(0, btn01), new Board.Square(0, btn02), new Board.Square(1, null), new Board.Square(1, null), new Board.Square(1, null), new Board.Square(2, null), new Board.Square(2, null), new Board.Square(2, null) },
+                { new Board.Square(0, btn10), new Board.Square(0, btn11), new Board.Square(0, btn12), new Board.Square(1,null), new Board.Square(1,null), new Board.Square(1,null), new Board.Square(2,null), new Board.Square(2,null), new Board.Square(2, null) },
+                { new Board.Square(0, btn20), new Board.Square(0, btn21), new Board.Square(0, btn22), new Board.Square(1,null), new Board.Square(1,null), new Board.Square(1,null), new Board.Square(2,null), new Board.Square(2,null), new Board.Square(2, null) },
+                { new Board.Square(3,null), new Board.Square(3,null), new Board.Square(3,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(5,null), new Board.Square(5,null), new Board.Square(5, null) },
+                { new Board.Square(3,null), new Board.Square(3,null), new Board.Square(3,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(5,null), new Board.Square(5,null), new Board.Square(5, null) },
+                { new Board.Square(3,null), new Board.Square(3,null), new Board.Square(3,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(5,null), new Board.Square(5,null), new Board.Square(5, null) },
+                { new Board.Square(6,null), new Board.Square(6,null), new Board.Square(6,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(8,null), new Board.Square(8,null), new Board.Square(8, null) },
+                { new Board.Square(6,null), new Board.Square(6,null), new Board.Square(6,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(8,null), new Board.Square(8,null), new Board.Square(8, null) },
+                { new Board.Square(6,null), new Board.Square(6,null), new Board.Square(6,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(8,null), new Board.Square(8,null), new Board.Square(8, null) }
             };
+
+            // I don't understand why these are necessary; why isn't the assignment being made in the Square constructor?
+            myBoard[0, 0].btn = btn00;
+            myBoard[0, 1].btn = btn01;
+            myBoard[0, 2].btn = btn02;
+            myBoard[1, 0].btn = btn10;
+            myBoard[1, 1].btn = btn11;
+            myBoard[1, 2].btn = btn12;
+            myBoard[2, 0].btn = btn20;
+            myBoard[2, 1].btn = btn21;
+            myBoard[2, 2].btn = btn22;
+
+            /*
+            myGameBoard = new Board.Square[9, 9]
+            {
+                { new Board.Square(0, btn00), new Board.Square(0, btn01), new Board.Square(0, btn02), new Board.Square(1, btn03), new Board.Square(1, btn04), new Board.Square(1, btn05), new Board.Square(2, btn06), new Board.Square(2, btn07), new Board.Square(2, btn08) },
+                { new Board.Square(0), new Board.Square(0), new Board.Square(0), new Board.Square(1), new Board.Square(1), new Board.Square(1), new Board.Square(2), new Board.Square(2), new Board.Square(2) },
+                { new Board.Square(0), new Board.Square(0), new Board.Square(0), new Board.Square(1), new Board.Square(1), new Board.Square(1), new Board.Square(2), new Board.Square(2), new Board.Square(2) },
+                { new Board.Square(3), new Board.Square(3), new Board.Square(3), new Board.Square(4), new Board.Square(4), new Board.Square(4), new Board.Square(5), new Board.Square(5), new Board.Square(5) },
+                { new Board.Square(3), new Board.Square(3), new Board.Square(3), new Board.Square(4), new Board.Square(4), new Board.Square(4), new Board.Square(5), new Board.Square(5), new Board.Square(5) },
+                { new Board.Square(3), new Board.Square(3), new Board.Square(3), new Board.Square(4), new Board.Square(4), new Board.Square(4), new Board.Square(5), new Board.Square(5), new Board.Square(5) },
+                { new Board.Square(6), new Board.Square(6), new Board.Square(6), new Board.Square(7), new Board.Square(7), new Board.Square(7), new Board.Square(8), new Board.Square(8), new Board.Square(8) },
+                { new Board.Square(6), new Board.Square(6), new Board.Square(6), new Board.Square(7), new Board.Square(7), new Board.Square(7), new Board.Square(8), new Board.Square(8), new Board.Square(8) },
+                { new Board.Square(6), new Board.Square(6), new Board.Square(6), new Board.Square(7), new Board.Square(7), new Board.Square(7), new Board.Square(8), new Board.Square(8), new Board.Square(8) }
+            };
+            */
         }
 
         private void btnStep_Click(object sender, EventArgs e)
@@ -44,7 +68,7 @@ namespace SudokuForms
             {
                 btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 btn.Text = keyChar.ToString();
-                BoardLayout.WinnerWinner(myGameBoard[row, col], keyChar - '1');
+                Board.WinnerWinner(myBoard[row, col], keyChar - '1');
 
                 // Walk every square in the board. If it's in this sector, or row, or 
                 // column, but isn't us, then keyChar is a Loser.
@@ -52,14 +76,16 @@ namespace SudokuForms
                 {
                     for (int y = 0; y <= 8; y++)
                     {
+                        Board.Square sqTest = myBoard[x, y];
+
                         if (x == row ||
                             y == col ||
-                            myGameBoard[x, y].sector == myGameBoard[row, col].sector
+                            sqTest.sector == myBoard[row, col].sector
                             )
                         {
                             if (!(x == row && y == col))
                             {
-                                BoardLayout.Loser(myGameBoard[x, y], keyChar - '1', keyChar);
+                                Board.Loser(sqTest, keyChar - '1', keyChar);
                             }
                         }
                     }
