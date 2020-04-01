@@ -12,23 +12,23 @@ namespace SudokuForms
 {
     public partial class Form3 : Form
     {
-        public Board.Square[,] myBoard;
+        public Square[,] myBoard;
 
         public Form3()
         {
             InitializeComponent();
 
-            myBoard = new Board.Square[9, 9]
+            myBoard = new Square[9, 9]
             {
-                { new Board.Square(0, btn00), new Board.Square(0, btn01), new Board.Square(0, btn02), new Board.Square(1, null), new Board.Square(1, null), new Board.Square(1, null), new Board.Square(2, null), new Board.Square(2, null), new Board.Square(2, null) },
-                { new Board.Square(0, btn10), new Board.Square(0, btn11), new Board.Square(0, btn12), new Board.Square(1,null), new Board.Square(1,null), new Board.Square(1,null), new Board.Square(2,null), new Board.Square(2,null), new Board.Square(2, null) },
-                { new Board.Square(0, btn20), new Board.Square(0, btn21), new Board.Square(0, btn22), new Board.Square(1,null), new Board.Square(1,null), new Board.Square(1,null), new Board.Square(2,null), new Board.Square(2,null), new Board.Square(2, null) },
-                { new Board.Square(3,null), new Board.Square(3,null), new Board.Square(3,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(5,null), new Board.Square(5,null), new Board.Square(5, null) },
-                { new Board.Square(3,null), new Board.Square(3,null), new Board.Square(3,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(5,null), new Board.Square(5,null), new Board.Square(5, null) },
-                { new Board.Square(3,null), new Board.Square(3,null), new Board.Square(3,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(4,null), new Board.Square(5,null), new Board.Square(5,null), new Board.Square(5, null) },
-                { new Board.Square(6,null), new Board.Square(6,null), new Board.Square(6,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(8,null), new Board.Square(8,null), new Board.Square(8, null) },
-                { new Board.Square(6,null), new Board.Square(6,null), new Board.Square(6,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(8,null), new Board.Square(8,null), new Board.Square(8, null) },
-                { new Board.Square(6,null), new Board.Square(6,null), new Board.Square(6,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(7,null), new Board.Square(8,null), new Board.Square(8,null), new Board.Square(8, null) }
+                { new Square(0, btn00), new Square(0, btn01), new Square(0, btn02), new Square(1, null), new Square(1, null), new Square(1, null), new Square(2, null), new Square(2, null), new Square(2, null) },
+                { new Square(0, btn10), new Square(0, btn11), new Square(0, btn12), new Square(1,null), new Square(1,null), new Square(1,null), new Square(2,null), new Square(2,null), new Square(2, null) },
+                { new Square(0, btn20), new Square(0, btn21), new Square(0, btn22), new Square(1,null), new Square(1,null), new Square(1,null), new Square(2,null), new Square(2,null), new Square(2, null) },
+                { new Square(3,null), new Square(3,null), new Square(3,null), new Square(4,null), new Square(4,null), new Square(4,null), new Square(5,null), new Square(5,null), new Square(5, null) },
+                { new Square(3,null), new Square(3,null), new Square(3,null), new Square(4,null), new Square(4,null), new Square(4,null), new Square(5,null), new Square(5,null), new Square(5, null) },
+                { new Square(3,null), new Square(3,null), new Square(3,null), new Square(4,null), new Square(4,null), new Square(4,null), new Square(5,null), new Square(5,null), new Square(5, null) },
+                { new Square(6,null), new Square(6,null), new Square(6,null), new Square(7,null), new Square(7,null), new Square(7,null), new Square(8,null), new Square(8,null), new Square(8, null) },
+                { new Square(6,null), new Square(6,null), new Square(6,null), new Square(7,null), new Square(7,null), new Square(7,null), new Square(8,null), new Square(8,null), new Square(8, null) },
+                { new Square(6,null), new Square(6,null), new Square(6,null), new Square(7,null), new Square(7,null), new Square(7,null), new Square(8,null), new Square(8,null), new Square(8, null) }
             };
 
             // I don't understand why these are necessary; why isn't the assignment being made in the Square constructor?
@@ -68,7 +68,7 @@ namespace SudokuForms
             {
                 btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 btn.Text = keyChar.ToString();
-                Board.WinnerWinner(myBoard[row, col], keyChar - '1');
+                myBoard[row, col].WinnerWinner(keyChar - '1');
 
                 // Walk every square in the board. If it's in this sector, or row, or 
                 // column, but isn't us, then keyChar is a Loser.
@@ -76,7 +76,7 @@ namespace SudokuForms
                 {
                     for (int y = 0; y <= 8; y++)
                     {
-                        Board.Square sqTest = myBoard[x, y];
+                        Square sqTest = myBoard[x, y];
 
                         if (x == row ||
                             y == col ||
@@ -85,7 +85,7 @@ namespace SudokuForms
                         {
                             if (!(x == row && y == col))
                             {
-                                Board.Loser(sqTest, keyChar - '1', keyChar);
+                                sqTest.Loser(keyChar - '1', keyChar);
                             }
                         }
                     }
