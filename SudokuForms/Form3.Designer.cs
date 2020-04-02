@@ -42,125 +42,102 @@ namespace SudokuForms
             this.btnGo = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // sq00
+            // btn00
             // 
             this.btn00.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn00.Location = new System.Drawing.Point(2, 2);
-            this.btn00.Name = "sq00";
             this.btn00.Size = new System.Drawing.Size(110, 144);
             this.btn00.TabIndex = 0;
             this.btn00.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn00.UseVisualStyleBackColor = true;
             this.btn00.KeyPress += sq00_KeyPress;
             // 
-            // sq01
+            // btn01
             // 
             this.btn01.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn01.Location = new System.Drawing.Point(118, 2);
-            this.btn01.Name = "sq01";
             this.btn01.Size = new System.Drawing.Size(110, 144);
             this.btn01.TabIndex = 1;
             this.btn01.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn01.UseVisualStyleBackColor = true;
             this.btn01.KeyPress += sq01_KeyPress;
             // 
-            // sq02
+            // btn02
             // 
             this.btn02.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn02.Location = new System.Drawing.Point(233, 2);
-            this.btn02.Name = "sq02";
+            this.btn02.Location = new System.Drawing.Point(234, 2);
             this.btn02.Size = new System.Drawing.Size(110, 144);
             this.btn02.TabIndex = 2;
             this.btn02.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn02.UseVisualStyleBackColor = true;
             this.btn02.KeyPress += sq02_KeyPress;
             // 
-            // sq10
+            // btn10
             // 
             this.btn10.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn10.Location = new System.Drawing.Point(2, 148);
-            this.btn10.Name = "sq10";
             this.btn10.Size = new System.Drawing.Size(110, 144);
             this.btn10.TabIndex = 3;
             this.btn10.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn10.UseVisualStyleBackColor = true;
             this.btn10.KeyPress += sq10_KeyPress;
             // 
-            // sq11
+            // btn11
             // 
             this.btn11.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn11.Location = new System.Drawing.Point(118, 148);
-            this.btn11.Name = "sq11";
             this.btn11.Size = new System.Drawing.Size(110, 144);
             this.btn11.TabIndex = 4;
             this.btn11.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn11.UseVisualStyleBackColor = true;
             this.btn11.KeyPress += sq11_KeyPress;
             // 
-            // sq12
+            // btn12
             // 
             this.btn12.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn12.Location = new System.Drawing.Point(233, 148);
-            this.btn12.Name = "sq12";
+            this.btn12.Location = new System.Drawing.Point(234, 148);
             this.btn12.Size = new System.Drawing.Size(110, 144);
             this.btn12.TabIndex = 5;
             this.btn12.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn12.UseVisualStyleBackColor = true;
             this.btn12.KeyPress += sq12_KeyPress;
             // 
-            // sq20
+            // btn20
             // 
             this.btn20.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn20.Location = new System.Drawing.Point(2, 298);
-            this.btn20.Name = "sq20";
             this.btn20.Size = new System.Drawing.Size(110, 144);
             this.btn20.TabIndex = 6;
             this.btn20.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn20.UseVisualStyleBackColor = true;
             this.btn20.KeyPress += sq20_KeyPress;
             // 
-            // sq21
+            // btn21
             // 
             this.btn21.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn21.Location = new System.Drawing.Point(118, 298);
-            this.btn21.Name = "sq21";
             this.btn21.Size = new System.Drawing.Size(110, 144);
             this.btn21.TabIndex = 7;
             this.btn21.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn21.UseVisualStyleBackColor = true;
             this.btn21.KeyPress += sq21_KeyPress;
             // 
-            // sq22
+            // btn22
             // 
             this.btn22.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn22.Location = new System.Drawing.Point(233, 298);
-            this.btn22.Name = "sq22";
+            this.btn22.Location = new System.Drawing.Point(234, 298);
             this.btn22.Size = new System.Drawing.Size(110, 144);
             this.btn22.TabIndex = 8;
             this.btn22.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn22.UseVisualStyleBackColor = true;
             this.btn22.KeyPress += sq22_KeyPress;
             // 
             // btnStep
             // 
             this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStep.Location = new System.Drawing.Point(374, 38);
-            this.btnStep.Name = "Step";
             this.btnStep.Size = new System.Drawing.Size(112, 72);
             this.btnStep.TabIndex = 9;
             this.btnStep.Text = "Step";
-            this.btnStep.UseVisualStyleBackColor = true;
-            this.btnStep.Click += new System.EventHandler(this.btnStep_Click);
             // 
             // btnGo
             // 
             this.btnGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGo.Location = new System.Drawing.Point(374, 126);
-            this.btnGo.Name = "Go";
             this.btnGo.Size = new System.Drawing.Size(112, 72);
             this.btnGo.TabIndex = 10;
             this.btnGo.Text = "Go";
-            this.btnGo.UseVisualStyleBackColor = true;
             // 
             // Form3
             // 
