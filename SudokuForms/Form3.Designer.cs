@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace SudokuForms
 {
     partial class Form3
@@ -40,6 +42,7 @@ namespace SudokuForms
             this.btn22 = new System.Windows.Forms.Button();
             this.btnStep = new System.Windows.Forms.Button();
             this.btnGo = new System.Windows.Forms.Button();
+            //this.LogOriginal = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btn00
@@ -138,6 +141,18 @@ namespace SudokuForms
             this.btnGo.Size = new System.Drawing.Size(112, 72);
             this.btnGo.TabIndex = 10;
             this.btnGo.Text = "Go";
+            //
+            // LogBox
+            //
+            this.objLogBox = new LogBox(2, 450, 350, 200, 11);
+            this.Controls.Add(this.objLogBox.objBox);
+            //this.LogOriginal.Location = new System.Drawing.Point(2, 450);
+            //this.LogOriginal.Multiline = true;
+            //this.LogOriginal.Name = "LogBox";
+            //this.LogOriginal.Size = new System.Drawing.Size(350, 200);
+            //this.LogOriginal.TabIndex = 11;
+            //this.LogOriginal.Text = "Text Box 1";
+
             // 
             // Form3
             // 
@@ -155,6 +170,7 @@ namespace SudokuForms
             this.Controls.Add(this.btn02);
             this.Controls.Add(this.btn01);
             this.Controls.Add(this.btn00);
+            //this.Controls.Add(this.LogOriginal);
             this.Name = "Form3";
             this.Text = "Form3";
             this.ResumeLayout(false);
@@ -164,21 +180,26 @@ namespace SudokuForms
         private void sq00_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             Winner(0, 0, btn00, e.KeyChar);
+            //LogOriginal.AppendText("Button sq00 KeyPress of " + e.KeyChar + Environment.NewLine);
+            objLogBox.Log("Button sq00 KeyPress of " + e.KeyChar);
         }
 
         private void sq01_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             Winner(0, 1, btn01, e.KeyChar);
+            objLogBox.Log("Button sq01 KeyPress of " + e.KeyChar);
         }
 
         private void sq02_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             Winner(0, 2, btn02, e.KeyChar);
+            objLogBox.Log("Button sq02 KeyPress of " + e.KeyChar);
         }
 
         private void sq10_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             Winner(1, 0, btn10, e.KeyChar);
+            objLogBox.Log("Button sq10 KeyPress of " + e.KeyChar);
         }
 
         private void sq11_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
@@ -219,5 +240,7 @@ namespace SudokuForms
         private System.Windows.Forms.Button btn22;
         private System.Windows.Forms.Button btnStep;
         private System.Windows.Forms.Button btnGo;
+        //private System.Windows.Forms.TextBox LogOriginal;
+        private LogBox objLogBox;
     }
 }
