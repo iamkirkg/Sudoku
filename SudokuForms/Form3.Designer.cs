@@ -40,6 +40,7 @@ namespace SudokuForms
             this.btn20 = new System.Windows.Forms.Button();
             this.btn21 = new System.Windows.Forms.Button();
             this.btn22 = new System.Windows.Forms.Button();
+
             this.btnStep = new System.Windows.Forms.Button();
             this.btnGo = new System.Windows.Forms.Button();
             //this.LogOriginal = new System.Windows.Forms.TextBox();
@@ -52,7 +53,7 @@ namespace SudokuForms
             this.btn00.Size = new System.Drawing.Size(110, 144);
             this.btn00.TabIndex = 0;
             this.btn00.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn00.KeyPress += sq00_KeyPress;
+            this.btn00.KeyPress += sq_KeyPress;
             // 
             // btn01
             // 
@@ -61,7 +62,7 @@ namespace SudokuForms
             this.btn01.Size = new System.Drawing.Size(110, 144);
             this.btn01.TabIndex = 1;
             this.btn01.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn01.KeyPress += sq01_KeyPress;
+            this.btn01.KeyPress += sq_KeyPress;
             // 
             // btn02
             // 
@@ -70,7 +71,7 @@ namespace SudokuForms
             this.btn02.Size = new System.Drawing.Size(110, 144);
             this.btn02.TabIndex = 2;
             this.btn02.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn02.KeyPress += sq02_KeyPress;
+            this.btn02.KeyPress += sq_KeyPress;
             // 
             // btn10
             // 
@@ -79,7 +80,7 @@ namespace SudokuForms
             this.btn10.Size = new System.Drawing.Size(110, 144);
             this.btn10.TabIndex = 3;
             this.btn10.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn10.KeyPress += sq10_KeyPress;
+            this.btn10.KeyPress += sq_KeyPress;
             // 
             // btn11
             // 
@@ -88,7 +89,7 @@ namespace SudokuForms
             this.btn11.Size = new System.Drawing.Size(110, 144);
             this.btn11.TabIndex = 4;
             this.btn11.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn11.KeyPress += sq11_KeyPress;
+            this.btn11.KeyPress += sq_KeyPress;
             // 
             // btn12
             // 
@@ -97,7 +98,7 @@ namespace SudokuForms
             this.btn12.Size = new System.Drawing.Size(110, 144);
             this.btn12.TabIndex = 5;
             this.btn12.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn12.KeyPress += sq12_KeyPress;
+            this.btn12.KeyPress += sq_KeyPress;
             // 
             // btn20
             // 
@@ -106,7 +107,7 @@ namespace SudokuForms
             this.btn20.Size = new System.Drawing.Size(110, 144);
             this.btn20.TabIndex = 6;
             this.btn20.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn20.KeyPress += sq20_KeyPress;
+            this.btn20.KeyPress += sq_KeyPress;
             // 
             // btn21
             // 
@@ -115,7 +116,7 @@ namespace SudokuForms
             this.btn21.Size = new System.Drawing.Size(110, 144);
             this.btn21.TabIndex = 7;
             this.btn21.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn21.KeyPress += sq21_KeyPress;
+            this.btn21.KeyPress += sq_KeyPress;
             // 
             // btn22
             // 
@@ -124,7 +125,7 @@ namespace SudokuForms
             this.btn22.Size = new System.Drawing.Size(110, 144);
             this.btn22.TabIndex = 8;
             this.btn22.Text = "1 2 3 4 5 6 7 8 9";
-            this.btn22.KeyPress += sq22_KeyPress;
+            this.btn22.KeyPress += sq_KeyPress;
             // 
             // btnStep
             // 
@@ -177,55 +178,67 @@ namespace SudokuForms
 
         }
 
+        private void sq_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(btn.TabIndex, e.KeyChar);
+        }
+
+        /*
         private void sq00_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(0, 0, btn00, e.KeyChar);
-            //LogOriginal.AppendText("Button sq00 KeyPress of " + e.KeyChar + Environment.NewLine);
-            objLogBox.Log("Button sq00 KeyPress of " + e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(0, 0, btn.TabIndex, e.KeyChar);
         }
 
         private void sq01_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(0, 1, btn01, e.KeyChar);
-            objLogBox.Log("Button sq01 KeyPress of " + e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(1, 0, btn.TabIndex, e.KeyChar);
         }
 
         private void sq02_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(0, 2, btn02, e.KeyChar);
-            objLogBox.Log("Button sq02 KeyPress of " + e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(2, 0, btn.TabIndex, e.KeyChar);
         }
 
         private void sq10_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(1, 0, btn10, e.KeyChar);
-            objLogBox.Log("Button sq10 KeyPress of " + e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(0, 1, btn.TabIndex, e.KeyChar);
         }
 
         private void sq11_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(1, 1, btn11, e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(1, 1, btn.TabIndex, e.KeyChar);
         }
 
         private void sq12_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(1, 2, btn12, e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(2, 1, btn.TabIndex, e.KeyChar);
         }
 
         private void sq20_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(2, 0, btn20, e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(0, 2, btn.TabIndex, e.KeyChar);
         }
 
         private void sq21_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(2, 1, btn21, e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(1, 2, btn.TabIndex, e.KeyChar);
         }
 
         private void sq22_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Winner(2, 2, btn22, e.KeyChar);
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            Winner(2, 2, btn.TabIndex, e.KeyChar);
         }
+        */
 
         #endregion
 

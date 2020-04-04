@@ -32,60 +32,58 @@ namespace SudokuForms
             };
 
             // I don't understand why these are necessary; why isn't the assignment being made in the Square constructor?
+            //myBoard[c, r]
             myBoard[0, 0].btn = btn00;
-            myBoard[0, 1].btn = btn01;
-            myBoard[0, 2].btn = btn02;
-            myBoard[1, 0].btn = btn10;
+            myBoard[1, 0].btn = btn01;
+            myBoard[2, 0].btn = btn02;
+            myBoard[0, 1].btn = btn10;
             myBoard[1, 1].btn = btn11;
-            myBoard[1, 2].btn = btn12;
-            myBoard[2, 0].btn = btn20;
-            myBoard[2, 1].btn = btn21;
+            myBoard[2, 1].btn = btn12;
+            myBoard[0, 2].btn = btn20;
+            myBoard[1, 2].btn = btn21;
             myBoard[2, 2].btn = btn22;
-
-            /*
-            myGameBoard = new Board.Square[9, 9]
-            {
-                { new Board.Square(0, btn00), new Board.Square(0, btn01), new Board.Square(0, btn02), new Board.Square(1, btn03), new Board.Square(1, btn04), new Board.Square(1, btn05), new Board.Square(2, btn06), new Board.Square(2, btn07), new Board.Square(2, btn08) },
-                { new Board.Square(0), new Board.Square(0), new Board.Square(0), new Board.Square(1), new Board.Square(1), new Board.Square(1), new Board.Square(2), new Board.Square(2), new Board.Square(2) },
-                { new Board.Square(0), new Board.Square(0), new Board.Square(0), new Board.Square(1), new Board.Square(1), new Board.Square(1), new Board.Square(2), new Board.Square(2), new Board.Square(2) },
-                { new Board.Square(3), new Board.Square(3), new Board.Square(3), new Board.Square(4), new Board.Square(4), new Board.Square(4), new Board.Square(5), new Board.Square(5), new Board.Square(5) },
-                { new Board.Square(3), new Board.Square(3), new Board.Square(3), new Board.Square(4), new Board.Square(4), new Board.Square(4), new Board.Square(5), new Board.Square(5), new Board.Square(5) },
-                { new Board.Square(3), new Board.Square(3), new Board.Square(3), new Board.Square(4), new Board.Square(4), new Board.Square(4), new Board.Square(5), new Board.Square(5), new Board.Square(5) },
-                { new Board.Square(6), new Board.Square(6), new Board.Square(6), new Board.Square(7), new Board.Square(7), new Board.Square(7), new Board.Square(8), new Board.Square(8), new Board.Square(8) },
-                { new Board.Square(6), new Board.Square(6), new Board.Square(6), new Board.Square(7), new Board.Square(7), new Board.Square(7), new Board.Square(8), new Board.Square(8), new Board.Square(8) },
-                { new Board.Square(6), new Board.Square(6), new Board.Square(6), new Board.Square(7), new Board.Square(7), new Board.Square(7), new Board.Square(8), new Board.Square(8), new Board.Square(8) }
-            };
-            */
         }
 
         private void btnStep_Click(object sender, EventArgs e)
         {
         }
 
-        private void Winner(int row, int col, Button btn, char keyChar)
+        private void Winner(int tabindex, char keyChar)
         {
+            // We can deduce the myBoard[col,row] location from the tabindex.
+            // NOTE This will change from 3 to 9 when we create all 81 buttons.
+            int col = (tabindex % 3);  // Modulo (remainder)
+            int row = (tabindex / 3);  // Divide
+            //if (col != colUnused || row != rowUnused) {
+            //    col = col * 1;
+            //}
+
             if (keyChar >= '1' && keyChar <= '9')
             {
-                btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                btn.Text = keyChar.ToString();
-                myBoard[row, col].WinnerWinner(keyChar - '1');
+                objLogBox.Log("Button [" + col + "," + row + "] KeyPress of " + keyChar);
+
+                myBoard[col, row].btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                myBoard[col, row].btn.Text = keyChar.ToString();
+                myBoard[col, row].WinnerWinner(keyChar - '1');
 
                 // Walk every square in the board. If it's in this sector, or row, or 
-                // column, but isn't us, then keyChar is a Loser.
+                // column, but isn't us, and isn't already a winner, then keyChar is a Loser.
                 for (int x = 0; x <= 8; x++)
                 {
                     for (int y = 0; y <= 8; y++)
                     {
                         Square sqTest = myBoard[x, y];
-
-                        if (x == row ||
-                            y == col ||
-                            sqTest.sector == myBoard[row, col].sector
-                            )
+                        if (sqTest.iWinner == 0)
                         {
-                            if (!(x == row && y == col))
+                            if (x == col ||
+                                y == row ||
+                                sqTest.sector == myBoard[col, row].sector
+                                )
                             {
-                                sqTest.Loser(keyChar - '1', keyChar);
+                                if (!(x == col && y == row))
+                                {
+                                    sqTest.Loser(keyChar - '1', keyChar);
+                                }
                             }
                         }
                     }
