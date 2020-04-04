@@ -16,14 +16,19 @@ namespace SudokuForms
         public Button btn { get; set; }
 
         // Constructor
-        public Square(int argSector, Button argBtn)
+        public Square(int iTab, int iSector, int xPoint, int yPoint, int xSize, int ySize, float font)
         {
-            sector = argSector;
-            Button btn = null;
-            if (argBtn != null)
-            {
-                btn = argBtn;
-            }
+            sector = iSector;
+
+            btn = new System.Windows.Forms.Button();
+            btn.Font = new System.Drawing.Font("Microsoft Sans Serif", font, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            btn.Location = new System.Drawing.Point(xPoint, yPoint);
+            btn.Size = new System.Drawing.Size(xSize, ySize);
+            btn.TabIndex = iTab;
+            btn.Text = "1 2 3 4 5 6 7 8 9";
+            // Don't know how to do this in here, so it's out in the for loop.
+            //btn.KeyPress += sq_KeyPress;
+
             iWinner = 0;
             rgf = new bool[] { true, true, true, true, true, true, true, true, true };
             text = "1 2 3 4 5 6 7 8 9";

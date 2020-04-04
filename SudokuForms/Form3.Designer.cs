@@ -31,23 +31,13 @@ namespace SudokuForms
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn00 = new System.Windows.Forms.Button();
-            this.btn01 = new System.Windows.Forms.Button();
-            this.btn02 = new System.Windows.Forms.Button();
-            this.btn10 = new System.Windows.Forms.Button();
-            this.btn11 = new System.Windows.Forms.Button();
-            this.btn12 = new System.Windows.Forms.Button();
-            this.btn20 = new System.Windows.Forms.Button();
-            this.btn21 = new System.Windows.Forms.Button();
-            this.btn22 = new System.Windows.Forms.Button();
-
-            this.btnStep = new System.Windows.Forms.Button();
-            this.btnGo = new System.Windows.Forms.Button();
-            //this.LogOriginal = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+
+            /*
             // 
             // btn00
             // 
+            this.btn00 = new System.Windows.Forms.Button();
             this.btn00.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn00.Location = new System.Drawing.Point(2, 2);
             this.btn00.Size = new System.Drawing.Size(110, 144);
@@ -57,6 +47,7 @@ namespace SudokuForms
             // 
             // btn01
             // 
+            this.btn01 = new System.Windows.Forms.Button();
             this.btn01.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn01.Location = new System.Drawing.Point(118, 2);
             this.btn01.Size = new System.Drawing.Size(110, 144);
@@ -66,6 +57,7 @@ namespace SudokuForms
             // 
             // btn02
             // 
+            this.btn02 = new System.Windows.Forms.Button();
             this.btn02.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn02.Location = new System.Drawing.Point(234, 2);
             this.btn02.Size = new System.Drawing.Size(110, 144);
@@ -75,6 +67,7 @@ namespace SudokuForms
             // 
             // btn10
             // 
+            this.btn10 = new System.Windows.Forms.Button();
             this.btn10.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn10.Location = new System.Drawing.Point(2, 148);
             this.btn10.Size = new System.Drawing.Size(110, 144);
@@ -84,6 +77,7 @@ namespace SudokuForms
             // 
             // btn11
             // 
+            this.btn11 = new System.Windows.Forms.Button();
             this.btn11.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn11.Location = new System.Drawing.Point(118, 148);
             this.btn11.Size = new System.Drawing.Size(110, 144);
@@ -93,6 +87,7 @@ namespace SudokuForms
             // 
             // btn12
             // 
+            this.btn12 = new System.Windows.Forms.Button();
             this.btn12.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn12.Location = new System.Drawing.Point(234, 148);
             this.btn12.Size = new System.Drawing.Size(110, 144);
@@ -102,6 +97,7 @@ namespace SudokuForms
             // 
             // btn20
             // 
+            this.btn20 = new System.Windows.Forms.Button();
             this.btn20.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn20.Location = new System.Drawing.Point(2, 298);
             this.btn20.Size = new System.Drawing.Size(110, 144);
@@ -111,6 +107,7 @@ namespace SudokuForms
             // 
             // btn21
             // 
+            this.btn21 = new System.Windows.Forms.Button();
             this.btn21.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn21.Location = new System.Drawing.Point(118, 298);
             this.btn21.Size = new System.Drawing.Size(110, 144);
@@ -120,15 +117,19 @@ namespace SudokuForms
             // 
             // btn22
             // 
+            this.btn22 = new System.Windows.Forms.Button();
             this.btn22.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn22.Location = new System.Drawing.Point(234, 298);
             this.btn22.Size = new System.Drawing.Size(110, 144);
             this.btn22.TabIndex = 8;
             this.btn22.Text = "1 2 3 4 5 6 7 8 9";
             this.btn22.KeyPress += sq_KeyPress;
+            */
+
             // 
             // btnStep
             // 
+            this.btnStep = new System.Windows.Forms.Button();
             this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStep.Location = new System.Drawing.Point(374, 38);
             this.btnStep.Size = new System.Drawing.Size(112, 72);
@@ -137,6 +138,7 @@ namespace SudokuForms
             // 
             // btnGo
             // 
+            this.btnGo = new System.Windows.Forms.Button();
             this.btnGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGo.Location = new System.Drawing.Point(374, 126);
             this.btnGo.Size = new System.Drawing.Size(112, 72);
@@ -147,12 +149,6 @@ namespace SudokuForms
             //
             this.objLogBox = new LogBox(2, 450, 350, 200, 11);
             this.Controls.Add(this.objLogBox.objBox);
-            //this.LogOriginal.Location = new System.Drawing.Point(2, 450);
-            //this.LogOriginal.Multiline = true;
-            //this.LogOriginal.Name = "LogBox";
-            //this.LogOriginal.Size = new System.Drawing.Size(350, 200);
-            //this.LogOriginal.TabIndex = 11;
-            //this.LogOriginal.Text = "Text Box 1";
 
             // 
             // Form3
@@ -160,8 +156,11 @@ namespace SudokuForms
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 516);
+
             this.Controls.Add(this.btnGo);
             this.Controls.Add(this.btnStep);
+
+            /*
             this.Controls.Add(this.btn22);
             this.Controls.Add(this.btn21);
             this.Controls.Add(this.btn20);
@@ -171,14 +170,15 @@ namespace SudokuForms
             this.Controls.Add(this.btn02);
             this.Controls.Add(this.btn01);
             this.Controls.Add(this.btn00);
-            //this.Controls.Add(this.LogOriginal);
+            */
+
             this.Name = "Form3";
             this.Text = "Form3";
             this.ResumeLayout(false);
 
         }
 
-        private void sq_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        public void sq_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
             Winner(btn.TabIndex, e.KeyChar);
@@ -242,6 +242,7 @@ namespace SudokuForms
 
         #endregion
 
+        /*
         private System.Windows.Forms.Button btn00;
         private System.Windows.Forms.Button btn01;
         private System.Windows.Forms.Button btn02;
@@ -251,9 +252,10 @@ namespace SudokuForms
         private System.Windows.Forms.Button btn20;
         private System.Windows.Forms.Button btn21;
         private System.Windows.Forms.Button btn22;
+        */
+
         private System.Windows.Forms.Button btnStep;
         private System.Windows.Forms.Button btnGo;
-        //private System.Windows.Forms.TextBox LogOriginal;
         private LogBox objLogBox;
     }
 }
