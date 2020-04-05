@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace SudokuForms
 {
-    public partial class Form3 : Form
+    public partial class Board : Form
     {
         public Square[,] myBoard;
         public Square[,] myBoardOld;
 
-        public Form3()
+        public Board()
         {
             InitializeComponent();
 
@@ -41,13 +41,13 @@ namespace SudokuForms
             // Tweak these to change the board size
             int xOrigin = 2;
             int yOrigin = 2;
-            int xSize = 110;
-            int ySize = 144;
-            float font = 16F;
+            int xSize = 52;
+            int ySize = 68;
+            float font = 12F;
             // ------------------------------------
 
-            int xDelta = xSize + 4;
-            int yDelta = ySize + 4;
+            int xDelta = xSize + 2;
+            int yDelta = ySize + 2;
             int xPoint = xOrigin;
             int yPoint = yOrigin;
 
@@ -85,7 +85,7 @@ namespace SudokuForms
             {
                 objLogBox.Log("tab " + tabindex + ": [" + col + "," + row + "] key = " + keyChar);
 
-                myBoard[col, row].btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                myBoard[col, row].btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 myBoard[col, row].btn.Text = keyChar.ToString();
                 myBoard[col, row].WinnerWinner(keyChar - '1');
 

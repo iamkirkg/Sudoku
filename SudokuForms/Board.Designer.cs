@@ -3,7 +3,7 @@ using System;
 
 namespace SudokuForms
 {
-    partial class Form3
+    partial class Board
     {
         /// <summary>
         /// Required designer variable.

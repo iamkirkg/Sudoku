@@ -34,26 +34,20 @@ namespace SudokuForms
             text = "1 2 3 4 5 6 7 8 9";
         }
 
-        public void WinnerWinner(int iWinner)
+        public void WinnerWinner(int iArg)
         {
-            this.iWinner = iWinner;
+            iWinner = iArg;
             for (int i = 0; i <= 8; i++)
             {
-                this.rgf[i] = false;
+                rgf[i] = false;
             }
-            this.rgf[iWinner] = true;
+            rgf[iWinner] = true;
         }
 
         public void Loser(int iLoser, char chLoser)
         {
-            this.rgf[iLoser] = false;
-            this.text = text.Replace(chLoser, ' ');
-
-            // This test will not be necessary when we fill out the whole array.
-            //if (btn != null)
-            //{
-            //    btn.Text = btn.Text.Replace(chLoser, ' ');
-            //}
+            rgf[iLoser] = false;
+            btn.Text = btn.Text.Replace(chLoser, ' ');
         }
 
     }

@@ -36,7 +36,7 @@ namespace SudokuForms
             };
             */
 
-            Application.Run(new Form3());
+            Application.Run(new Board());
         }
     }
 }
