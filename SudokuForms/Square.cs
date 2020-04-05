@@ -50,26 +50,11 @@ namespace SudokuForms
             this.text = text.Replace(chLoser, ' ');
 
             // This test will not be necessary when we fill out the whole array.
-            if (btn != null)
-            {
-                btn.Text = btn.Text.Replace(chLoser, ' ');
-            }
+            //if (btn != null)
+            //{
+            //    btn.Text = btn.Text.Replace(chLoser, ' ');
+            //}
         }
-
-        /*
-        public Square[,] unusedGameBoard = new Square[9, 9]
-        {
-            { new Square(0), new Square(0), new Square(0), new Square(1), new Square(1), new Square(1), new Square(2), new Square(2), new Square(2) },
-            { new Square(0), new Square(0), new Square(0), new Square(1), new Square(1), new Square(1), new Square(2), new Square(2), new Square(2) },
-            { new Square(0), new Square(0), new Square(0), new Square(1), new Square(1), new Square(1), new Square(2), new Square(2), new Square(2) },
-            { new Square(3), new Square(3), new Square(3), new Square(4), new Square(4), new Square(4), new Square(5), new Square(5), new Square(5) },
-            { new Square(3), new Square(3), new Square(3), new Square(4), new Square(4), new Square(4), new Square(5), new Square(5), new Square(5) },
-            { new Square(3), new Square(3), new Square(3), new Square(4), new Square(4), new Square(4), new Square(5), new Square(5), new Square(5) },
-            { new Square(6), new Square(6), new Square(6), new Square(7), new Square(7), new Square(7), new Square(8), new Square(8), new Square(8) },
-            { new Square(6), new Square(6), new Square(6), new Square(7), new Square(7), new Square(7), new Square(8), new Square(8), new Square(8) },
-            { new Square(6), new Square(6), new Square(6), new Square(7), new Square(7), new Square(7), new Square(8), new Square(8), new Square(8) }
-        };
-        */
 
     }
 }

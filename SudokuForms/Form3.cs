@@ -35,21 +35,6 @@ namespace SudokuForms
                 6, 6, 6, 7, 7, 7, 8, 8, 8
             };
 
-            /*
-            myBoardOld = new Square[9, 9]
-            {
-                { new Square(0, btn00), new Square(0, btn01), new Square(0, btn02), new Square(1, null), new Square(1, null), new Square(1, null), new Square(2, null), new Square(2, null), new Square(2, null) },
-                { new Square(0, btn10), new Square(0, btn11), new Square(0, btn12), new Square(1,null), new Square(1,null), new Square(1,null), new Square(2,null), new Square(2,null), new Square(2, null) },
-                { new Square(0, btn20), new Square(0, btn21), new Square(0, btn22), new Square(1,null), new Square(1,null), new Square(1,null), new Square(2,null), new Square(2,null), new Square(2, null) },
-                { new Square(3,null), new Square(3,null), new Square(3,null), new Square(4,null), new Square(4,null), new Square(4,null), new Square(5,null), new Square(5,null), new Square(5, null) },
-                { new Square(3,null), new Square(3,null), new Square(3,null), new Square(4,null), new Square(4,null), new Square(4,null), new Square(5,null), new Square(5,null), new Square(5, null) },
-                { new Square(3,null), new Square(3,null), new Square(3,null), new Square(4,null), new Square(4,null), new Square(4,null), new Square(5,null), new Square(5,null), new Square(5, null) },
-                { new Square(6,null), new Square(6,null), new Square(6,null), new Square(7,null), new Square(7,null), new Square(7,null), new Square(8,null), new Square(8,null), new Square(8, null) },
-                { new Square(6,null), new Square(6,null), new Square(6,null), new Square(7,null), new Square(7,null), new Square(7,null), new Square(8,null), new Square(8,null), new Square(8, null) },
-                { new Square(6,null), new Square(6,null), new Square(6,null), new Square(7,null), new Square(7,null), new Square(7,null), new Square(8,null), new Square(8,null), new Square(8, null) }
-            };
-            */
-
             myBoard = new Square[9, 9];
 
             // ------------------------------------
@@ -76,7 +61,7 @@ namespace SudokuForms
                     int iSector = mpTabSector[iTab - 1];
                     myBoard[x, y] = new Square(iTab, iSector, xPoint, yPoint, xSize, ySize, font);
 
-                    // Can do either of these ops inside the Square Constructor?
+                    // Can we do either of these ops inside the Square Constructor?
                     myBoard[x, y].btn.KeyPress += sq_KeyPress;
                     this.Controls.Add(myBoard[x, y].btn);
 
@@ -84,20 +69,6 @@ namespace SudokuForms
                 }
                 yPoint += yDelta;
             }
-
-            // I don't understand why these are necessary; why isn't the assignment being made in the Square constructor?
-            //myBoard[c, r]
-            /*
-            myBoard[0, 0].btn = btn00;
-            myBoard[1, 0].btn = btn01;
-            myBoard[2, 0].btn = btn02;
-            myBoard[0, 1].btn = btn10;
-            myBoard[1, 1].btn = btn11;
-            myBoard[2, 1].btn = btn12;
-            myBoard[0, 2].btn = btn20;
-            myBoard[1, 2].btn = btn21;
-            myBoard[2, 2].btn = btn22;
-            */
         }
 
         private void btnStep_Click(object sender, EventArgs e)
@@ -106,12 +77,9 @@ namespace SudokuForms
 
         private void Winner(int tabindex, char keyChar)
         {
-            // We can deduce the myBoard[col,row] location from the tabindex.
+            // Calculate myBoard[col,row] location from the tabindex.
             int col = ((tabindex-1) % 9);  // Modulo (remainder)
             int row = ((tabindex-1) / 9);  // Divide
-            //if (col != colUnused || row != rowUnused) {
-            //    col = col * 1;
-            //}
 
             if (keyChar >= '1' && keyChar <= '9')
             {
