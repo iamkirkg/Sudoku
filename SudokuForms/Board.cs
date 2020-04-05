@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SudokuForms
@@ -13,7 +6,6 @@ namespace SudokuForms
     public partial class Board : Form
     {
         public Square[,] myBoard;
-        public Square[,] myBoardOld;
 
         public Board()
         {
@@ -59,7 +51,7 @@ namespace SudokuForms
                 {
                     iTab++;
                     int iSector = mpTabSector[iTab - 1];
-                    myBoard[x, y] = new Square(iTab, iSector, xPoint, yPoint, xSize, ySize, font);
+                    myBoard[x, y] = new Square(iTab, iSector, xPoint, yPoint, xSize, ySize, font, sq_KeyPress);
 
                     // Can we do either of these ops inside the Square Constructor?
                     myBoard[x, y].btn.KeyPress += sq_KeyPress;
