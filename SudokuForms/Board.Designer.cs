@@ -39,23 +39,23 @@ namespace SudokuForms
             // 
             this.btnStep = new System.Windows.Forms.Button();
             this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new System.Drawing.Point(374, 38);
+            this.btnStep.Location = new System.Drawing.Point(740, 38);
             this.btnStep.Size = new System.Drawing.Size(112, 72);
-            this.btnStep.TabIndex = 9;
+            this.btnStep.TabIndex = 98;
             this.btnStep.Text = "Step";
             // 
             // btnGo
             // 
             this.btnGo = new System.Windows.Forms.Button();
             this.btnGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGo.Location = new System.Drawing.Point(374, 126);
+            this.btnGo.Location = new System.Drawing.Point(740, 126);
             this.btnGo.Size = new System.Drawing.Size(112, 72);
-            this.btnGo.TabIndex = 10;
+            this.btnGo.TabIndex = 99;
             this.btnGo.Text = "Go";
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(2, 450, 350, 200, 11);
+            this.objLogBox = new LogBox(740, 450, 350, 518, 100);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
@@ -63,7 +63,7 @@ namespace SudokuForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 516);
+            this.ClientSize = new System.Drawing.Size(1100, 980);
 
             this.Controls.Add(this.btnGo);
             this.Controls.Add(this.btnStep);
