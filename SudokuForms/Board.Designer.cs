@@ -43,6 +43,7 @@ namespace SudokuForms
             this.btnStep.Size = new System.Drawing.Size(112, 72);
             this.btnStep.TabIndex = 98;
             this.btnStep.Text = "Step";
+            this.Controls.Add(this.btnStep);
             // 
             // btnGo
             // 
@@ -52,6 +53,7 @@ namespace SudokuForms
             this.btnGo.Size = new System.Drawing.Size(112, 72);
             this.btnGo.TabIndex = 99;
             this.btnGo.Text = "Go";
+            this.Controls.Add(this.btnGo);
             //
             // LogBox
             //
@@ -65,11 +67,8 @@ namespace SudokuForms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1100, 980);
 
-            this.Controls.Add(this.btnGo);
-            this.Controls.Add(this.btnStep);
-
-            this.Name = "Form3";
-            this.Text = "Form3";
+            this.Name = "Sudokirk";
+            //this.Text = "Sudokirk";
 
             this.ResumeLayout(false);
         }

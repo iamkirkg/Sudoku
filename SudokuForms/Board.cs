@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SudokuForms
@@ -77,9 +78,7 @@ namespace SudokuForms
             {
                 objLogBox.Log("tab " + tabindex + ": [" + col + "," + row + "] key = " + keyChar);
 
-                myBoard[col, row].btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                myBoard[col, row].btn.Text = keyChar.ToString();
-                myBoard[col, row].Winner(keyChar - '1');
+                myBoard[col, row].Winner(keyChar - '1', keyChar, Color.Green);
 
                 Techniques.Neighbor(myBoard, col, row, keyChar);
             }

@@ -42,9 +42,19 @@ namespace SudokuForms
             text = "1 2 3 4 5 6 7 8 9";
         }
 
-        public void Winner(int iArg)
+        public void Winner(int iValue, char chValue, Color colorTemp)
         {
-            iWinner = iArg;
+            iWinner = iValue;
+
+            Color save = btn.BackColor;
+            btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Text = chValue.ToString();
+            btn.BackColor = colorTemp;
+            btn.Refresh();
+            Thread.Sleep(100);
+            btn.Refresh();
+            btn.BackColor = save;
+
             for (int i = 0; i <= 8; i++)
             {
                 rgf[i] = false;
@@ -52,14 +62,14 @@ namespace SudokuForms
             rgf[iWinner] = true;
         }
 
-        public void Loser(int iLoser, char chLoser)
+        public void Loser(int iValue, char chValue, Color colorTemp)
         {
-            rgf[iLoser] = false;
+            rgf[iValue] = false;
             Color save = btn.BackColor;
-            btn.BackColor = Color.Red;
+            btn.BackColor = colorTemp;
             btn.Refresh();
             Thread.Sleep(100);
-            btn.Text = btn.Text.Replace(chLoser, ' ');
+            btn.Text = btn.Text.Replace(chValue, ' ');
             btn.Refresh();
             btn.BackColor = save;
         }
