@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SudokuForms
@@ -40,7 +42,7 @@ namespace SudokuForms
             text = "1 2 3 4 5 6 7 8 9";
         }
 
-        public void WinnerWinner(int iArg)
+        public void Winner(int iArg)
         {
             iWinner = iArg;
             for (int i = 0; i <= 8; i++)
@@ -53,7 +55,13 @@ namespace SudokuForms
         public void Loser(int iLoser, char chLoser)
         {
             rgf[iLoser] = false;
+            Color save = btn.BackColor;
+            btn.BackColor = Color.Red;
+            btn.Refresh();
+            Thread.Sleep(100);
             btn.Text = btn.Text.Replace(chLoser, ' ');
+            btn.Refresh();
+            btn.BackColor = save;
         }
 
     }

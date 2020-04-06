@@ -77,7 +77,7 @@ namespace SudokuForms
         public void sq_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
-            Winner(btn.TabIndex, e.KeyChar);
+            SetSquare(btn.TabIndex, e.KeyChar);
         }
 
         #endregion

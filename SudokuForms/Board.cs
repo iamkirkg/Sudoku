@@ -67,7 +67,7 @@ namespace SudokuForms
         {
         }
 
-        private void Winner(int tabindex, char keyChar)
+        private void SetSquare(int tabindex, char keyChar)
         {
             // Calculate myBoard[col,row] location from the tabindex.
             int col = ((tabindex-1) % 9);  // Modulo (remainder)
@@ -79,30 +79,9 @@ namespace SudokuForms
 
                 myBoard[col, row].btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 myBoard[col, row].btn.Text = keyChar.ToString();
-                myBoard[col, row].WinnerWinner(keyChar - '1');
+                myBoard[col, row].Winner(keyChar - '1');
 
-                // Walk every square in the board. If it's in this sector, or row, or 
-                // column, but isn't us, and isn't already a winner, then keyChar is a Loser.
-                for (int y = 0; y <= 8; y++)
-                {
-                    for (int x = 0; x <= 8; x++)
-                    {
-                        Square sqTest = myBoard[x, y];
-                        if (sqTest.iWinner == 0)
-                        {
-                            if (x == col ||
-                                y == row ||
-                                sqTest.sector == myBoard[col, row].sector
-                                )
-                            {
-                                if (!(x == col && y == row))
-                                {
-                                    sqTest.Loser(keyChar - '1', keyChar);
-                                }
-                            }
-                        }
-                    }
-                }
+                Techniques.Neighbor(myBoard, col, row, keyChar);
             }
         }
     }
