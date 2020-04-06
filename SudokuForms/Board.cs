@@ -64,9 +64,40 @@ namespace SudokuForms
             }
         }
 
-        private void btnStep_Click(object sender, EventArgs e)
+        private void btnReset_Click(object sender, EventArgs e)
         {
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RowSweep_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Neighbor_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SectorSweep_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ColumnSweep_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CouldBes_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
         private void SetSquare(int tabindex, char keyChar)
         {
@@ -81,6 +112,7 @@ namespace SudokuForms
                 myBoard[col, row].Winner(keyChar - '1', keyChar, Color.Green);
 
                 Techniques.Neighbor(myBoard, col, row, keyChar);
+                //Techniques.SectorSweep(myBoard);
             }
         }
     }

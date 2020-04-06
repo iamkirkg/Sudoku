@@ -84,6 +84,7 @@ namespace SudokuForms
                                     if (sqTest.text.Contains(ch))
                                     {
                                         sqTest.Winner(ch - '1', ch, Color.Green);
+                                        ret = true; // We changed something.
                                     }
                                 }
                             }
