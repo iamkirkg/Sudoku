@@ -186,9 +186,14 @@ namespace SudokuForms
                     break;
                 case Technique.Neighbor:
                     objLogBox.Log("Step: Neighbor");
+                    if (curTab != -1)
+                    {
+                        Techniques.Neighbor(myBoard, curCol, curRow, curChar);
+                    }
                     break;
                 case Technique.SectorSweep:
                     objLogBox.Log("Step: SectorSweep");
+                    Techniques.SectorSweep(myBoard);
                     break;
                 case Technique.ColumnSweep:
                     objLogBox.Log("Step: ColumnSweep");

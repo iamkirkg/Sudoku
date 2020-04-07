@@ -21,7 +21,7 @@ namespace SudokuForms
                 for (int x = 0; x <= 8; x++)
                 {
                     Square sqTest = myBoard[x, y];
-                    if (sqTest.iWinner == 0)
+                    if (sqTest.iWinner == -1)
                     {
                         if (x == col ||
                             y == row ||
@@ -30,7 +30,7 @@ namespace SudokuForms
                         {
                             if (!(x == col && y == row))
                             {
-                                sqTest.Loser(keyChar - '1', keyChar, Color.Red);
+                                sqTest.Loser(keyChar, Color.Red);
                                 ret = true; // We changed something.
                             }
                         }
@@ -53,7 +53,7 @@ namespace SudokuForms
                 for (int x = 0; x <= 8; x++)
                 {
                     Square sqTest = myBoard[x, y];
-                    if (sqTest.iWinner != 0)
+                    if (sqTest.iWinner != -1)
                     {
                         mpSectorValue[sqTest.sector] += sqTest.text;
                     }
@@ -79,11 +79,11 @@ namespace SudokuForms
                             for (int x = 0; x <= 8; x++)
                             {
                                 Square sqTest = myBoard[x, y];
-                                if (sqTest.iWinner != 0)
+                                if (sqTest.iWinner != -1)
                                 {
                                     if (sqTest.text.Contains(ch))
                                     {
-                                        sqTest.Winner(ch - '1', ch, Color.Green);
+                                        sqTest.Winner(ch, Color.Green);
                                         ret = true; // We changed something.
                                     }
                                 }
