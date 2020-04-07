@@ -41,17 +41,18 @@ namespace SudokuForms
             this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReset.Location = new System.Drawing.Point(800, 38);
             this.btnReset.Size = new System.Drawing.Size(120, 72);
-            this.btnReset.TabIndex = 98;
+            this.btnReset.TabIndex = 90;
             this.btnReset.Text = "Reset";
             this.Controls.Add(this.btnReset);
             // 
             // btnStep
             // 
             this.btnStep = new System.Windows.Forms.Button();
+            this.btnStep.Click += Step_Click;
             this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStep.Location = new System.Drawing.Point(900, 160);
             this.btnStep.Size = new System.Drawing.Size(112, 72);
-            this.btnStep.TabIndex = 99;
+            this.btnStep.TabIndex = 93;
             this.btnStep.Text = "Step";
             this.Controls.Add(this.btnStep);
             //
@@ -68,7 +69,7 @@ namespace SudokuForms
             this.Neighbor.Location = new System.Drawing.Point(12, 12);
             this.Neighbor.Name = "Neighbor";
             this.Neighbor.Size = new System.Drawing.Size(98, 24);
-            this.Neighbor.TabIndex = 91;
+            this.Neighbor.TabIndex = 94;
             this.Neighbor.TabStop = true;
             this.Neighbor.Text = "Neighbor";
             this.Neighbor.UseVisualStyleBackColor = true;
@@ -81,7 +82,7 @@ namespace SudokuForms
             this.SectorSweep.Location = new System.Drawing.Point(12, 42);
             this.SectorSweep.Name = "SectorSweep";
             this.SectorSweep.Size = new System.Drawing.Size(130, 24);
-            this.SectorSweep.TabIndex = 92;
+            this.SectorSweep.TabIndex = 95;
             this.SectorSweep.TabStop = true;
             this.SectorSweep.Text = "SectorSweep";
             this.SectorSweep.UseVisualStyleBackColor = true;
@@ -94,7 +95,7 @@ namespace SudokuForms
             this.ColumnSweep.Location = new System.Drawing.Point(12, 72);
             this.ColumnSweep.Name = "ColumnSweep";
             this.ColumnSweep.Size = new System.Drawing.Size(137, 24);
-            this.ColumnSweep.TabIndex = 93;
+            this.ColumnSweep.TabIndex = 96;
             this.ColumnSweep.TabStop = true;
             this.ColumnSweep.Text = "ColumnSweep";
             this.ColumnSweep.UseVisualStyleBackColor = true;
@@ -107,7 +108,7 @@ namespace SudokuForms
             this.RowSweep.Location = new System.Drawing.Point(12, 102);
             this.RowSweep.Name = "RowSweep";
             this.RowSweep.Size = new System.Drawing.Size(115, 24);
-            this.RowSweep.TabIndex = 94;
+            this.RowSweep.TabIndex = 97;
             this.RowSweep.TabStop = true;
             this.RowSweep.Text = "RowSweep";
             this.RowSweep.UseVisualStyleBackColor = true;
@@ -121,27 +122,29 @@ namespace SudokuForms
             this.RadioPanel.Controls.Add(this.RowSweep);
             this.RadioPanel.Controls.Add(this.SectorSweep);
             this.RadioPanel.Controls.Add(this.ColumnSweep);
+            this.RadioPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.RadioPanel.Location = new System.Drawing.Point(740, 126);
             this.RadioPanel.Name = "RadioPanel";
             this.RadioPanel.Size = new System.Drawing.Size(150, 140);
-            this.RadioPanel.TabIndex = 95;
+            this.RadioPanel.TabIndex = 92;
+
             this.Controls.Add(this.RadioPanel);
             this.RadioPanel.ResumeLayout(false);
             this.RadioPanel.PerformLayout();
 
             // 
-            // CouldBes
+            // CouldBe
             // 
-            this.CouldBes = new System.Windows.Forms.CheckBox();
-            this.CouldBes.AutoSize = true;
-            this.CouldBes.Location = new System.Drawing.Point(750, 300);
-            this.CouldBes.Name = "CouldBes";
-            this.CouldBes.Size = new System.Drawing.Size(104, 24);
-            this.CouldBes.TabIndex = 90;
-            this.CouldBes.Text = "CouldBes";
-            this.CouldBes.UseVisualStyleBackColor = true;
-            this.CouldBes.CheckedChanged += new System.EventHandler(this.CouldBes_CheckedChanged);
-            this.Controls.Add(this.CouldBes);
+            this.CouldBe = new System.Windows.Forms.CheckBox();
+            this.CouldBe.AutoSize = true;
+            this.CouldBe.Location = new System.Drawing.Point(750, 300);
+            this.CouldBe.Name = "CouldBe";
+            this.CouldBe.Size = new System.Drawing.Size(104, 24);
+            this.CouldBe.TabIndex = 98;
+            this.CouldBe.Text = "CouldBe";
+            this.CouldBe.UseVisualStyleBackColor = true;
+            this.CouldBe.CheckedChanged += new System.EventHandler(this.CouldBe_CheckedChanged);
+            this.Controls.Add(this.CouldBe);
 
 
             // 
@@ -158,10 +161,42 @@ namespace SudokuForms
             this.PerformLayout();
         }
 
-        public void sq_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        // This is the KeyPress function for all 81 of our Squares.
+        private void sq_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
             SetSquare(btn.TabIndex, e.KeyChar);
+        }
+
+        // This is the ButtonClick function for all 81 of our Squares.
+        private void sq_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            ClickSquare(btn.TabIndex);
+        }
+
+        // This is the ButtonClick function for the Step button.
+        private void Step_Click(object sender, EventArgs e)
+        {
+            //System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            switch (curTechnique)
+            {
+                case Technique.none:
+                    objLogBox.Log("Step: no selection");
+                    break;
+                case Technique.Neighbor:
+                    objLogBox.Log("Step: Neighbor");
+                    break;
+                case Technique.SectorSweep:
+                    objLogBox.Log("Step: SectorSweep");
+                    break;
+                case Technique.ColumnSweep:
+                    objLogBox.Log("Step: ColumnSweep");
+                    break;
+                case Technique.RowSweep:
+                    objLogBox.Log("Step: RowSweep");
+                    break;
+            }
         }
 
         #endregion
@@ -169,7 +204,7 @@ namespace SudokuForms
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnStep;
         private LogBox objLogBox;
-        private System.Windows.Forms.CheckBox CouldBes;
+        private System.Windows.Forms.CheckBox CouldBe;
         private System.Windows.Forms.RadioButton Neighbor;
         private System.Windows.Forms.RadioButton SectorSweep;
         private System.Windows.Forms.RadioButton ColumnSweep;

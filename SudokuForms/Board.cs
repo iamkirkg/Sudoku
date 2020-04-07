@@ -6,7 +6,22 @@ namespace SudokuForms
 {
     public partial class Board : Form
     {
+        public enum Technique
+        {
+            none,
+            Neighbor,
+            SectorSweep,
+            ColumnSweep,
+            RowSweep
+        }
+        public Technique curTechnique = Technique.none;
+
         public Square[,] myBoard;
+        // These record the last place clicked by the user.
+        public int curTab = -1;
+        public int curCol = -1;
+        public int curRow = -1;
+        public char curChar;
 
         public Board()
         {
@@ -56,6 +71,9 @@ namespace SudokuForms
 
                     // Can we do either of these ops inside the Square Constructor?
                     myBoard[x, y].btn.KeyPress += sq_KeyPress;
+                    //myBoard[x, y].btn.Click += new EventHandler(sq_Click);
+                    myBoard[x, y].btn.Click += sq_Click;
+
                     this.Controls.Add(myBoard[x, y].btn);
 
                     xPoint += xDelta;
@@ -73,47 +91,78 @@ namespace SudokuForms
 
         }
 
-        private void RowSweep_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Neighbor_CheckedChanged(object sender, EventArgs e)
         {
-
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.Neighbor;
+            }
         }
 
         private void SectorSweep_CheckedChanged(object sender, EventArgs e)
         {
-
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.SectorSweep;
+            }
         }
 
         private void ColumnSweep_CheckedChanged(object sender, EventArgs e)
         {
-
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.ColumnSweep;
+            }
         }
 
-        private void CouldBes_CheckedChanged(object sender, EventArgs e)
+        private void RowSweep_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.RowSweep;
+            }
+        }
+
+        private void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
 
         }
 
-
-        private void SetSquare(int tabindex, char keyChar)
+        private void SetSquare(int iTab, char keyChar)
         {
             // Calculate myBoard[col,row] location from the tabindex.
-            int col = ((tabindex-1) % 9);  // Modulo (remainder)
-            int row = ((tabindex-1) / 9);  // Divide
+            // TabIndex is [1..81]; the array is [0..8][0..8].
+            curTab = iTab;
+            curCol = ((iTab-1) % 9);  // Modulo (remainder)
+            curRow = ((iTab-1) / 9);  // Divide
+            curChar = keyChar;
 
             if (keyChar >= '1' && keyChar <= '9')
             {
-                objLogBox.Log("tab " + tabindex + ": [" + col + "," + row + "] key = " + keyChar);
+                objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
 
-                myBoard[col, row].Winner(keyChar - '1', keyChar, Color.Green);
+                myBoard[curCol, curRow].Winner(keyChar - '1', keyChar, Color.Green);
 
-                Techniques.Neighbor(myBoard, col, row, keyChar);
+                Techniques.Neighbor(myBoard, curCol, curRow, keyChar);
                 //Techniques.SectorSweep(myBoard);
             }
         }
+
+        private void ClickSquare(int iTab)
+        {
+            {
+            // Calculate myBoard[col,row] location from the tabindex.
+            // TabIndex is [1..81]; the array is [0..8][0..8].
+            curTab = iTab;
+            curCol = ((iTab - 1) % 9);  // Modulo (remainder)
+            curRow = ((iTab - 1) / 9);  // Divide
+            objLogBox.Log("Select: tab " + iTab + ": [" + curCol + "," + curRow + "]");
+            }
+        }
+
     }
 }
