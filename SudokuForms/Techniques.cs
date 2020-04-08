@@ -48,7 +48,7 @@ namespace SudokuForms
         {
             bool ret = false;
             Square sqTest;
-            string[] mpSectorValue = { "", "", "", "", "", "", "", "", "" };
+            string[] mpSectorText = { "", "", "", "", "", "", "", "", "" };
             for (int y = 0; y <= 8; y++)
             {
                 for (int x = 0; x <= 8; x++)
@@ -56,18 +56,18 @@ namespace SudokuForms
                     sqTest = myBoard[x, y];
                     if (sqTest.iWinner == -1)
                     {
-                        mpSectorValue[sqTest.sector] += sqTest.btn.Text;
+                        mpSectorText[sqTest.sector] += sqTest.btn.Text;
                     }
                 }
             }
-            // mpSectorValue contains the text strings of each sector.
-            // Does any character exist in just one of them?
+            // mpSectorText contains the text strings of each sector.
+            // Does any character value exist in just one of them?
             string szText;
             int cchText;
             for (int s = 0; s <= 8; s++)
             {
-                szText = mpSectorValue[s];
-                for (char ch = '1'; ch <= '8'; ch++)
+                szText = mpSectorText[s];
+                for (char ch = '1'; ch <= '9'; ch++)
                 {
                     cchText = szText.Length;
                     szText = szText.Replace(ch.ToString(), string.Empty);
@@ -93,7 +93,6 @@ namespace SudokuForms
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -101,5 +100,50 @@ namespace SudokuForms
             return ret;
         }
 
+        // for the non-Winner squares in the column
+        //      for the values 1 through 9
+        //        if only one square has the value, it's a Winner.
+        public static bool ColumnSweep(Square[,] myBoard, int argCol)
+        {
+            bool ret = false;
+            Square sqTest;
+            string szColText = "";
+            for (int y = 0; y <= 8; y++)
+            {
+                sqTest = myBoard[argCol, y];
+                if (sqTest.iWinner == -1)
+                {
+                    szColText += sqTest.btn.Text;
+                }
+            }
+            // szColText contains the text strings of all squares in the column.
+            // Does any character value exist just once?
+            int cchText;
+            for (char ch = '1'; ch <= '9'; ch++)
+            {
+                cchText = szColText.Length;
+                szColText = szColText.Replace(ch.ToString(), string.Empty);
+                if (szColText.Length + 1 == cchText)
+                {
+                    // There is only one square in column argCol that has 'ch';
+                    // find the square; ch is its Winner.
+                    for (int y = 0; y <= 8; y++)
+                    {
+                        sqTest = myBoard[argCol, y];
+                        if (sqTest.iWinner == -1)
+                        {
+                            if (sqTest.btn.Text.Contains(ch))
+                            {
+                                sqTest.Winner(ch, Color.Green);
+                                ret = true; // We changed something.
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return ret;
+        }
     }
 }

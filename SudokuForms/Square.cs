@@ -46,7 +46,7 @@ namespace SudokuForms
             //text = "1 2 3 4 5 6 7 8 9";
         }
 
-        public void Winner(char chValue, Color colorTemp)
+        public void Winner(char chValue, Color colorWinner)
         {
             iWinner = chValue - '1';
             chWinner = chValue;
@@ -54,7 +54,8 @@ namespace SudokuForms
             Color save = btn.BackColor;
             btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = chValue.ToString();
-            btn.BackColor = colorTemp;
+            btn.BackColor = colorWinner;
+            btn.ForeColor = Color.Black;
             btn.Refresh();
             Thread.Sleep(100);
             btn.Refresh();
@@ -67,12 +68,12 @@ namespace SudokuForms
             //rgf[iWinner] = true;
         }
 
-        public void Loser(char chValue, Color colorTemp)
+        public void Loser(char chValue, Color colorLoser)
         {
             int iValue = chValue - '1';
             //rgf[iValue] = false;
             Color save = btn.BackColor;
-            btn.BackColor = colorTemp;
+            btn.BackColor = colorLoser;
             btn.Refresh();
             Thread.Sleep(100);
             btn.Text = btn.Text.Replace(chValue, ' ');

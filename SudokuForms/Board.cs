@@ -143,7 +143,10 @@ namespace SudokuForms
             {
                 for (int x = 0; x <= 8; x++)
                 {
-                    myBoard[x, y].btn.ForeColor = colorNew;
+                    if (myBoard[x, y].iWinner == -1)
+                    {
+                        myBoard[x, y].btn.ForeColor = colorNew;
+                    }
                 }
             }
         }
