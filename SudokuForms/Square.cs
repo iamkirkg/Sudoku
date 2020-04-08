@@ -11,7 +11,7 @@ namespace SudokuForms
         public char chWinner { get; set; }
         public int sector { get; }       // What sector we're in.
         public bool[] rgf { get; set; }  // 'true' means it could be, 'false' means it can't be.
-        public string text { get; set; } // '1 2 3 4 5 6 7 8 9', getting replaced by spaces.
+        //public string text { get; set; } // '1 2 3 4 5 6 7 8 9', getting replaced by spaces.
         public Button btn { get; set; }
 
         // Constructor
@@ -21,14 +21,18 @@ namespace SudokuForms
                       Action<object, KeyPressEventArgs> fnKeyPress)
         {
             sector = iSector;
+            iWinner = -1;
 
             btn = new Button
             {
+                BackColor = Color.LightGray,
+                ForeColor = Color.Black,
                 Font = new System.Drawing.Font("Microsoft Sans Serif", font, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
                 Location = new System.Drawing.Point(xPoint, yPoint),
                 Size = new System.Drawing.Size(xSize, ySize),
                 TabIndex = iTab,
                 Text = "1 2 3 4 5 6 7 8 9"
+                //Text.BackColor = Color.Blue;
                 // Don't know how to do this in here, so it's out in the for loop.
                 //KeyPressEventHandler handler = fnKeyPress;
                 //KeyPress += (KeyPressEventHandler)fnKeyPress;
@@ -38,9 +42,8 @@ namespace SudokuForms
                 // 'System.Windows.Forms.KeyPressEventHandler'   
             };
 
-            iWinner = -1;
-            rgf = new bool[] { true, true, true, true, true, true, true, true, true };
-            text = "1 2 3 4 5 6 7 8 9";
+            //rgf = new bool[] { true, true, true, true, true, true, true, true, true };
+            //text = "1 2 3 4 5 6 7 8 9";
         }
 
         public void Winner(char chValue, Color colorTemp)
@@ -57,17 +60,17 @@ namespace SudokuForms
             btn.Refresh();
             btn.BackColor = save;
 
-            for (int i = 0; i <= 8; i++)
-            {
-                rgf[i] = false;
-            }
-            rgf[iWinner] = true;
+            //for (int i = 0; i <= 8; i++)
+            //{
+            //    rgf[i] = false;
+            //}
+            //rgf[iWinner] = true;
         }
 
         public void Loser(char chValue, Color colorTemp)
         {
             int iValue = chValue - '1';
-            rgf[iValue] = false;
+            //rgf[iValue] = false;
             Color save = btn.BackColor;
             btn.BackColor = colorTemp;
             btn.Refresh();

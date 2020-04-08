@@ -47,15 +47,16 @@ namespace SudokuForms
         public static bool SectorSweep(Square[,] myBoard)
         {
             bool ret = false;
+            Square sqTest;
             string[] mpSectorValue = { "", "", "", "", "", "", "", "", "" };
             for (int y = 0; y <= 8; y++)
             {
                 for (int x = 0; x <= 8; x++)
                 {
-                    Square sqTest = myBoard[x, y];
-                    if (sqTest.iWinner != -1)
+                    sqTest = myBoard[x, y];
+                    if (sqTest.iWinner == -1)
                     {
-                        mpSectorValue[sqTest.sector] += sqTest.text;
+                        mpSectorValue[sqTest.sector] += sqTest.btn.Text;
                     }
                 }
             }
@@ -66,9 +67,9 @@ namespace SudokuForms
             for (int s = 0; s <= 8; s++)
             {
                 szText = mpSectorValue[s];
-                cchText = szText.Length;
                 for (char ch = '1'; ch <= '8'; ch++)
                 {
+                    cchText = szText.Length;
                     szText = szText.Replace(ch.ToString(), string.Empty);
                     if (szText.Length + 1 == cchText)
                     {
@@ -78,13 +79,16 @@ namespace SudokuForms
                         {
                             for (int x = 0; x <= 8; x++)
                             {
-                                Square sqTest = myBoard[x, y];
-                                if (sqTest.iWinner != -1)
+                                sqTest = myBoard[x, y];
+                                if (sqTest.sector == s)
                                 {
-                                    if (sqTest.text.Contains(ch))
+                                    if (sqTest.iWinner == -1)
                                     {
-                                        sqTest.Winner(ch, Color.Green);
-                                        ret = true; // We changed something.
+                                        if (sqTest.btn.Text.Contains(ch))
+                                        {
+                                            sqTest.Winner(ch, Color.Green);
+                                            ret = true; // We changed something.
+                                        }
                                     }
                                 }
                             }

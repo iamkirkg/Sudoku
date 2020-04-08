@@ -1,5 +1,6 @@
-﻿
-using System;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace SudokuForms
 {
@@ -38,6 +39,8 @@ namespace SudokuForms
             // btnReset
             // 
             this.btnReset = new System.Windows.Forms.Button();
+            this.btnReset.BackColor = Color.LightGray;
+            this.btnReset.ForeColor = Color.Black;
             this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReset.Location = new System.Drawing.Point(800, 38);
             this.btnReset.Size = new System.Drawing.Size(120, 72);
@@ -137,6 +140,7 @@ namespace SudokuForms
             // 
             this.CouldBe = new System.Windows.Forms.CheckBox();
             this.CouldBe.AutoSize = true;
+            this.CouldBe.Checked = true;
             this.CouldBe.Location = new System.Drawing.Point(750, 300);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new System.Drawing.Size(104, 24);

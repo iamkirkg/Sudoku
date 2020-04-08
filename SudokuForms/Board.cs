@@ -129,7 +129,23 @@ namespace SudokuForms
 
         private void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
-
+            CheckBox box = sender as CheckBox;
+            Color colorNew;
+            if (box.Checked)
+            {
+                colorNew = Color.Black;
+            }
+            else
+            {
+                colorNew = Color.LightGray;
+            }
+            for (int y = 0; y <= 8; y++)
+            {
+                for (int x = 0; x <= 8; x++)
+                {
+                    myBoard[x, y].btn.ForeColor = colorNew;
+                }
+            }
         }
 
         private void SetSquare(int iTab, char keyChar)
