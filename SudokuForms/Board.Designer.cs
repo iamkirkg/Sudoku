@@ -205,6 +205,7 @@ namespace SudokuForms
                     break;
                 case Technique.RowSweep:
                     objLogBox.Log("Step: RowSweep");
+                    Techniques.RowSweep(myBoard, curRow);
                     break;
             }
         }

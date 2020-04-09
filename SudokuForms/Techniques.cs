@@ -16,22 +16,26 @@ namespace SudokuForms
         public static bool Neighbor(Square[,] myBoard, int col, int row, char keyChar)
         {
             bool ret = false;
-            for (int y = 0; y <= 8; y++)
+            // If we aren't currently clicked on a Winner square, then do nothing.
+            if (myBoard[col,row].iWinner != -1)
             {
-                for (int x = 0; x <= 8; x++)
+                for (int y = 0; y <= 8; y++)
                 {
-                    Square sqTest = myBoard[x, y];
-                    if (sqTest.iWinner == -1)
+                    for (int x = 0; x <= 8; x++)
                     {
-                        if (x == col ||
-                            y == row ||
-                            sqTest.sector == myBoard[col, row].sector
-                            )
+                        Square sqTest = myBoard[x, y];
+                        if (sqTest.iWinner == -1)
                         {
-                            if (!(x == col && y == row))
+                            if (x == col ||
+                                y == row ||
+                                sqTest.sector == myBoard[col, row].sector
+                                )
                             {
-                                sqTest.Loser(keyChar, Color.Red);
-                                ret = true; // We changed something.
+                                if (!(x == col && y == row))
+                                {
+                                    sqTest.Loser(keyChar, Color.Red);
+                                    ret = true; // We changed something.
+                                }
                             }
                         }
                     }
@@ -87,6 +91,11 @@ namespace SudokuForms
                                         if (sqTest.btn.Text.Contains(ch))
                                         {
                                             sqTest.Winner(ch, Color.Green);
+
+                                            // After we've marked someone a Winner, we need to erase their
+                                            // neighboring little numbers.
+                                            Neighbor(myBoard, x, y, ch);
+
                                             ret = true; // We changed something.
                                         }
                                     }
@@ -101,8 +110,8 @@ namespace SudokuForms
         }
 
         // for the non-Winner squares in the column
-        //      for the values 1 through 9
-        //        if only one square has the value, it's a Winner.
+        //   for the values 1 through 9
+        //     if only one square has the value, it's a Winner.
         public static bool ColumnSweep(Square[,] myBoard, int argCol)
         {
             bool ret = false;
@@ -135,6 +144,11 @@ namespace SudokuForms
                             if (sqTest.btn.Text.Contains(ch))
                             {
                                 sqTest.Winner(ch, Color.Green);
+
+                                // After we've marked someone a Winner, we need to erase their
+                                // neighboring little numbers.
+                                Neighbor(myBoard, argCol, y, ch);
+
                                 ret = true; // We changed something.
                             }
                         }
@@ -144,6 +158,57 @@ namespace SudokuForms
             }
 
             return ret;
+        }
+
+        // for the non-Winner squares in the row
+        //   for the values 1 through 9
+        //     if only one square has the value, it's a Winner.
+        public static bool RowSweep(Square[,] myBoard, int argRow)
+        {
+            bool ret = false;
+            Square sqTest;
+            string szRowText = "";
+            for (int x = 0; x <= 8; x++)
+            {
+                sqTest = myBoard[x, argRow];
+                if (sqTest.iWinner == -1)
+                {
+                    szRowText += sqTest.btn.Text;
+                }
+            }
+            // szRowText contains the text strings of all squares in the row.
+            // Does any character value exist just once?
+            int cchText;
+            for (char ch = '1'; ch <= '9'; ch++)
+            {
+                cchText = szRowText.Length;
+                szRowText = szRowText.Replace(ch.ToString(), string.Empty);
+                if (szRowText.Length + 1 == cchText)
+                {
+                    // There is only one square in column argCol that has 'ch';
+                    // find the square; ch is its Winner.
+                    for (int x = 0; x <= 8; x++)
+                    {
+                        sqTest = myBoard[x, argRow];
+                        if (sqTest.iWinner == -1)
+                        {
+                            if (sqTest.btn.Text.Contains(ch))
+                            {
+                                sqTest.Winner(ch, Color.Green);
+
+                                // After we've marked someone a Winner, we need to erase their
+                                // neighboring little numbers.
+                                Neighbor(myBoard, x, argRow, ch);
+
+                                ret = true; // We changed something.
+                            }
+                        }
+                    }
+
+                }
+            }
+            return ret;
+
         }
     }
 }
