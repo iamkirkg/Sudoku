@@ -12,7 +12,8 @@ namespace SudokuForms
             Neighbor,
             SectorSweep,
             ColumnSweep,
-            RowSweep
+            RowSweep,
+            TwoPair
         }
         public Technique curTechnique = Technique.none;
 
@@ -127,6 +128,14 @@ namespace SudokuForms
             }
         }
 
+        private void TwoPair_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.TwoPair;
+            }
+        }
         private void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;

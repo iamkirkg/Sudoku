@@ -210,5 +210,47 @@ namespace SudokuForms
             return ret;
 
         }
+
+        // Find two squares in a row|column|sector that have only two values, 
+        // and the same two values. If found, mark those two values as Losers 
+        // for the other squares in the row|column|sector.
+        public static bool TwoPair(Square[,] myBoard, LogBox objLogBox)
+        {
+            bool ret = false;
+            Square sqFirst, sqSecond;
+
+            for (int y1 = 0; y1 <= 8; y1++)
+            {
+                for (int x1 = 0; x1 <= 8; x1++)
+                {
+                    sqFirst = myBoard[x1, y1];
+                    // Does our text have just two characters?
+                    string szTextFirst = sqFirst.btn.Text.Replace(" ", string.Empty);
+                    if (szTextFirst.Length == 2)
+                    {
+                        // Find another Square with the same Text.
+                        for (int y2 = 0; y2 <= 8; y2++)
+                        {
+                            for (int x2 = 0; x2 <= 8; x2++)
+                            {
+                                sqSecond = myBoard[x2, y2];
+                                // Speed hack: don't check squares before us.
+                                if (sqSecond.btn.TabIndex > sqFirst.btn.TabIndex)
+                                { 
+                                    // Does our text have the same two characters?
+                                    string szTextSecond = sqSecond.btn.Text.Replace(" ", string.Empty);
+                                    if (szTextFirst == szTextSecond)
+                                    {
+                                        // Same two-char strings! 
+                                        objLogBox.Log("TwoPair: [" + x1 + "," + y1 + "] [" + x2 + "," + y2 + "]:" + szTextFirst);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
     }
 }

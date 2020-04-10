@@ -117,14 +117,28 @@ namespace SudokuForms
             this.RowSweep.UseVisualStyleBackColor = true;
             this.RowSweep.CheckedChanged += new System.EventHandler(this.RowSweep_CheckedChanged);
             // 
+            // TwoPair
+            // 
+            this.TwoPair = new System.Windows.Forms.RadioButton();
+            this.TwoPair.AutoSize = true;
+            this.TwoPair.Location = new System.Drawing.Point(12, 102);
+            this.TwoPair.Name = "TwoPair";
+            this.TwoPair.Size = new System.Drawing.Size(115, 24);
+            this.TwoPair.TabIndex = 97;
+            this.TwoPair.TabStop = true;
+            this.TwoPair.Text = "TwoPair";
+            this.TwoPair.UseVisualStyleBackColor = true;
+            this.TwoPair.CheckedChanged += new System.EventHandler(this.TwoPair_CheckedChanged);
+            // 
             // RadioPanel
             // 
             this.RadioPanel = new System.Windows.Forms.Panel();
             this.RadioPanel.SuspendLayout();
             this.RadioPanel.Controls.Add(this.Neighbor);
-            this.RadioPanel.Controls.Add(this.RowSweep);
             this.RadioPanel.Controls.Add(this.SectorSweep);
             this.RadioPanel.Controls.Add(this.ColumnSweep);
+            this.RadioPanel.Controls.Add(this.RowSweep);
+            this.RadioPanel.Controls.Add(this.TwoPair);
             this.RadioPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.RadioPanel.Location = new System.Drawing.Point(740, 126);
             this.RadioPanel.Name = "RadioPanel";
@@ -207,6 +221,10 @@ namespace SudokuForms
                     objLogBox.Log("Step: RowSweep");
                     Techniques.RowSweep(myBoard, curRow);
                     break;
+                case Technique.TwoPair:
+                    objLogBox.Log("Step: TwoPair");
+                    Techniques.TwoPair(myBoard, objLogBox);
+                    break;
             }
         }
 
@@ -220,6 +238,7 @@ namespace SudokuForms
         private System.Windows.Forms.RadioButton SectorSweep;
         private System.Windows.Forms.RadioButton ColumnSweep;
         private System.Windows.Forms.RadioButton RowSweep;
+        private System.Windows.Forms.RadioButton TwoPair;
         private System.Windows.Forms.Panel RadioPanel;
 
     }
