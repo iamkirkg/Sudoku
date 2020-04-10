@@ -218,6 +218,8 @@ namespace SudokuForms
         {
             bool ret = false;
             Square sqFirst, sqSecond;
+            int colFirst, rowFirst, secFirst;
+            int colSecond, rowSecond, secSecond;
 
             for (int y1 = 0; y1 <= 8; y1++)
             {
@@ -242,7 +244,53 @@ namespace SudokuForms
                                     if (szTextFirst == szTextSecond)
                                     {
                                         // Same two-char strings! 
-                                        objLogBox.Log("TwoPair: [" + x1 + "," + y1 + "] [" + x2 + "," + y2 + "]:" + szTextFirst);
+                                        char ch1 = szTextFirst[0];
+                                        char ch2 = szTextFirst[1];
+                                        objLogBox.Log("TwoPair: [" + x1 + "," + y1 + "] [" + x2 + "," + y2 + "]:" + ch1 + ' ' + ch2);
+
+                                        colFirst = ((sqFirst.btn.TabIndex - 1) % 9);  // Modulo (remainder)
+                                        rowFirst = ((sqFirst.btn.TabIndex - 1) / 9);  // Divide
+                                        secFirst = sqFirst.sector;
+                                        colSecond = ((sqSecond.btn.TabIndex - 1) % 9);  // Modulo (remainder)
+                                        rowSecond = ((sqSecond.btn.TabIndex - 1) / 9);  // Divide
+                                        secSecond = sqSecond.sector;
+
+                                        if (colFirst == colSecond)
+                                        {
+                                            for (int y3 = 0; y3 <= 8; y3++)
+                                            {
+                                                if (y3 != rowFirst && y3 != rowSecond)
+                                                {
+                                                    myBoard[colFirst, y3].Loser(ch1, Color.Red);
+                                                    myBoard[colFirst, y3].Loser(ch2, Color.Red);
+                                                }
+                                            }
+                                        }
+                                        else if (rowFirst == rowSecond)
+                                        {
+                                            for (int x3 = 0; x3 <= 8; x3++)
+                                            {
+                                                if (x3 != colFirst && x3 != colSecond)
+                                                {
+                                                    myBoard[x3, rowFirst].Loser(ch1, Color.Red);
+                                                    myBoard[x3, rowFirst].Loser(ch2, Color.Red);
+                                                }
+                                            }
+
+                                        }
+
+                                        if (secFirst == secSecond)
+                                        {
+                                            for (int y3 = 0; y3 <= 8; y3++)
+                                            {
+                                                for (int x3 = 0; x3 <= 8; x3++)
+                                                {
+
+                                                }
+
+                                            }
+                                        }
+
                                     }
                                 }
                             }
