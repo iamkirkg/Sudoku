@@ -70,7 +70,7 @@ namespace SudokuForms
 
         public void Loser(char chValue, Color colorLoser)
         {
-            int iValue = chValue - '1';
+            //int iValue = chValue - '1';
             //rgf[iValue] = false;
             Color save = btn.BackColor;
             btn.BackColor = colorLoser;
@@ -80,6 +80,14 @@ namespace SudokuForms
             btn.Text = btn.Text.Replace("  ", " ");
             btn.Refresh();
             btn.BackColor = save;
+
+            // If we've but one char left, it's a Winner!
+            string sz = btn.Text.Replace(" ", string.Empty);
+            if (sz.Length == 1)
+            {
+                Winner(sz[0], Color.Green);
+            }
+
         }
 
     }
