@@ -77,6 +77,7 @@ namespace SudokuForms
             btn.Refresh();
             Thread.Sleep(100);
             btn.Text = btn.Text.Replace(chValue, ' ');
+            btn.Text = btn.Text.Replace("  ", " ");
             btn.Refresh();
             btn.BackColor = save;
         }

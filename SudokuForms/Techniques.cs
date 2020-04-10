@@ -279,13 +279,26 @@ namespace SudokuForms
 
                                         }
 
+                                        // If our TwoPair are in the same sector,
                                         if (secFirst == secSecond)
                                         {
+                                            // Walk every square on the board
                                             for (int y3 = 0; y3 <= 8; y3++)
                                             {
                                                 for (int x3 = 0; x3 <= 8; x3++)
                                                 {
-
+                                                    // If it's in our sector ...
+                                                    if (myBoard[x3,y3].sector == secFirst)
+                                                    {
+                                                        // But isn't either of our TwoPair squares ...
+                                                        if (!(colFirst == x3 && rowFirst == y3) &&
+                                                            !(colSecond == x3 && rowSecond == y3))
+                                                        {
+                                                            // It's a loser for both values.
+                                                            myBoard[x3, y3].Loser(ch1, Color.Red);
+                                                            myBoard[x3, y3].Loser(ch2, Color.Red);
+                                                        }
+                                                    }
                                                 }
 
                                             }
