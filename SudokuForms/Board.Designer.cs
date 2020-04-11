@@ -42,7 +42,7 @@ namespace SudokuForms
             this.btnReset.BackColor = Color.LightGray;
             this.btnReset.ForeColor = Color.Black;
             this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new System.Drawing.Point(800, 38);
+            this.btnReset.Location = new System.Drawing.Point(756, 38);
             this.btnReset.Size = new System.Drawing.Size(120, 72);
             this.btnReset.TabIndex = 90;
             this.btnReset.Text = "Reset";
@@ -53,7 +53,7 @@ namespace SudokuForms
             this.btnStep = new System.Windows.Forms.Button();
             this.btnStep.Click += Step_Click;
             this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new System.Drawing.Point(900, 160);
+            this.btnStep.Location = new System.Drawing.Point(910, 160);
             this.btnStep.Size = new System.Drawing.Size(112, 72);
             this.btnStep.TabIndex = 93;
             this.btnStep.Text = "Step";
@@ -97,7 +97,7 @@ namespace SudokuForms
             this.ColumnSweep.AutoSize = true;
             this.ColumnSweep.Location = new System.Drawing.Point(12, 72);
             this.ColumnSweep.Name = "ColumnSweep";
-            this.ColumnSweep.Size = new System.Drawing.Size(137, 24);
+            this.ColumnSweep.Size = new System.Drawing.Size(136, 24);
             this.ColumnSweep.TabIndex = 96;
             this.ColumnSweep.TabStop = true;
             this.ColumnSweep.Text = "ColumnSweep";
@@ -121,10 +121,10 @@ namespace SudokuForms
             // 
             this.TwoPair = new System.Windows.Forms.RadioButton();
             this.TwoPair.AutoSize = true;
-            this.TwoPair.Location = new System.Drawing.Point(12, 102);
+            this.TwoPair.Location = new System.Drawing.Point(12, 132);
             this.TwoPair.Name = "TwoPair";
             this.TwoPair.Size = new System.Drawing.Size(115, 24);
-            this.TwoPair.TabIndex = 97;
+            this.TwoPair.TabIndex = 98;
             this.TwoPair.TabStop = true;
             this.TwoPair.Text = "TwoPair";
             this.TwoPair.UseVisualStyleBackColor = true;
@@ -142,7 +142,7 @@ namespace SudokuForms
             this.RadioPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.RadioPanel.Location = new System.Drawing.Point(740, 126);
             this.RadioPanel.Name = "RadioPanel";
-            this.RadioPanel.Size = new System.Drawing.Size(150, 140);
+            this.RadioPanel.Size = new System.Drawing.Size(152, 170);
             this.RadioPanel.TabIndex = 92;
 
             this.Controls.Add(this.RadioPanel);
@@ -155,7 +155,7 @@ namespace SudokuForms
             this.CouldBe = new System.Windows.Forms.CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new System.Drawing.Point(750, 300);
+            this.CouldBe.Location = new System.Drawing.Point(760, 310);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new System.Drawing.Size(104, 24);
             this.CouldBe.TabIndex = 98;
