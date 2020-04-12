@@ -173,6 +173,7 @@ namespace SudokuForms
             {
                 objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
                 myBoard[curCol, curRow].Winner(keyChar, Color.Green);
+                Techniques.Neighbor(myBoard, curCol, curRow, keyChar);
             }
         }
 

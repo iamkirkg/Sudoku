@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -109,7 +110,7 @@ namespace SudokuForms
             return ret;
         }
 
-        // for the non-Winner squares in the column
+        // For all squares in the column (Winner and Loser)
         //   for the values 1 through 9
         //     if only one square has the value, it's a Winner.
         public static bool ColumnSweep(Square[,] myBoard, int argCol)
@@ -120,10 +121,7 @@ namespace SudokuForms
             for (int y = 0; y <= 8; y++)
             {
                 sqTest = myBoard[argCol, y];
-                if (sqTest.iWinner == -1)
-                {
-                    szColText += sqTest.btn.Text;
-                }
+                szColText += sqTest.btn.Text;
             }
             // szColText contains the text strings of all squares in the column.
             // Does any character value exist just once?
@@ -153,14 +151,13 @@ namespace SudokuForms
                             }
                         }
                     }
-
                 }
             }
 
             return ret;
         }
 
-        // for the non-Winner squares in the row
+        // for all squares in the row (Winner and Loser)
         //   for the values 1 through 9
         //     if only one square has the value, it's a Winner.
         public static bool RowSweep(Square[,] myBoard, int argRow)
@@ -171,10 +168,7 @@ namespace SudokuForms
             for (int x = 0; x <= 8; x++)
             {
                 sqTest = myBoard[x, argRow];
-                if (sqTest.iWinner == -1)
-                {
-                    szRowText += sqTest.btn.Text;
-                }
+                szRowText += sqTest.btn.Text;
             }
             // szRowText contains the text strings of all squares in the row.
             // Does any character value exist just once?
@@ -185,7 +179,7 @@ namespace SudokuForms
                 szRowText = szRowText.Replace(ch.ToString(), string.Empty);
                 if (szRowText.Length + 1 == cchText)
                 {
-                    // There is only one square in column argCol that has 'ch';
+                    // There is exactly one square in column argCol that has 'ch';
                     // find the square; ch is its Winner.
                     for (int x = 0; x <= 8; x++)
                     {
@@ -204,7 +198,6 @@ namespace SudokuForms
                             }
                         }
                     }
-
                 }
             }
             return ret;
@@ -218,8 +211,7 @@ namespace SudokuForms
         {
             bool ret = false;
             Square sqFirst, sqSecond;
-            int colFirst, rowFirst, secFirst;
-            int colSecond, rowSecond, secSecond;
+            int secFirst, secSecond;
 
             for (int y1 = 0; y1 <= 8; y1++)
             {
@@ -248,36 +240,34 @@ namespace SudokuForms
                                         char ch2 = szTextFirst[1];
                                         objLogBox.Log("TwoPair: [" + x1 + "," + y1 + "] [" + x2 + "," + y2 + "]:" + ch1 + ' ' + ch2);
 
-                                        colFirst = ((sqFirst.btn.TabIndex - 1) % 9);  // Modulo (remainder)
-                                        rowFirst = ((sqFirst.btn.TabIndex - 1) / 9);  // Divide
-                                        secFirst = sqFirst.sector;
-                                        colSecond = ((sqSecond.btn.TabIndex - 1) % 9);  // Modulo (remainder)
-                                        rowSecond = ((sqSecond.btn.TabIndex - 1) / 9);  // Divide
-                                        secSecond = sqSecond.sector;
-
-                                        if (colFirst == colSecond)
+                                        if (x1 == x2)
                                         {
                                             for (int y3 = 0; y3 <= 8; y3++)
                                             {
-                                                if (y3 != rowFirst && y3 != rowSecond)
+                                                if (y3 != y1 && y3 != y2)
                                                 {
-                                                    myBoard[colFirst, y3].Loser(ch1, Color.Red);
-                                                    myBoard[colFirst, y3].Loser(ch2, Color.Red);
+                                                    objLogBox.Log("TwoPair col: [" + x1 + "," + y3 + "]");
+                                                    myBoard[x1, y3].Loser(ch1, Color.Red);
+                                                    myBoard[x1, y3].Loser(ch2, Color.Red);
                                                 }
                                             }
                                         }
-                                        else if (rowFirst == rowSecond)
+                                        else if (y1 == y2)
                                         {
                                             for (int x3 = 0; x3 <= 8; x3++)
                                             {
-                                                if (x3 != colFirst && x3 != colSecond)
+                                                if (x3 != x1 && x3 != x2)
                                                 {
-                                                    myBoard[x3, rowFirst].Loser(ch1, Color.Red);
-                                                    myBoard[x3, rowFirst].Loser(ch2, Color.Red);
+                                                    objLogBox.Log("TwoPair row: [" + x3 + "," + y1 + "]");
+                                                    myBoard[x3, y1].Loser(ch1, Color.Red);
+                                                    myBoard[x3, y1].Loser(ch2, Color.Red);
                                                 }
                                             }
 
                                         }
+
+                                        secFirst = sqFirst.sector;
+                                        secSecond = sqSecond.sector;
 
                                         // If our TwoPair are in the same sector,
                                         if (secFirst == secSecond)
@@ -291,10 +281,11 @@ namespace SudokuForms
                                                     if (myBoard[x3,y3].sector == secFirst)
                                                     {
                                                         // But isn't either of our TwoPair squares ...
-                                                        if (!(colFirst == x3 && rowFirst == y3) &&
-                                                            !(colSecond == x3 && rowSecond == y3))
+                                                        if (!(x1 == x3 && y1 == y3) &&
+                                                            !(x2 == x3 && y2 == y3))
                                                         {
                                                             // It's a loser for both values.
+                                                            objLogBox.Log("TwoPair sec: [" + x3 + "," + y3 + "]");
                                                             myBoard[x3, y3].Loser(ch1, Color.Red);
                                                             myBoard[x3, y3].Loser(ch2, Color.Red);
                                                         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -48,6 +49,14 @@ namespace SudokuForms
 
         public void Winner(char chValue, Color colorWinner)
         {
+            // If we're already a Winner, don't do anything.
+            if (iWinner != -1)
+            {
+                // It should be the same Winner value.
+                Debug.Assert(iWinner == chValue - '1');
+                return;
+            }
+
             iWinner = chValue - '1';
             chWinner = chValue;
 
@@ -70,6 +79,12 @@ namespace SudokuForms
 
         public void Loser(char chValue, Color colorLoser)
         {
+            // If we're already a Winner, don't do anything.
+            if (iWinner != -1)
+            {
+                return;
+            }
+
             //int iValue = chValue - '1';
             //rgf[iValue] = false;
             Color save = btn.BackColor;
