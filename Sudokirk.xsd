@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://tempuri.org/PurchaseOrderSchema.xsd"
+           targetNamespace="http://tempuri.org/PurchaseOrderSchema.xsd"
+           elementFormDefault="qualified">
+
+  <xsd:element name="Square" type="tns:SquareType"/>
+  <xsd:complexType name="SquareType">
+    <xsd:attribute name="iWinner" type="xsd:int"/>
+    <xsd:attribute name="chWinner" type="xsd:string"/>
+    <xsd:attribute name="row" type="xsd:int"/>
+    <xsd:attribute name="column" type="xsd:int"/>
+    <xsd:attribute name="sector" type="xsd:int"/>
+    <xsd:attribute name="text" type="xsd:string"/>
+  </xsd:complexType>
+
+</xsd:schema>
