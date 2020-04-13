@@ -55,7 +55,7 @@ namespace SudokuForms
             this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStep.Location = new System.Drawing.Point(910, 160);
             this.btnStep.Size = new System.Drawing.Size(112, 72);
-            this.btnStep.TabIndex = 93;
+            this.btnStep.TabIndex = 92;
             this.btnStep.Text = "Step";
             this.Controls.Add(this.btnStep);
             //
@@ -72,17 +72,30 @@ namespace SudokuForms
             this.Neighbor.Location = new System.Drawing.Point(12, 12);
             this.Neighbor.Name = "Neighbor";
             this.Neighbor.Size = new System.Drawing.Size(98, 24);
-            this.Neighbor.TabIndex = 94;
+            this.Neighbor.TabIndex = 93;
             this.Neighbor.TabStop = true;
             this.Neighbor.Text = "Neighbor";
             this.Neighbor.UseVisualStyleBackColor = true;
             this.Neighbor.CheckedChanged += new System.EventHandler(this.Neighbor_CheckedChanged);
             // 
+            // AllNeighbors
+            // 
+            this.AllNeighbors = new System.Windows.Forms.RadioButton();
+            this.AllNeighbors.AutoSize = true;
+            this.AllNeighbors.Location = new System.Drawing.Point(12, 42);
+            this.AllNeighbors.Name = "AllNeighbors";
+            this.AllNeighbors.Size = new System.Drawing.Size(98, 24);
+            this.AllNeighbors.TabIndex = 94;
+            this.AllNeighbors.TabStop = true;
+            this.AllNeighbors.Text = "AllNeighbors";
+            this.AllNeighbors.UseVisualStyleBackColor = true;
+            this.AllNeighbors.CheckedChanged += new System.EventHandler(this.AllNeighbors_CheckedChanged);
+            // 
             // SectorSweep
             // 
             this.SectorSweep = new System.Windows.Forms.RadioButton();
             this.SectorSweep.AutoSize = true;
-            this.SectorSweep.Location = new System.Drawing.Point(12, 42);
+            this.SectorSweep.Location = new System.Drawing.Point(12, 72);
             this.SectorSweep.Name = "SectorSweep";
             this.SectorSweep.Size = new System.Drawing.Size(130, 24);
             this.SectorSweep.TabIndex = 95;
@@ -95,7 +108,7 @@ namespace SudokuForms
             // 
             this.ColumnSweep = new System.Windows.Forms.RadioButton();
             this.ColumnSweep.AutoSize = true;
-            this.ColumnSweep.Location = new System.Drawing.Point(12, 72);
+            this.ColumnSweep.Location = new System.Drawing.Point(12, 102);
             this.ColumnSweep.Name = "ColumnSweep";
             this.ColumnSweep.Size = new System.Drawing.Size(136, 24);
             this.ColumnSweep.TabIndex = 96;
@@ -108,7 +121,7 @@ namespace SudokuForms
             // 
             this.RowSweep = new System.Windows.Forms.RadioButton();
             this.RowSweep.AutoSize = true;
-            this.RowSweep.Location = new System.Drawing.Point(12, 102);
+            this.RowSweep.Location = new System.Drawing.Point(12, 132);
             this.RowSweep.Name = "RowSweep";
             this.RowSweep.Size = new System.Drawing.Size(115, 24);
             this.RowSweep.TabIndex = 97;
@@ -121,7 +134,7 @@ namespace SudokuForms
             // 
             this.TwoPair = new System.Windows.Forms.RadioButton();
             this.TwoPair.AutoSize = true;
-            this.TwoPair.Location = new System.Drawing.Point(12, 132);
+            this.TwoPair.Location = new System.Drawing.Point(12, 162);
             this.TwoPair.Name = "TwoPair";
             this.TwoPair.Size = new System.Drawing.Size(115, 24);
             this.TwoPair.TabIndex = 98;
@@ -135,6 +148,7 @@ namespace SudokuForms
             this.RadioPanel = new System.Windows.Forms.Panel();
             this.RadioPanel.SuspendLayout();
             this.RadioPanel.Controls.Add(this.Neighbor);
+            this.RadioPanel.Controls.Add(this.AllNeighbors);
             this.RadioPanel.Controls.Add(this.SectorSweep);
             this.RadioPanel.Controls.Add(this.ColumnSweep);
             this.RadioPanel.Controls.Add(this.RowSweep);
@@ -142,8 +156,8 @@ namespace SudokuForms
             this.RadioPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.RadioPanel.Location = new System.Drawing.Point(740, 126);
             this.RadioPanel.Name = "RadioPanel";
-            this.RadioPanel.Size = new System.Drawing.Size(152, 170);
-            this.RadioPanel.TabIndex = 92;
+            this.RadioPanel.Size = new System.Drawing.Size(152, 200);
+            this.RadioPanel.TabIndex = 91;
 
             this.Controls.Add(this.RadioPanel);
             this.RadioPanel.ResumeLayout(false);
@@ -155,10 +169,10 @@ namespace SudokuForms
             this.CouldBe = new System.Windows.Forms.CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new System.Drawing.Point(760, 310);
+            this.CouldBe.Location = new System.Drawing.Point(760, 340);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new System.Drawing.Size(104, 24);
-            this.CouldBe.TabIndex = 98;
+            this.CouldBe.TabIndex = 99;
             this.CouldBe.Text = "CouldBe";
             this.CouldBe.UseVisualStyleBackColor = true;
             this.CouldBe.CheckedChanged += new System.EventHandler(this.CouldBe_CheckedChanged);
@@ -209,6 +223,10 @@ namespace SudokuForms
                         Techniques.Neighbor(myBoard, curCol, curRow, curChar);
                     }
                     break;
+                case Technique.AllNeighbors:
+                    objLogBox.Log("Step: AllNeighbors");
+                    Techniques.AllNeighbors(myBoard);
+                    break;
                 case Technique.SectorSweep:
                     objLogBox.Log("Step: SectorSweep");
                     Techniques.SectorSweep(myBoard);
@@ -235,6 +253,7 @@ namespace SudokuForms
         private LogBox objLogBox;
         private System.Windows.Forms.CheckBox CouldBe;
         private System.Windows.Forms.RadioButton Neighbor;
+        private System.Windows.Forms.RadioButton AllNeighbors;
         private System.Windows.Forms.RadioButton SectorSweep;
         private System.Windows.Forms.RadioButton ColumnSweep;
         private System.Windows.Forms.RadioButton RowSweep;

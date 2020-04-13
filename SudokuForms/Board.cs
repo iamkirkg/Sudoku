@@ -10,6 +10,7 @@ namespace SudokuForms
         {
             none,
             Neighbor,
+            AllNeighbors,
             SectorSweep,
             ColumnSweep,
             RowSweep,
@@ -101,6 +102,15 @@ namespace SudokuForms
             }
         }
 
+        private void AllNeighbors_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.AllNeighbors;
+            }
+        }
+
         private void SectorSweep_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
@@ -173,7 +183,7 @@ namespace SudokuForms
             {
                 objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
                 myBoard[curCol, curRow].Winner(keyChar, Color.Green);
-                Techniques.Neighbor(myBoard, curCol, curRow, keyChar);
+                //Techniques.Neighbor(myBoard, curCol, curRow, keyChar);
             }
         }
 

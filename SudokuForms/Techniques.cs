@@ -45,6 +45,24 @@ namespace SudokuForms
             return ret;
         }
 
+        // Walk every square in the board. If it's a winner, call Neighbor.
+        public static bool AllNeighbors(Square[,] myBoard)
+        {
+            bool ret = false;
+            for (int y = 0; y <= 8; y++)
+            {
+                for (int x = 0; x <= 8; x++)
+                {
+                    Square sqTest = myBoard[x, y];
+                    if (sqTest.iWinner != -1)
+                    {
+                        Neighbor(myBoard, x, y, sqTest.chWinner);
+                    }
+                }
+            }
+            return ret;
+        }
+
         // for each sector
         //   of the non-Winner squares in the sector
         //      for the values 1 through 9
