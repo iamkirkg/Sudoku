@@ -24,12 +24,6 @@ namespace SudokuForms
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             // REVIEW KirkG: This suspend/resume should go around our double-for-loops too.
@@ -41,9 +35,9 @@ namespace SudokuForms
             this.btnReset = new System.Windows.Forms.Button();
             this.btnReset.BackColor = Color.LightGray;
             this.btnReset.ForeColor = Color.Black;
-            this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new System.Drawing.Point(756, 38);
-            this.btnReset.Size = new System.Drawing.Size(120, 72);
+            this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReset.Location = new System.Drawing.Point(740, 20);
+            this.btnReset.Size = new System.Drawing.Size(100, 60);
             this.btnReset.TabIndex = 90;
             this.btnReset.Text = "Reset";
             this.Controls.Add(this.btnReset);
@@ -52,9 +46,9 @@ namespace SudokuForms
             // 
             this.btnStep = new System.Windows.Forms.Button();
             this.btnStep.Click += Step_Click;
-            this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new System.Drawing.Point(910, 160);
-            this.btnStep.Size = new System.Drawing.Size(112, 72);
+            this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStep.Location = new System.Drawing.Point(900, 140);
+            this.btnStep.Size = new System.Drawing.Size(90, 60);
             this.btnStep.TabIndex = 92;
             this.btnStep.Text = "Step";
             this.Controls.Add(this.btnStep);
@@ -154,7 +148,7 @@ namespace SudokuForms
             this.RadioPanel.Controls.Add(this.RowSweep);
             this.RadioPanel.Controls.Add(this.TwoPair);
             this.RadioPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.RadioPanel.Location = new System.Drawing.Point(740, 126);
+            this.RadioPanel.Location = new System.Drawing.Point(740, 90);
             this.RadioPanel.Name = "RadioPanel";
             this.RadioPanel.Size = new System.Drawing.Size(152, 200);
             this.RadioPanel.TabIndex = 91;
@@ -164,20 +158,47 @@ namespace SudokuForms
             this.RadioPanel.PerformLayout();
 
             // 
+            // btnLoad
+            // 
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.btnLoad.Click += Load_Click;
+            this.btnLoad.BackColor = Color.LightGray;
+            this.btnLoad.ForeColor = Color.Black;
+            this.btnLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoad.Location = new System.Drawing.Point(740, 300);
+            this.btnLoad.Size = new System.Drawing.Size(100, 60);
+            this.btnLoad.TabIndex = 99;
+            this.btnLoad.Text = "Load";
+            this.Controls.Add(this.btnLoad);
+
+            // 
+            // btnSave
+            // 
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnSave.Click += Save_Click;
+            this.btnSave.BackColor = Color.LightGray;
+            this.btnSave.ForeColor = Color.Black;
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Location = new System.Drawing.Point(740, 370);
+            this.btnSave.Size = new System.Drawing.Size(100, 60);
+            this.btnSave.TabIndex = 100;
+            this.btnSave.Text = "Save";
+            this.Controls.Add(this.btnSave);
+
+            // 
             // CouldBe
             // 
             this.CouldBe = new System.Windows.Forms.CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new System.Drawing.Point(760, 340);
+            this.CouldBe.Location = new System.Drawing.Point(760, 480);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new System.Drawing.Size(104, 24);
-            this.CouldBe.TabIndex = 99;
+            this.CouldBe.TabIndex = 101;
             this.CouldBe.Text = "CouldBe";
             this.CouldBe.UseVisualStyleBackColor = true;
             this.CouldBe.CheckedChanged += new System.EventHandler(this.CouldBe_CheckedChanged);
             this.Controls.Add(this.CouldBe);
-
 
             // 
             // SudokuForms
@@ -246,7 +267,15 @@ namespace SudokuForms
             }
         }
 
-        #endregion
+        // This is the ButtonClick function for the Save button.
+        private void Save_Click(object sender, EventArgs e)
+        {
+        }
+
+        // This is the ButtonClick function for the Load button.
+        private void Load_Click(object sender, EventArgs e)
+        {
+        }
 
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnStep;
@@ -259,6 +288,8 @@ namespace SudokuForms
         private System.Windows.Forms.RadioButton RowSweep;
         private System.Windows.Forms.RadioButton TwoPair;
         private System.Windows.Forms.Panel RadioPanel;
+        private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.Button btnSave;
 
     }
 }
