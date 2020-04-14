@@ -63,10 +63,9 @@ namespace SudokuForms
             return ret;
         }
 
-        // for each sector
-        //   of the non-Winner squares in the sector
-        //      for the values 1 through 9
-        //        if only one square has the value, it's a Winner.
+        // For each sector
+        //    for the values 1 through 9
+        //      if only one square has the value, it's a Winner.
         public static bool SectorSweep(Square[,] myBoard)
         {
             bool ret = false;
@@ -77,10 +76,7 @@ namespace SudokuForms
                 for (int x = 0; x <= 8; x++)
                 {
                     sqTest = myBoard[x, y];
-                    if (sqTest.iWinner == -1)
-                    {
-                        mpSectorText[sqTest.sector] += sqTest.btn.Text;
-                    }
+                    mpSectorText[sqTest.sector] += sqTest.btn.Text;
                 }
             }
             // mpSectorText contains the text strings of each sector.
