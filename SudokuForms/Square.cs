@@ -29,9 +29,9 @@ namespace SudokuForms
             {
                 BackColor = Color.LightGray,
                 ForeColor = Color.Black,
-                Font = new System.Drawing.Font("Microsoft Sans Serif", font, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
-                Location = new System.Drawing.Point(xPoint, yPoint),
-                Size = new System.Drawing.Size(xSize, ySize),
+                Font = new Font("Microsoft Sans Serif", font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                Location = new Point(xPoint, yPoint),
+                Size = new Size(xSize, ySize),
                 TabIndex = iTab,
                 Text = "1 2 3 4 5 6 7 8 9"
                 //Text.BackColor = Color.Blue;
