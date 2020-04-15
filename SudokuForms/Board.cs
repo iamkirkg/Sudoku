@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace SudokuForms
 {
@@ -88,11 +89,6 @@ namespace SudokuForms
         {
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Neighbor_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
@@ -162,7 +158,7 @@ namespace SudokuForms
             {
                 for (int x = 0; x <= 8; x++)
                 {
-                    if (myBoard[x, y].iWinner == -1)
+                    if (myBoard[x, y].iWinner == 0)
                     {
                         myBoard[x, y].btn.ForeColor = colorNew;
                     }
@@ -175,8 +171,8 @@ namespace SudokuForms
             // Calculate myBoard[col,row] location from the tabindex.
             // TabIndex is [1..81]; the array is [0..8][0..8].
             curTab = iTab;
-            curCol = ((iTab-1) % 9);  // Modulo (remainder)
-            curRow = ((iTab-1) / 9);  // Divide
+            curCol = ((iTab - 1) % 9);  // Modulo (remainder)
+            curRow = ((iTab - 1) / 9);  // Divide
             curChar = keyChar;
 
             if (keyChar >= '1' && keyChar <= '9')
@@ -190,13 +186,13 @@ namespace SudokuForms
         private void ClickSquare(int iTab)
         {
             {
-            // Calculate myBoard[col,row] location from the tabindex.
-            // TabIndex is [1..81]; the array is [0..8][0..8].
-            curTab = iTab;
-            curCol = ((iTab - 1) % 9);  // Modulo (remainder)
-            curRow = ((iTab - 1) / 9);  // Divide
-            Square mySquare = myBoard[curCol, curRow];
-            if (mySquare.iWinner != -1)
+                // Calculate myBoard[col,row] location from the tabindex.
+                // TabIndex is [1..81]; the array is [0..8][0..8].
+                curTab = iTab;
+                curCol = ((iTab - 1) % 9);  // Modulo (remainder)
+                curRow = ((iTab - 1) / 9);  // Divide
+                Square mySquare = myBoard[curCol, curRow];
+                if (mySquare.iWinner != 0)
                 {
                     curChar = mySquare.chWinner;
                     objLogBox.Log("Select: tab " + iTab + ": [" + curCol + "," + curRow + "], Winner=" + curChar);
@@ -210,5 +206,18 @@ namespace SudokuForms
             }
         }
 
+        // This is the ButtonClick function for the Save button.
+        private void Save_Click(object sender, EventArgs e)
+        {
+            FileIO f = new FileIO();
+            f.SaveFile(myBoard);
+        }
+
+        // This is the ButtonClick function for the Load button.
+        private void Load_Click(object sender, EventArgs e)
+        {
+            FileIO f = new FileIO();
+            f.LoadFile(myBoard);
+        }
     }
 }

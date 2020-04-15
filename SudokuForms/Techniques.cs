@@ -18,14 +18,14 @@ namespace SudokuForms
         {
             bool ret = false;
             // If we aren't currently clicked on a Winner square, then do nothing.
-            if (myBoard[col,row].iWinner != -1)
+            if (myBoard[col,row].iWinner != 0)
             {
                 for (int y = 0; y <= 8; y++)
                 {
                     for (int x = 0; x <= 8; x++)
                     {
                         Square sqTest = myBoard[x, y];
-                        if (sqTest.iWinner == -1)
+                        if (sqTest.iWinner == 0)
                         {
                             if (x == col ||
                                 y == row ||
@@ -54,7 +54,7 @@ namespace SudokuForms
                 for (int x = 0; x <= 8; x++)
                 {
                     Square sqTest = myBoard[x, y];
-                    if (sqTest.iWinner != -1)
+                    if (sqTest.iWinner != 0)
                     {
                         Neighbor(myBoard, x, y, sqTest.chWinner);
                     }
@@ -101,7 +101,7 @@ namespace SudokuForms
                                 sqTest = myBoard[x, y];
                                 if (sqTest.sector == s)
                                 {
-                                    if (sqTest.iWinner == -1)
+                                    if (sqTest.iWinner == 0)
                                     {
                                         if (sqTest.btn.Text.Contains(ch))
                                         {
@@ -151,7 +151,7 @@ namespace SudokuForms
                     for (int y = 0; y <= 8; y++)
                     {
                         sqTest = myBoard[argCol, y];
-                        if (sqTest.iWinner == -1)
+                        if (sqTest.iWinner == 0)
                         {
                             if (sqTest.btn.Text.Contains(ch))
                             {
@@ -198,7 +198,7 @@ namespace SudokuForms
                     for (int x = 0; x <= 8; x++)
                     {
                         sqTest = myBoard[x, argRow];
-                        if (sqTest.iWinner == -1)
+                        if (sqTest.iWinner == 0)
                         {
                             if (sqTest.btn.Text.Contains(ch))
                             {

@@ -267,16 +267,6 @@ namespace SudokuForms
             }
         }
 
-        // This is the ButtonClick function for the Save button.
-        private void Save_Click(object sender, EventArgs e)
-        {
-        }
-
-        // This is the ButtonClick function for the Load button.
-        private void Load_Click(object sender, EventArgs e)
-        {
-        }
-
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnStep;
         private LogBox objLogBox;

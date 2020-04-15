@@ -10,7 +10,7 @@ namespace SudokuForms
     {
         public int iWinner { get; set; } // When there's only one left.
         public char chWinner { get; set; }
-        public int sector { get; }       // What sector we're in.
+        public int sector { get; set; }       // What sector we're in.
         public bool[] rgf { get; set; }  // 'true' means it could be, 'false' means it can't be.
         //public string text { get; set; } // '1 2 3 4 5 6 7 8 9', getting replaced by spaces.
         public Button btn { get; set; }
@@ -21,8 +21,9 @@ namespace SudokuForms
                       // Note: currently unused.
                       Action<object, KeyPressEventArgs> fnKeyPress)
         {
+            iWinner = 0;
+            chWinner = '0';
             sector = iSector;
-            iWinner = -1;
 
             btn = new Button
             {
@@ -50,14 +51,14 @@ namespace SudokuForms
         public void Winner(char chValue, Color colorWinner)
         {
             // If we're already a Winner, don't do anything.
-            if (iWinner != -1)
+            if (iWinner != 0)
             {
                 // It should be the same Winner value.
-                Debug.Assert(iWinner == chValue - '1');
+                Debug.Assert(iWinner == chValue - '0');
                 return;
             }
 
-            iWinner = chValue - '1';
+            iWinner = chValue - '0';
             chWinner = chValue;
 
             Color save = btn.BackColor;
@@ -69,18 +70,12 @@ namespace SudokuForms
             Thread.Sleep(100);
             btn.Refresh();
             btn.BackColor = save;
-
-            //for (int i = 0; i <= 8; i++)
-            //{
-            //    rgf[i] = false;
-            //}
-            //rgf[iWinner] = true;
         }
 
         public void Loser(char chValue, Color colorLoser)
         {
             // If we're already a Winner, don't do anything.
-            if (iWinner != -1)
+            if (iWinner != 0)
             {
                 return;
             }
