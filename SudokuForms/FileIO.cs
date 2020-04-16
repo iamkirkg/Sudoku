@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace SudokuForms
@@ -25,7 +27,15 @@ namespace SudokuForms
 
         public void SaveFile(Square[,] myBoard)
         {
-            using (XmlWriter writer = XmlWriter.Create("Squares.xml"))
+            SaveFileDialog objDlg = new SaveFileDialog();
+            objDlg.Filter = "*.xml";
+            DialogResult result = objDlg.ShowDialog();
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            using (XmlWriter writer = XmlWriter.Create(objDlg.FileName))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Squares");
@@ -61,6 +71,7 @@ namespace SudokuForms
 
             Field state = Field.none;
 
+            Square sq;
             int Row = -1;
             int Column = -1;
             int Sector = -1;
@@ -69,10 +80,15 @@ namespace SudokuForms
             int TabIndex = -1;
             string Text = null;
 
-            Square sq;
+            OpenFileDialog objDlg = new OpenFileDialog();
+            DialogResult result = objDlg.ShowDialog();
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
 
             XmlReaderSettings settings = new XmlReaderSettings();
-            using (XmlReader reader = XmlReader.Create("Squares.xml", settings))
+            using (XmlReader reader = XmlReader.Create(objDlg.FileName, settings))
             {
                 while (reader.Read())
                 {
