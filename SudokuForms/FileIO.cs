@@ -28,7 +28,7 @@ namespace SudokuForms
         public void SaveFile(Square[,] myBoard)
         {
             SaveFileDialog objDlg = new SaveFileDialog();
-            objDlg.Filter = "*.xml";
+            objDlg.Filter = "Xml files (*.xml)|*.xml";
             DialogResult result = objDlg.ShowDialog();
             if (result != DialogResult.OK)
             {
@@ -81,6 +81,7 @@ namespace SudokuForms
             string Text = null;
 
             OpenFileDialog objDlg = new OpenFileDialog();
+            objDlg.Filter = "Xml files (*.xml)|*.xml";
             DialogResult result = objDlg.ShowDialog();
             if (result != DialogResult.OK)
             {
