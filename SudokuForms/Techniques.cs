@@ -344,14 +344,16 @@ namespace SudokuForms
         {
             bool ret = false;
             Square sqTest, sqFirst, sqSecond, sqThird;
-            string szFirst;
+            string szTrio;
             bool fSubset;
 
             for (int xFirst = 0; xFirst <= 8; xFirst++)
             {
                 sqFirst = myBoard[xFirst, argRow];
-                szFirst = sqFirst.btn.Text.Replace(" ", string.Empty);
-                if (szFirst.Length == 3)
+
+                // These are the three chars we're looking for.
+                szTrio = sqFirst.btn.Text.Replace(" ", string.Empty);
+                if (szTrio.Length == 3)
                 {
                     sqSecond = null;
                     sqThird = null;
@@ -363,11 +365,11 @@ namespace SudokuForms
                         // Don't want to compare against ourselves.
                         if (sqTest != sqFirst)
                         {
-                            // Does this square have the same contents as First?
+                            // Does this square have the same contents as our Trio?
                             fSubset = true;
                             foreach (char c in sqTest.btn.Text.Replace(" ", string.Empty))
                             {
-                                if (!szFirst.Contains(c))
+                                if (!szTrio.Contains(c))
                                 {
                                     fSubset = false;
                                 }
@@ -381,12 +383,30 @@ namespace SudokuForms
                                 else
                                 {
                                     sqThird = sqTest;
-                                    // We have sqFirst, sqSecond, and sqThird.
-                                    // The three chars of sqFirst and Losers in the squares
+                                    // We have found sqFirst, sqSecond, and sqThird.
+                                    // The three chars of sqFirst are Losers in the squares
                                     //   that aren't sqFirst/sqSecond/sqThird.
                                     objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
                                                           + " [" + sqSecond.col + "," + sqSecond.row + "]"
                                                           + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                    for (int xLoser = 0; xLoser <= 8; xLoser++)
+                                    {
+                                        sqTest = myBoard[xLoser, argRow];
+
+                                        // Protect the Threesome.
+                                        if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
+                                        {
+                                            sqTest.Loser(szTrio[0], Color.DarkRed);
+                                            sqTest.Loser(szTrio[1], Color.DarkRed);
+                                            sqTest.Loser(szTrio[2], Color.DarkRed);
+                                        }
+                                    }
+
+                                    // Could there be another Threesome in the row? Maybe, but we've 
+                                    // changed its state, I think we just bail and let it get picked up
+                                    // on another run.
+                                    return true;
                                 }
                             }
                         }
@@ -401,14 +421,16 @@ namespace SudokuForms
         {
             bool ret = false;
             Square sqTest, sqFirst, sqSecond, sqThird;
-            string szFirst;
+            string szTrio;
             bool fSubset;
 
             for (int yFirst = 0; yFirst <= 8; yFirst++)
             {
                 sqFirst = myBoard[argCol, yFirst];
-                szFirst = sqFirst.btn.Text.Replace(" ", string.Empty);
-                if (szFirst.Length == 3)
+
+                // These are the three chars we're looking for.
+                szTrio = sqFirst.btn.Text.Replace(" ", string.Empty);
+                if (szTrio.Length == 3)
                 {
                     sqSecond = null;
                     sqThird = null;
@@ -420,11 +442,11 @@ namespace SudokuForms
                         // Don't want to compare against ourselves.
                         if (sqTest != sqFirst)
                         {
-                            // Does this square have the same contents as First?
+                            // Does this square have the same contents as our Trio?
                             fSubset = true;
                             foreach (char c in sqTest.btn.Text.Replace(" ", string.Empty))
                             {
-                                if (!szFirst.Contains(c))
+                                if (!szTrio.Contains(c))
                                 {
                                     fSubset = false;
                                 }
@@ -438,12 +460,30 @@ namespace SudokuForms
                                 else
                                 {
                                     sqThird = sqTest;
-                                    // We have sqFirst, sqSecond, and sqThird.
-                                    // The three chars of sqFirst and Losers in the squares
+                                    // We have found sqFirst, sqSecond, and sqThird.
+                                    // The three chars of sqFirst are Losers in the squares
                                     //   that aren't sqFirst/sqSecond/sqThird.
                                     objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
                                                           + " [" + sqSecond.col + "," + sqSecond.row + "]"
                                                           + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                    for (int yLoser = 0; yLoser <= 8; yLoser++)
+                                    {
+                                        sqTest = myBoard[argCol, yLoser];
+
+                                        // Protect the Threesome.
+                                        if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
+                                        {
+                                            sqTest.Loser(szTrio[0], Color.DarkRed);
+                                            sqTest.Loser(szTrio[1], Color.DarkRed);
+                                            sqTest.Loser(szTrio[2], Color.DarkRed);
+                                        }
+                                    }
+
+                                    // Could there be another Threesome in the row? Maybe, but we've 
+                                    // changed its state, I think we just bail and let it get picked up
+                                    // on another run.
+                                    return true;
                                 }
                             }
                         }
