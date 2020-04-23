@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Page;
 
 namespace SudokuForms
 {
@@ -15,7 +16,8 @@ namespace SudokuForms
             SectorSweep,
             ColumnSweep,
             RowSweep,
-            TwoPair
+            TwoPair,
+            ThreesomeRow
         }
         public Technique curTechnique = Technique.none;
 
@@ -142,6 +144,14 @@ namespace SudokuForms
                 curTechnique = Technique.TwoPair;
             }
         }
+        private void ThreesomeRow_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.ThreesomeRow;
+            }
+        }
         private void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;
@@ -166,7 +176,7 @@ namespace SudokuForms
             }
         }
 
-        private void SetSquare(int iTab, char keyChar)
+        private void KeyPressSquare(int iTab, char keyChar)
         {
             // Calculate myBoard[col,row] location from the tabindex.
             // TabIndex is [1..81]; the array is [0..8][0..8].
@@ -181,6 +191,10 @@ namespace SudokuForms
                 myBoard[curCol, curRow].Winner(keyChar, Color.Green);
                 //Techniques.Neighbor(myBoard, curCol, curRow, keyChar);
             }
+//            else if (keyChar == ConsoleKey.LeftArrow)
+//            {
+//
+//            }
         }
 
         private void ClickSquare(int iTab)

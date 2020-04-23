@@ -318,5 +318,79 @@ namespace SudokuForms
             }
             return ret;
         }
+
+        // Find a triple. Call it First.
+        // For all the squares in the row|column|sector
+        //   If it's not First
+        //     If its values are a subset of First's
+        //       If Second is null 
+        //         Call it Second
+        //       Else
+        //         Call it Third
+        // As soon as we find a First Second and Third
+        //   Mark the other squares in the row|column|sector as Losers.
+        //   Return true
+
+        // [ 3 4 5 ] [ 3 4 5 ] [ 3 4 5 ]
+        // [ 3 4 5 ] [ 3 4 5 ] [ 3   5 ]
+        // [ 3 4 5 ] [ 3 4   ] [ 3   5 ]
+        //
+        // Note that we don't detect this case:
+        // [ 1 2 ] [ 1 3 ] [ 2 3 ]
+
+        // BUGBUG: This will crash if you click ThreesomeRow and Step, having never selected
+        // a (current) square.
+        public static bool ThreesomeRow(Square[,] myBoard, int argRow, LogBox objLogBox)
+        {
+            bool ret = false;
+            Square sqTest, sqFirst, sqSecond, sqThird;
+            string szFirst;
+            bool fSubset;
+
+            for (int xFirst = 0; xFirst <= 8; xFirst++)
+            {
+                sqFirst = myBoard[xFirst, argRow];
+                szFirst = sqFirst.btn.Text.Replace(" ", string.Empty);
+                if (szFirst.Length == 3)
+                {
+                    fSubset = true;
+                    sqSecond = null;
+                    sqThird = null;
+
+                    for (int xTest = 0; xTest <= 8; xTest++)
+                    {
+                        sqTest = myBoard[xTest, argRow];
+                        foreach(char c in sqTest.btn.Text.Replace(" ", string.Empty))
+                        {
+                            if (!szFirst.Contains(c))
+                            {
+                                fSubset = false;
+                            }
+                        }
+                        if (fSubset)
+                        {
+                            if (sqSecond == null)
+                            {
+                                sqSecond = sqTest;
+                            }
+                            else
+                            {
+                                sqThird = sqTest;
+                                // We have sqFirst, sqSecond, and sqThird.
+                                // The three chars of sqFirst and Losers in the squares
+                                //   that aren't sqFirst/sqSecond/sqThird.
+                                objLogBox.Log("Threesome: [" + sqFirst.col  + "," + sqFirst.row  + "]"
+                                                      + " [" + sqSecond.col + "," + sqSecond.row + "]" 
+                                                      + " [" + sqThird.col + "," + sqThird.row + "]" );
+
+                            }
+                        }
+                    }
+                }
+            }
+            return ret;
+
+        }
+
     }
 }

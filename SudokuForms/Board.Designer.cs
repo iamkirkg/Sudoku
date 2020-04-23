@@ -36,7 +36,7 @@ namespace SudokuForms
             this.btnReset.BackColor = Color.LightGray;
             this.btnReset.ForeColor = Color.Black;
             this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new System.Drawing.Point(740, 20);
+            this.btnReset.Location = new System.Drawing.Point(740, 10);
             this.btnReset.Size = new System.Drawing.Size(100, 60);
             this.btnReset.TabIndex = 90;
             this.btnReset.Text = "Reset";
@@ -47,16 +47,11 @@ namespace SudokuForms
             this.btnStep = new System.Windows.Forms.Button();
             this.btnStep.Click += Step_Click;
             this.btnStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new System.Drawing.Point(900, 140);
+            this.btnStep.Location = new System.Drawing.Point(910, 130);
             this.btnStep.Size = new System.Drawing.Size(90, 60);
             this.btnStep.TabIndex = 92;
             this.btnStep.Text = "Step";
             this.Controls.Add(this.btnStep);
-            //
-            // LogBox
-            //
-            this.objLogBox = new LogBox(740, 450, 350, 518, 100);
-            this.Controls.Add(this.objLogBox.objBox);
             
             // 
             // Neighbor
@@ -137,6 +132,19 @@ namespace SudokuForms
             this.TwoPair.UseVisualStyleBackColor = true;
             this.TwoPair.CheckedChanged += new System.EventHandler(this.TwoPair_CheckedChanged);
             // 
+            // ThreesomeRow
+            // 
+            this.ThreesomeRow = new System.Windows.Forms.RadioButton();
+            this.ThreesomeRow.AutoSize = true;
+            this.ThreesomeRow.Location = new System.Drawing.Point(12, 192);
+            this.ThreesomeRow.Name = "ThreesomeRow";
+            this.ThreesomeRow.Size = new System.Drawing.Size(115, 24);
+            this.ThreesomeRow.TabIndex = 98;
+            this.ThreesomeRow.TabStop = true;
+            this.ThreesomeRow.Text = "ThreesomeRow";
+            this.ThreesomeRow.UseVisualStyleBackColor = true;
+            this.ThreesomeRow.CheckedChanged += new System.EventHandler(this.ThreesomeRow_CheckedChanged);
+            // 
             // RadioPanel
             // 
             this.RadioPanel = new System.Windows.Forms.Panel();
@@ -147,10 +155,11 @@ namespace SudokuForms
             this.RadioPanel.Controls.Add(this.ColumnSweep);
             this.RadioPanel.Controls.Add(this.RowSweep);
             this.RadioPanel.Controls.Add(this.TwoPair);
+            this.RadioPanel.Controls.Add(this.ThreesomeRow);
             this.RadioPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.RadioPanel.Location = new System.Drawing.Point(740, 90);
+            this.RadioPanel.Location = new System.Drawing.Point(740, 75);
             this.RadioPanel.Name = "RadioPanel";
-            this.RadioPanel.Size = new System.Drawing.Size(152, 200);
+            this.RadioPanel.Size = new System.Drawing.Size(160, 230);
             this.RadioPanel.TabIndex = 91;
 
             this.Controls.Add(this.RadioPanel);
@@ -165,7 +174,7 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new System.Drawing.Point(740, 300);
+            this.btnLoad.Location = new System.Drawing.Point(740, 314);
             this.btnLoad.Size = new System.Drawing.Size(100, 60);
             this.btnLoad.TabIndex = 99;
             this.btnLoad.Text = "Load";
@@ -179,7 +188,7 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(740, 370);
+            this.btnSave.Location = new System.Drawing.Point(740, 380);
             this.btnSave.Size = new System.Drawing.Size(100, 60);
             this.btnSave.TabIndex = 100;
             this.btnSave.Text = "Save";
@@ -191,7 +200,7 @@ namespace SudokuForms
             this.CouldBe = new System.Windows.Forms.CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new System.Drawing.Point(760, 480);
+            this.CouldBe.Location = new System.Drawing.Point(740, 416);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new System.Drawing.Size(104, 24);
             this.CouldBe.TabIndex = 101;
@@ -199,6 +208,12 @@ namespace SudokuForms
             this.CouldBe.UseVisualStyleBackColor = true;
             this.CouldBe.CheckedChanged += new System.EventHandler(this.CouldBe_CheckedChanged);
             this.Controls.Add(this.CouldBe);
+
+            //
+            // LogBox
+            //
+            this.objLogBox = new LogBox(740, 446, 350, 520, 100);
+            this.Controls.Add(this.objLogBox.objBox);
 
             // 
             // SudokuForms
@@ -218,7 +233,7 @@ namespace SudokuForms
         private void sq_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
-            SetSquare(btn.TabIndex, e.KeyChar);
+            KeyPressSquare(btn.TabIndex, e.KeyChar);
         }
 
         // This is the ButtonClick function for all 81 of our Squares.
@@ -264,6 +279,10 @@ namespace SudokuForms
                     objLogBox.Log("Step: TwoPair");
                     Techniques.TwoPair(myBoard, objLogBox);
                     break;
+                case Technique.ThreesomeRow:
+                    objLogBox.Log("Step: ThreesomeRow");
+                    Techniques.ThreesomeRow(myBoard, curRow, objLogBox);
+                    break;
             }
         }
 
@@ -277,6 +296,7 @@ namespace SudokuForms
         private System.Windows.Forms.RadioButton ColumnSweep;
         private System.Windows.Forms.RadioButton RowSweep;
         private System.Windows.Forms.RadioButton TwoPair;
+        private System.Windows.Forms.RadioButton ThreesomeRow;
         private System.Windows.Forms.Panel RadioPanel;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnSave;

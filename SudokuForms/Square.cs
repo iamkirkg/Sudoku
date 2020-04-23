@@ -10,9 +10,9 @@ namespace SudokuForms
     {
         public int iWinner { get; set; } // When there's only one left.
         public char chWinner { get; set; }
-        public int sector { get; set; }       // What sector we're in.
-        public bool[] rgf { get; set; }  // 'true' means it could be, 'false' means it can't be.
-        //public string text { get; set; } // '1 2 3 4 5 6 7 8 9', getting replaced by spaces.
+        public int row { get; set; }    // What row we're in.
+        public int col { get; set; }    // What column we're in.
+        public int sector { get; set; } // What sector we're in.
         public Button btn { get; set; }
 
         // Constructor
@@ -24,6 +24,8 @@ namespace SudokuForms
             iWinner = 0;
             chWinner = '0';
             sector = iSector;
+            col = ((iTab - 1) % 9); // Module (remainder)
+            row = ((iTab - 1) / 9); // Divide
 
             btn = new Button
             {
