@@ -17,7 +17,8 @@ namespace SudokuForms
             ColumnSweep,
             RowSweep,
             TwoPair,
-            ThreesomeRow
+            ThreesomeRow,
+            ThreesomeCol
         }
         public Technique curTechnique = Technique.none;
 
@@ -150,6 +151,14 @@ namespace SudokuForms
             if (radio.Checked)
             {
                 curTechnique = Technique.ThreesomeRow;
+            }
+        }
+        private void ThreesomeCol_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.ThreesomeCol;
             }
         }
         private void CouldBe_CheckedChanged(object sender, EventArgs e)

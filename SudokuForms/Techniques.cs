@@ -353,36 +353,41 @@ namespace SudokuForms
                 szFirst = sqFirst.btn.Text.Replace(" ", string.Empty);
                 if (szFirst.Length == 3)
                 {
-                    fSubset = true;
                     sqSecond = null;
                     sqThird = null;
 
                     for (int xTest = 0; xTest <= 8; xTest++)
                     {
                         sqTest = myBoard[xTest, argRow];
-                        foreach(char c in sqTest.btn.Text.Replace(" ", string.Empty))
-                        {
-                            if (!szFirst.Contains(c))
-                            {
-                                fSubset = false;
-                            }
-                        }
-                        if (fSubset)
-                        {
-                            if (sqSecond == null)
-                            {
-                                sqSecond = sqTest;
-                            }
-                            else
-                            {
-                                sqThird = sqTest;
-                                // We have sqFirst, sqSecond, and sqThird.
-                                // The three chars of sqFirst and Losers in the squares
-                                //   that aren't sqFirst/sqSecond/sqThird.
-                                objLogBox.Log("Threesome: [" + sqFirst.col  + "," + sqFirst.row  + "]"
-                                                      + " [" + sqSecond.col + "," + sqSecond.row + "]" 
-                                                      + " [" + sqThird.col + "," + sqThird.row + "]" );
 
+                        // Don't want to compare against ourselves.
+                        if (sqTest != sqFirst)
+                        {
+                            // Does this square have the same contents as First?
+                            fSubset = true;
+                            foreach (char c in sqTest.btn.Text.Replace(" ", string.Empty))
+                            {
+                                if (!szFirst.Contains(c))
+                                {
+                                    fSubset = false;
+                                }
+                            }
+                            if (fSubset)
+                            {
+                                if (sqSecond == null)
+                                {
+                                    sqSecond = sqTest;
+                                }
+                                else
+                                {
+                                    sqThird = sqTest;
+                                    // We have sqFirst, sqSecond, and sqThird.
+                                    // The three chars of sqFirst and Losers in the squares
+                                    //   that aren't sqFirst/sqSecond/sqThird.
+                                    objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                                          + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                                          + " [" + sqThird.col + "," + sqThird.row + "]");
+                                }
                             }
                         }
                     }
@@ -392,5 +397,61 @@ namespace SudokuForms
 
         }
 
+        public static bool ThreesomeCol(Square[,] myBoard, int argCol, LogBox objLogBox)
+        {
+            bool ret = false;
+            Square sqTest, sqFirst, sqSecond, sqThird;
+            string szFirst;
+            bool fSubset;
+
+            for (int yFirst = 0; yFirst <= 8; yFirst++)
+            {
+                sqFirst = myBoard[argCol, yFirst];
+                szFirst = sqFirst.btn.Text.Replace(" ", string.Empty);
+                if (szFirst.Length == 3)
+                {
+                    sqSecond = null;
+                    sqThird = null;
+
+                    for (int yTest = 0; yTest <= 8; yTest++)
+                    {
+                        sqTest = myBoard[argCol, yTest];
+
+                        // Don't want to compare against ourselves.
+                        if (sqTest != sqFirst)
+                        {
+                            // Does this square have the same contents as First?
+                            fSubset = true;
+                            foreach (char c in sqTest.btn.Text.Replace(" ", string.Empty))
+                            {
+                                if (!szFirst.Contains(c))
+                                {
+                                    fSubset = false;
+                                }
+                            }
+                            if (fSubset)
+                            {
+                                if (sqSecond == null)
+                                {
+                                    sqSecond = sqTest;
+                                }
+                                else
+                                {
+                                    sqThird = sqTest;
+                                    // We have sqFirst, sqSecond, and sqThird.
+                                    // The three chars of sqFirst and Losers in the squares
+                                    //   that aren't sqFirst/sqSecond/sqThird.
+                                    objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                                          + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                                          + " [" + sqThird.col + "," + sqThird.row + "]");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return ret;
+
+        }
     }
 }
