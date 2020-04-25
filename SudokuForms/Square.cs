@@ -24,7 +24,7 @@ namespace SudokuForms
             iWinner = 0;
             chWinner = '0';
             sector = iSector;
-            col = ((iTab - 1) % 9); // Module (remainder)
+            col = ((iTab - 1) % 9); // Modulo (remainder)
             row = ((iTab - 1) / 9); // Divide
 
             btn = new Button

@@ -493,5 +493,71 @@ namespace SudokuForms
             return ret;
 
         }
+
+        /*
+
+        Below is our sector 's'.
+        Note we ignore squares with iWinner: those that are done.
+        We can observe that only column 1 has a 1, 
+          Therefore other squares in that column have Loser(1).
+        We can observe that only row 2 has any 7s.
+          Therefore other squares in that row have Loser(7).
+        ------------------------------
+        |         |        |         |
+        |    2    |   1 3  |    5    | mpsLineText[s].row[0] = "13"
+        |         |        |         |
+        ------------------------------
+        |         |        |         |
+        |  3 6 9  |  1 3 9 |    4    | mpsLineText[s].row[1] = "369139"
+        |         |        |         |
+        ------------------------------
+        |         |        |         |
+        | 3 6 7 9 |    8   |  3 6 7  | mpsLineText[s].row[2] = "3679367"
+        |         |        |         |
+        ------------------------------
+           ||         ||         ||
+           \/         \/         \/
+       mpsLineText  mpsLineText  mpsLineText
+       [s].col[0]   [s].col[1]   [s].col[2]
+       = "3693679"  = "13139"    = "367"
+
+        */
+
+        public class LineText
+        {
+            public LineText()
+            {
+                row = new string[3];
+                col = new string[3];
+            }
+            public string[] row { get; set; }
+            public string[] col { get; set; }
+        }
+
+        public static bool LineFind(Square[,] myBoard, LogBox objLogBox)
+        {
+            bool ret = false;
+
+            LineText[] mpsLineText = new LineText[9];
+            for (int s = 0; s <= 8; s++)
+            {
+                mpsLineText[s] = new LineText();
+            }
+
+            // Walk the board, concatenating all our Text strings into our array.
+            for (int y1 = 0; y1 <= 8; y1++)
+            {
+                for (int x1 = 0; x1 <= 8; x1++)
+                {
+                    if (myBoard[x1, y1].iWinner == 0)
+                    {
+                        mpsLineText[myBoard[x1, y1].sector].row[y1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
+                        mpsLineText[myBoard[x1, y1].sector].col[x1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
+                    }
+                }
+            }
+            return ret;
+        }
+
     }
 }
