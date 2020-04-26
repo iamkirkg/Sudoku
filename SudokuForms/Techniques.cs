@@ -34,7 +34,7 @@ namespace SudokuForms
                             {
                                 if (!(x == col && y == row))
                                 {
-                                    sqTest.Loser(keyChar, Color.Red);
+                                    sqTest.FLoser(keyChar, Color.Red);
                                     ret = true; // We changed something.
                                 }
                             }
@@ -261,8 +261,8 @@ namespace SudokuForms
                                                 if (y3 != y1 && y3 != y2)
                                                 {
                                                     objLogBox.Log("TwoPair col: [" + x1 + "," + y3 + "]");
-                                                    myBoard[x1, y3].Loser(ch1, Color.Red);
-                                                    myBoard[x1, y3].Loser(ch2, Color.Red);
+                                                    myBoard[x1, y3].FLoser(ch1, Color.Red);
+                                                    myBoard[x1, y3].FLoser(ch2, Color.Red);
                                                 }
                                             }
                                         }
@@ -273,8 +273,8 @@ namespace SudokuForms
                                                 if (x3 != x1 && x3 != x2)
                                                 {
                                                     objLogBox.Log("TwoPair row: [" + x3 + "," + y1 + "]");
-                                                    myBoard[x3, y1].Loser(ch1, Color.Red);
-                                                    myBoard[x3, y1].Loser(ch2, Color.Red);
+                                                    myBoard[x3, y1].FLoser(ch1, Color.Red);
+                                                    myBoard[x3, y1].FLoser(ch2, Color.Red);
                                                 }
                                             }
 
@@ -300,8 +300,8 @@ namespace SudokuForms
                                                         {
                                                             // It's a loser for both values.
                                                             objLogBox.Log("TwoPair sec: [" + x3 + "," + y3 + "]");
-                                                            myBoard[x3, y3].Loser(ch1, Color.Red);
-                                                            myBoard[x3, y3].Loser(ch2, Color.Red);
+                                                            myBoard[x3, y3].FLoser(ch1, Color.Red);
+                                                            myBoard[x3, y3].FLoser(ch2, Color.Red);
                                                         }
                                                     }
                                                 }
@@ -397,9 +397,9 @@ namespace SudokuForms
                                         // Protect the Threesome.
                                         if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                         {
-                                            sqTest.Loser(szTrio[0], Color.DarkRed);
-                                            sqTest.Loser(szTrio[1], Color.DarkRed);
-                                            sqTest.Loser(szTrio[2], Color.DarkRed);
+                                            sqTest.FLoser(szTrio[0], Color.DarkRed);
+                                            sqTest.FLoser(szTrio[1], Color.DarkRed);
+                                            sqTest.FLoser(szTrio[2], Color.DarkRed);
                                         }
                                     }
 
@@ -474,9 +474,9 @@ namespace SudokuForms
                                         // Protect the Threesome.
                                         if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                         {
-                                            sqTest.Loser(szTrio[0], Color.DarkRed);
-                                            sqTest.Loser(szTrio[1], Color.DarkRed);
-                                            sqTest.Loser(szTrio[2], Color.DarkRed);
+                                            sqTest.FLoser(szTrio[0], Color.DarkRed);
+                                            sqTest.FLoser(szTrio[1], Color.DarkRed);
+                                            sqTest.FLoser(szTrio[2], Color.DarkRed);
                                         }
                                     }
 
@@ -570,8 +570,7 @@ namespace SudokuForms
                         (!mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        // Row 0 of the other sectors: Loser(ch)
-                        objLogBox.Log("LineFind: in sector " + s + ", only row 0 has char " + ch);
+                        ret = FRowLoser(myBoard, s, 0, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].row[0].Contains(ch)) &&
@@ -579,8 +578,7 @@ namespace SudokuForms
                         (!mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        // Row 1 of the other sectors: Loser(ch)
-                        objLogBox.Log("LineFind: in sector " + s + ", only row 1 has char " + ch);
+                        ret = FRowLoser(myBoard, s, 1, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].row[0].Contains(ch)) &&
@@ -588,8 +586,7 @@ namespace SudokuForms
                         ( mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        // Row 2 of the other sectors: Loser(ch)
-                        objLogBox.Log("LineFind: in sector " + s + ", only row 2 has char " + ch);
+                        ret = FRowLoser(myBoard, s, 2, ch, objLogBox);
                     }
 
                     if (
@@ -598,8 +595,7 @@ namespace SudokuForms
                         (!mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        // Col 0 of the other sectors: Loser(ch)
-                        objLogBox.Log("LineFind: in sector " + s + ", only col 0 has char " + ch);
+                        ret = FColLoser(myBoard, s, 0, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].col[0].Contains(ch)) &&
@@ -607,8 +603,7 @@ namespace SudokuForms
                         (!mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        // Col 1 of the other sectors: Loser(ch)
-                        objLogBox.Log("LineFind: in sector " + s + ", only col 1 has char " + ch);
+                        ret = FColLoser(myBoard, s, 1, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].col[0].Contains(ch)) &&
@@ -616,11 +611,97 @@ namespace SudokuForms
                         ( mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        // Col 2 of the other sectors: Loser(ch)
-                        objLogBox.Log("LineFind: in sector " + s + ", only col 2 has char " + ch);
+                        ret = FColLoser(myBoard, s, 2, ch, objLogBox);
                     }
                 }
             }
+            return ret;
+        }
+
+        // For reference, our sector map:
+        //  0 0 0 1 1 1 2 2 2
+        //  0 0 0 1 1 1 2 2 2
+        //  0 0 0 1 1 1 2 2 2
+        //  3 3 3 4 4 4 5 5 5
+        //  3 3 3 4 4 4 5 5 5
+        //  3 3 3 4 4 4 5 5 5
+        //  6 6 6 7 7 7 8 8 8
+        //  6 6 6 7 7 7 8 8 8
+        //  6 6 6 7 7 7 8 8 8
+
+        private static bool FRowLoser(Square[,] myBoard, int s, int rs, char ch, LogBox objLogBox)
+        {
+            // For squares in the same row, but not the same sector, ch is a Loser.
+            // The trick is, the row value is 0-1-2, relative to the sector. We have
+            // to map it to row [0-8] of the board.
+            //
+            // s  s/3 (s/3)*3 ((s/3)*3)+row
+            // 0   0     0        0 + rs
+            // 1   0     0        0 + rs
+            // 2   0     0        0 + rs
+            // 3   1     3        3 + rs
+            // 4   1     3        3 + rs
+            // 5   1     3        3 + rs
+            // 6   2     6        6 + rs
+            // 7   2     6        6 + rs
+            // 8   2     6        6 + rs
+
+            bool ret = false;
+            int row = ((s / 3) * 3) + rs;
+            Square sq;
+
+            for (int x = 0; x <= 8; x++)
+            {
+                sq = myBoard[x, row];
+                if (sq.sector != s)
+                {
+                    ret |= sq.FLoser(ch, Color.Red);
+                }
+            }
+
+            if (ret)
+            {
+                objLogBox.Log("LineFind: in sector " + s + ", only row " + row + " has char " + ch);
+            }
+
+            return ret;
+        }
+
+        private static bool FColLoser(Square[,] myBoard, int s, int cs, char ch, LogBox objLogBox)
+        {
+            // For squares in the same column, but not the same sector, ch is a Loser.
+            // The trick is, the col value is 0-1-2, relative to the sector. We have
+            // to map it to col [0-8] of the board.
+            //
+            // s  s%3 (s%3)*3 ((s%3)*3)+col
+            // 0   0     0       0 + cs
+            // 1   1     3       3 + cs
+            // 2   2     6       6 + cs
+            // 3   0     0       0 + cs
+            // 4   1     3       3 + cs
+            // 5   2     6       6 + cs
+            // 6   0     0       0 + cs
+            // 7   1     3       3 + cs
+            // 8   2     6       6 + cs
+
+            bool ret = false;
+            int col = ((s % 3) * 3) + cs;
+            Square sq;
+
+            for (int y = 0; y <= 8; y++)
+            {
+                sq = myBoard[col, y];
+                if (sq.sector != s)
+                {
+                    ret |= sq.FLoser(ch, Color.Red);
+                }
+            }
+
+            if (ret)
+            {
+                objLogBox.Log("LineFind: in sector " + s + ", only col " + col + " has char " + ch);
+            }
+
             return ret;
         }
 

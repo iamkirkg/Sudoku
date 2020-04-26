@@ -74,22 +74,26 @@ namespace SudokuForms
             btn.BackColor = save;
         }
 
-        public void Loser(char chValue, Color colorLoser)
+        public bool FLoser(char chValue, Color colorLoser)
         {
             // If we're already a Winner, don't do anything.
             if (iWinner != 0)
             {
-                return;
+                return false;
             }
 
-            //int iValue = chValue - '1';
-            //rgf[iValue] = false;
+            // If the Text doesn't change, don't do anything.
+            string szTextNew = btn.Text.Replace(chValue, ' ').Replace("  ", " ");
+            if (btn.Text.Equals(szTextNew))
+            {
+                return false;
+            }
+
             Color save = btn.BackColor;
             btn.BackColor = colorLoser;
             btn.Refresh();
             Thread.Sleep(100);
-            btn.Text = btn.Text.Replace(chValue, ' ');
-            btn.Text = btn.Text.Replace("  ", " ");
+            btn.Text = szTextNew;
             btn.Refresh();
             btn.BackColor = save;
 
@@ -99,6 +103,8 @@ namespace SudokuForms
             {
                 Winner(sz[0], Color.Green);
             }
+
+            return true;
 
         }
 
