@@ -527,8 +527,8 @@ namespace SudokuForms
         {
             public LineText()
             {
-                row = new string[3];
-                col = new string[3];
+                row = new string[] { "", "", "" };
+                col = new string[] { "", "", "" };
             }
             public string[] row { get; set; }
             public string[] col { get; set; }
@@ -553,6 +553,71 @@ namespace SudokuForms
                     {
                         mpsLineText[myBoard[x1, y1].sector].row[y1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
                         mpsLineText[myBoard[x1, y1].sector].col[x1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
+                    }
+                }
+            }
+
+            // Within a sector, find a value that is present in just one row, 
+            // or just one column.
+
+            for (int s = 0; s <= 8; s++)
+            {
+                for (char ch = '1'; ch <= '8'; ch++)
+                {
+                    if (
+                        ( mpsLineText[s].row[0].Contains(ch)) &&
+                        (!mpsLineText[s].row[1].Contains(ch)) &&
+                        (!mpsLineText[s].row[2].Contains(ch))
+                        )
+                    {
+                        // Row 0 of the other sectors: Loser(ch)
+                        objLogBox.Log("LineFind: in sector " + s + ", only row 0 has char " + ch);
+                    }
+                    if (
+                        (!mpsLineText[s].row[0].Contains(ch)) &&
+                        ( mpsLineText[s].row[1].Contains(ch)) &&
+                        (!mpsLineText[s].row[2].Contains(ch))
+                        )
+                    {
+                        // Row 1 of the other sectors: Loser(ch)
+                        objLogBox.Log("LineFind: in sector " + s + ", only row 1 has char " + ch);
+                    }
+                    if (
+                        (!mpsLineText[s].row[0].Contains(ch)) &&
+                        (!mpsLineText[s].row[1].Contains(ch)) &&
+                        ( mpsLineText[s].row[2].Contains(ch))
+                        )
+                    {
+                        // Row 2 of the other sectors: Loser(ch)
+                        objLogBox.Log("LineFind: in sector " + s + ", only row 2 has char " + ch);
+                    }
+
+                    if (
+                        ( mpsLineText[s].col[0].Contains(ch)) &&
+                        (!mpsLineText[s].col[1].Contains(ch)) &&
+                        (!mpsLineText[s].col[2].Contains(ch))
+                        )
+                    {
+                        // Col 0 of the other sectors: Loser(ch)
+                        objLogBox.Log("LineFind: in sector " + s + ", only col 0 has char " + ch);
+                    }
+                    if (
+                        (!mpsLineText[s].col[0].Contains(ch)) &&
+                        ( mpsLineText[s].col[1].Contains(ch)) &&
+                        (!mpsLineText[s].col[2].Contains(ch))
+                        )
+                    {
+                        // Col 1 of the other sectors: Loser(ch)
+                        objLogBox.Log("LineFind: in sector " + s + ", only col 1 has char " + ch);
+                    }
+                    if (
+                        (!mpsLineText[s].col[0].Contains(ch)) &&
+                        (!mpsLineText[s].col[1].Contains(ch)) &&
+                        ( mpsLineText[s].col[2].Contains(ch))
+                        )
+                    {
+                        // Col 2 of the other sectors: Loser(ch)
+                        objLogBox.Log("LineFind: in sector " + s + ", only col 2 has char " + ch);
                     }
                 }
             }
