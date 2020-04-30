@@ -206,7 +206,7 @@ namespace SudokuForms
             if (keyChar >= '1' && keyChar <= '9')
             {
                 objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
-                myBoard[curCol, curRow].Winner(keyChar, Color.Green);
+                myBoard[curCol, curRow].Winner(keyChar, true, Color.DarkGreen);
                 //Techniques.Neighbor(myBoard, curCol, curRow, keyChar);
             }
 //            else if (keyChar == ConsoleKey.LeftArrow)

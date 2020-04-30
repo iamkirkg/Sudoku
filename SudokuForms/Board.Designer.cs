@@ -317,7 +317,7 @@ namespace SudokuForms
                     break;
                 case Technique.LineFind:
                     objLogBox.Log("Step: LineFind");
-                    Techniques.LineFind(myBoard, objLogBox);
+                    Techniques.FLineFind(myBoard, objLogBox);
                     break;
             }
         }

@@ -105,7 +105,7 @@ namespace SudokuForms
                                     {
                                         if (sqTest.btn.Text.Contains(ch))
                                         {
-                                            sqTest.Winner(ch, Color.Green);
+                                            sqTest.Winner(ch, false, Color.DarkBlue);
 
                                             // After we've marked someone a Winner, we need to erase their
                                             // neighboring little numbers.
@@ -155,7 +155,7 @@ namespace SudokuForms
                         {
                             if (sqTest.btn.Text.Contains(ch))
                             {
-                                sqTest.Winner(ch, Color.Green);
+                                sqTest.Winner(ch, false, Color.DarkBlue);
 
                                 // After we've marked someone a Winner, we need to erase their
                                 // neighboring little numbers.
@@ -202,7 +202,7 @@ namespace SudokuForms
                         {
                             if (sqTest.btn.Text.Contains(ch))
                             {
-                                sqTest.Winner(ch, Color.Green);
+                                sqTest.Winner(ch, false, Color.DarkBlue);
 
                                 // After we've marked someone a Winner, we need to erase their
                                 // neighboring little numbers.
@@ -534,7 +534,7 @@ namespace SudokuForms
             public string[] col { get; set; }
         }
 
-        public static bool LineFind(Square[,] myBoard, LogBox objLogBox)
+        public static bool FLineFind(Square[,] myBoard, LogBox objLogBox)
         {
             bool ret = false;
 
@@ -549,11 +549,8 @@ namespace SudokuForms
             {
                 for (int x1 = 0; x1 <= 8; x1++)
                 {
-                    if (myBoard[x1, y1].iWinner == 0)
-                    {
-                        mpsLineText[myBoard[x1, y1].sector].row[y1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
-                        mpsLineText[myBoard[x1, y1].sector].col[x1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
-                    }
+                    mpsLineText[myBoard[x1, y1].sector].row[y1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
+                    mpsLineText[myBoard[x1, y1].sector].col[x1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
                 }
             }
 
@@ -570,7 +567,7 @@ namespace SudokuForms
                         (!mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        ret = FRowLoser(myBoard, s, 0, ch, objLogBox);
+                        ret |= FRowLoser(myBoard, s, 0, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].row[0].Contains(ch)) &&
@@ -578,7 +575,7 @@ namespace SudokuForms
                         (!mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        ret = FRowLoser(myBoard, s, 1, ch, objLogBox);
+                        ret |= FRowLoser(myBoard, s, 1, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].row[0].Contains(ch)) &&
@@ -586,7 +583,7 @@ namespace SudokuForms
                         ( mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        ret = FRowLoser(myBoard, s, 2, ch, objLogBox);
+                        ret |= FRowLoser(myBoard, s, 2, ch, objLogBox);
                     }
 
                     if (
@@ -595,7 +592,7 @@ namespace SudokuForms
                         (!mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        ret = FColLoser(myBoard, s, 0, ch, objLogBox);
+                        ret |= FColLoser(myBoard, s, 0, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].col[0].Contains(ch)) &&
@@ -603,7 +600,7 @@ namespace SudokuForms
                         (!mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        ret = FColLoser(myBoard, s, 1, ch, objLogBox);
+                        ret |= FColLoser(myBoard, s, 1, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].col[0].Contains(ch)) &&
@@ -611,7 +608,7 @@ namespace SudokuForms
                         ( mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        ret = FColLoser(myBoard, s, 2, ch, objLogBox);
+                        ret |= FColLoser(myBoard, s, 2, ch, objLogBox);
                     }
                 }
             }

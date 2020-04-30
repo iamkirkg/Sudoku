@@ -165,11 +165,11 @@ namespace SudokuForms
                                 sq.btn.Text = Text;
                                 if (iWinner == 0)
                                 {
-                                    sq.btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+                                    sq.Reset();
                                 }
                                 else
                                 {
-                                    sq.btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+                                    sq.Winner(chWinner, true, Color.DarkGreen);
                                 }
                             }
                             break;

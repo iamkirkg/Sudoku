@@ -10,6 +10,7 @@ namespace SudokuForms
     {
         public int iWinner { get; set; } // When there's only one left.
         public char chWinner { get; set; }
+        public bool fOriginal { get; set; } // Is this one of the starting squares?
         public int row { get; set; }    // What row we're in.
         public int col { get; set; }    // What column we're in.
         public int sector { get; set; } // What sector we're in.
@@ -23,6 +24,7 @@ namespace SudokuForms
         {
             iWinner = 0;
             chWinner = '0';
+            fOriginal = false;
             sector = iSector;
             col = ((iTab - 1) % 9); // Modulo (remainder)
             row = ((iTab - 1) / 9); // Divide
@@ -36,7 +38,6 @@ namespace SudokuForms
                 Size = new Size(xSize, ySize),
                 TabIndex = iTab,
                 Text = "1 2 3 4 5 6 7 8 9"
-                //Text.BackColor = Color.Blue;
                 // Don't know how to do this in here, so it's out in the for loop.
                 //KeyPressEventHandler handler = fnKeyPress;
                 //KeyPress += (KeyPressEventHandler)fnKeyPress;
@@ -45,29 +46,44 @@ namespace SudokuForms
                 // to 
                 // 'System.Windows.Forms.KeyPressEventHandler'   
             };
-
-            //rgf = new bool[] { true, true, true, true, true, true, true, true, true };
-            //text = "1 2 3 4 5 6 7 8 9";
         }
 
-        public void Winner(char chValue, Color colorWinner)
+        // Reset this square to initial status.
+        public void Reset()
+        {
+            iWinner = 0;
+            chWinner = '0';
+            fOriginal = false;
+            btn.BackColor = Color.LightGray;
+            btn.ForeColor = Color.Black;
+            btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Text = "1 2 3 4 5 6 7 8 9";
+        }
+
+            public void Winner(char chValue, bool fOriginal, Color colorWinner)
         {
             // If we're already a Winner, don't do anything.
-            if (iWinner != 0)
-            {
-                // It should be the same Winner value.
-                Debug.Assert(iWinner == chValue - '0');
-                return;
-            }
+            //if (iWinner != 0)
+            //{
+            //    // It should be the same Winner value.
+            //    Debug.Assert(iWinner == chValue - '0');
+            //    return;
+            //}
 
             iWinner = chValue - '0';
             chWinner = chValue;
+            
+            // We only want to set this once. Once you're Original, you stay that way.
+            if (fOriginal)
+            {
+                this.fOriginal = fOriginal;
+            }
 
             Color save = btn.BackColor;
             btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = chValue.ToString();
-            btn.BackColor = colorWinner;
-            btn.ForeColor = Color.Black;
+            btn.BackColor = Color.LightGray;
+            btn.ForeColor = colorWinner;
             btn.Refresh();
             Thread.Sleep(100);
             btn.Refresh();
@@ -101,7 +117,7 @@ namespace SudokuForms
             string sz = btn.Text.Replace(" ", string.Empty);
             if (sz.Length == 1)
             {
-                Winner(sz[0], Color.Green);
+                Winner(sz[0], false, Color.DarkBlue);
             }
 
             return true;
