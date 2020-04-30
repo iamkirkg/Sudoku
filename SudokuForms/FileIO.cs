@@ -165,7 +165,7 @@ namespace SudokuForms
                                 sq.btn.Text = Text;
                                 if (iWinner == 0)
                                 {
-                                    sq.Reset();
+                                    sq.CouldBes(Text);
                                 }
                                 else
                                 {

@@ -60,7 +60,19 @@ namespace SudokuForms
             btn.Text = "1 2 3 4 5 6 7 8 9";
         }
 
-            public void Winner(char chValue, bool fOriginal, Color colorWinner)
+        // Set this square to an 'intermediate' status, partly evaluated.
+        public void CouldBes(string argText)
+        {
+            iWinner = 0;
+            chWinner = '0';
+            fOriginal = false;
+            btn.BackColor = Color.LightGray;
+            btn.ForeColor = Color.Black;
+            btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Text = argText;
+        }
+
+        public void Winner(char chValue, bool fOriginal, Color colorWinner)
         {
             // If we're already a Winner, don't do anything.
             //if (iWinner != 0)

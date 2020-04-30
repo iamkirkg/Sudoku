@@ -89,8 +89,15 @@ namespace SudokuForms
             }
         }
 
-        private void btnReset_Click(object sender, EventArgs e)
+        private void Reset_Click(object sender, EventArgs e)
         {
+            for (int y = 0; y <= 8; y++)
+            {
+                for (int x = 0; x <= 8; x++)
+                {
+                    myBoard[x, y].Reset();
+                }
+            }
         }
 
         private void Neighbor_CheckedChanged(object sender, EventArgs e)
