@@ -214,7 +214,7 @@ namespace SudokuForms
 
             if (keyChar >= '1' && keyChar <= '9')
             {
-                objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
+                //objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
                 myBoard[curCol, curRow].Winner(keyChar, true, Color.DarkGreen);
                 //Techniques.Neighbor(myBoard, curCol, curRow, keyChar);
             }
@@ -259,13 +259,13 @@ namespace SudokuForms
                 if (mySquare.iWinner != 0)
                 {
                     curChar = mySquare.chWinner;
-                    objLogBox.Log("Select: tab " + iTab + ": [" + curCol + "," + curRow + "], Winner=" + curChar);
+                    //objLogBox.Log("Select: tab " + iTab + ": [" + curCol + "," + curRow + "], Winner=" + curChar);
                 }
                 else
                 {
                     // I don't like this, but you can't assign null to a char.
                     curChar = ' ';
-                    objLogBox.Log("Select: tab " + iTab + ": [" + curCol + "," + curRow + "]");
+                    //objLogBox.Log("Select: tab " + iTab + ": [" + curCol + "," + curRow + "]");
                 }
             }
         }
