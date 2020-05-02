@@ -265,6 +265,13 @@ namespace SudokuForms
             KeyPressSquare(btn.TabIndex, e.KeyChar);
         }
 
+        // KeyDown for all 81 squares
+        private void sq_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            System.Windows.Forms.Button btn = sender as System.Windows.Forms.Button;
+            KeyDownSquare(btn.TabIndex, e.KeyCode);
+        }
+
         // This is the ButtonClick function for all 81 of our Squares.
         private void sq_Click(object sender, EventArgs e)
         {

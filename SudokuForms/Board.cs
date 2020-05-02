@@ -76,9 +76,9 @@ namespace SudokuForms
                     int iSector = mpTabSector[iTab - 1];
                     myBoard[x, y] = new Square(iTab, iSector, xPoint, yPoint, xSize, ySize, font, sq_KeyPress);
 
-                    // Can we do either of these ops inside the Square Constructor?
+                    // Can we do any of these ops inside the Square Constructor?
                     myBoard[x, y].btn.KeyPress += sq_KeyPress;
-                    //myBoard[x, y].btn.Click += new EventHandler(sq_Click);
+                    myBoard[x, y].btn.KeyDown += sq_KeyDown;
                     myBoard[x, y].btn.Click += sq_Click;
 
                     this.Controls.Add(myBoard[x, y].btn);
@@ -210,16 +210,41 @@ namespace SudokuForms
             curRow = ((iTab - 1) / 9);  // Divide
             curChar = keyChar;
 
+            objLogBox.Log("KeyPress " + keyChar);
+
             if (keyChar >= '1' && keyChar <= '9')
             {
                 objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
                 myBoard[curCol, curRow].Winner(keyChar, true, Color.DarkGreen);
                 //Techniques.Neighbor(myBoard, curCol, curRow, keyChar);
             }
-//            else if (keyChar == ConsoleKey.LeftArrow)
-//            {
-//
-//            }
+        }
+
+        private void KeyDownSquare(int iTab, Keys keyCode)
+        {
+            // Calculate myBoard[col,row] location from the tabindex.
+            // TabIndex is [1..81]; the array is [0..8][0..8].
+            curTab = iTab;
+            curCol = ((iTab - 1) % 9);  // Modulo (remainder)
+            curRow = ((iTab - 1) / 9);  // Divide
+
+            objLogBox.Log("KeyDown " + keyCode.ToString());
+
+            switch (keyCode)
+            {
+                case Keys.Left:
+                    break;
+                case Keys.Right:
+                    break;
+                case Keys.Up:
+                    break;
+                case Keys.Down:
+                    break;
+
+                case Keys.Delete:
+                    myBoard[curCol, curRow].Reset();
+                    break;
+            }
         }
 
         private void ClickSquare(int iTab)
