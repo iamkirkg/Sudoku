@@ -21,6 +21,7 @@ namespace SudokuForms
             Sector,
             iWinner,
             chWinner,
+            fOriginal,
             Text,
             TabIndex
         }
@@ -52,6 +53,7 @@ namespace SudokuForms
                         writer.WriteElementString("Sector", sq.sector.ToString());
                         writer.WriteElementString("iWinner", sq.iWinner.ToString());
                         writer.WriteElementString("chWinner", sq.chWinner.ToString());
+                        writer.WriteElementString("fOriginal", sq.fOriginal.ToString());
                         writer.WriteElementString("Text", sq.btn.Text);
                         writer.WriteElementString("TabIndex", sq.btn.TabIndex.ToString());
 
@@ -77,6 +79,7 @@ namespace SudokuForms
             int Sector = -1;
             int iWinner = 0;
             char chWinner = '0';
+            bool fOriginal = false;
             int TabIndex = -1;
             string Text = null;
 
@@ -119,6 +122,9 @@ namespace SudokuForms
                                 case "chWinner":
                                     state = Field.chWinner;
                                     break;
+                                case "fOriginal":
+                                    state = Field.fOriginal;
+                                    break;
                                 case "Text":
                                     state = Field.Text;
                                     break;
@@ -146,6 +152,9 @@ namespace SudokuForms
                                 case Field.chWinner:
                                     chWinner = szValue[0];
                                     break;
+                                case Field.fOriginal:
+                                    fOriginal = szValue.Equals("True");
+                                    break;
                                 case Field.Text:
                                     Text = szValue;
                                     break;
@@ -162,6 +171,7 @@ namespace SudokuForms
                                 sq.sector = Sector;
                                 sq.iWinner = iWinner;
                                 sq.chWinner = chWinner;
+                                sq.fOriginal = fOriginal;
                                 sq.btn.Text = Text;
                                 if (iWinner == 0)
                                 {
@@ -169,7 +179,14 @@ namespace SudokuForms
                                 }
                                 else
                                 {
-                                    sq.Winner(chWinner, true, Color.DarkGreen);
+                                    if (sq.fOriginal)
+                                    {
+                                        sq.Winner(chWinner, true, Color.DarkGreen);
+                                    }
+                                    else
+                                    {
+                                        sq.Winner(chWinner, true, Color.DarkBlue);
+                                    }
                                 }
                             }
                             break;

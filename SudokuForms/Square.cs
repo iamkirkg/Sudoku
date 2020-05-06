@@ -17,10 +17,13 @@ namespace SudokuForms
         public Button btn { get; set; }
 
         // Constructor
-        public Square(int iTab, int iSector, 
+        public Square(Game objGame,
+                      int iTab, int iSector, 
                       int xPoint, int yPoint, int xSize, int ySize, float font, 
-                      // Note: currently unused.
-                      Action<object, KeyPressEventArgs> fnKeyPress)
+                      KeyPressEventHandler fnKeyPress,
+                      KeyEventHandler fnKeyDown,
+                      EventHandler fnClick
+                      )
         {
             iWinner = 0;
             chWinner = '0';
@@ -38,14 +41,13 @@ namespace SudokuForms
                 Size = new Size(xSize, ySize),
                 TabIndex = iTab,
                 Text = "1 2 3 4 5 6 7 8 9"
-                // Don't know how to do this in here, so it's out in the for loop.
-                //KeyPressEventHandler handler = fnKeyPress;
-                //KeyPress += (KeyPressEventHandler)fnKeyPress;
-                // Error CS0029  Cannot implicitly convert type 
-                // 'System.Action<object, System.Windows.Forms.KeyPressEventArgs>' 
-                // to 
-                // 'System.Windows.Forms.KeyPressEventHandler'   
             };
+
+            btn.KeyPress += fnKeyPress;
+            btn.KeyDown += fnKeyDown;
+            btn.Click += fnClick;
+
+            objGame.Controls.Add(btn);
         }
 
         // Reset this square to initial status.
@@ -74,14 +76,6 @@ namespace SudokuForms
 
         public void Winner(char chValue, bool fOriginal, Color colorWinner)
         {
-            // If we're already a Winner, don't do anything.
-            //if (iWinner != 0)
-            //{
-            //    // It should be the same Winner value.
-            //    Debug.Assert(iWinner == chValue - '0');
-            //    return;
-            //}
-
             iWinner = chValue - '0';
             chWinner = chValue;
             
