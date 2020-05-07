@@ -34,7 +34,7 @@ namespace SudokuForms
                             {
                                 if (!(x == col && y == row))
                                 {
-                                    sqTest.FLoser(keyChar, Color.Red);
+                                    sqTest.FLoser(keyChar);
                                     ret = true; // We changed something.
                                 }
                             }
@@ -261,8 +261,8 @@ namespace SudokuForms
                                                 if (y3 != y1 && y3 != y2)
                                                 {
                                                     //objLogBox.Log("TwoPair col: [" + x1 + "," + y3 + "]");
-                                                    myBoard[x1, y3].FLoser(ch1, Color.Red);
-                                                    myBoard[x1, y3].FLoser(ch2, Color.Red);
+                                                    myBoard[x1, y3].FLoser(ch1);
+                                                    myBoard[x1, y3].FLoser(ch2);
                                                 }
                                             }
                                         }
@@ -273,8 +273,8 @@ namespace SudokuForms
                                                 if (x3 != x1 && x3 != x2)
                                                 {
                                                     //objLogBox.Log("TwoPair row: [" + x3 + "," + y1 + "]");
-                                                    myBoard[x3, y1].FLoser(ch1, Color.Red);
-                                                    myBoard[x3, y1].FLoser(ch2, Color.Red);
+                                                    myBoard[x3, y1].FLoser(ch1);
+                                                    myBoard[x3, y1].FLoser(ch2);
                                                 }
                                             }
 
@@ -300,8 +300,8 @@ namespace SudokuForms
                                                         {
                                                             // It's a loser for both values.
                                                             //objLogBox.Log("TwoPair sec: [" + x3 + "," + y3 + "]");
-                                                            myBoard[x3, y3].FLoser(ch1, Color.Red);
-                                                            myBoard[x3, y3].FLoser(ch2, Color.Red);
+                                                            myBoard[x3, y3].FLoser(ch1);
+                                                            myBoard[x3, y3].FLoser(ch2);
                                                         }
                                                     }
                                                 }
@@ -397,9 +397,9 @@ namespace SudokuForms
                                         // Protect the Threesome.
                                         if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                         {
-                                            sqTest.FLoser(szTrio[0], Color.DarkRed);
-                                            sqTest.FLoser(szTrio[1], Color.DarkRed);
-                                            sqTest.FLoser(szTrio[2], Color.DarkRed);
+                                            sqTest.FLoser(szTrio[0]);
+                                            sqTest.FLoser(szTrio[1]);
+                                            sqTest.FLoser(szTrio[2]);
                                         }
                                     }
 
@@ -474,9 +474,9 @@ namespace SudokuForms
                                         // Protect the Threesome.
                                         if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                         {
-                                            sqTest.FLoser(szTrio[0], Color.DarkRed);
-                                            sqTest.FLoser(szTrio[1], Color.DarkRed);
-                                            sqTest.FLoser(szTrio[2], Color.DarkRed);
+                                            sqTest.FLoser(szTrio[0]);
+                                            sqTest.FLoser(szTrio[1]);
+                                            sqTest.FLoser(szTrio[2]);
                                         }
                                     }
 
@@ -652,7 +652,7 @@ namespace SudokuForms
                 sq = myBoard[x, row];
                 if (sq.sector != s)
                 {
-                    ret |= sq.FLoser(ch, Color.Red);
+                    ret |= sq.FLoser(ch);
                 }
             }
 
@@ -690,7 +690,7 @@ namespace SudokuForms
                 sq = myBoard[col, y];
                 if (sq.sector != s)
                 {
-                    ret |= sq.FLoser(ch, Color.Red);
+                    ret |= sq.FLoser(ch);
                 }
             }
 

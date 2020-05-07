@@ -34,7 +34,7 @@ namespace SudokuForms
 
             btn = new Button
             {
-                BackColor = SquareBackColor(),
+                BackColor = MyBackColor(),
                 ForeColor = Color.Black,
                 Font = new Font("Microsoft Sans Serif", font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 Location = new Point(xPoint, yPoint),
@@ -51,7 +51,7 @@ namespace SudokuForms
         }
 
         // Alternate background colors for sectors.
-        private Color SquareBackColor()
+        public Color MyBackColor()
         {
             if ((sector % 2) == 1)
             {
@@ -60,8 +60,12 @@ namespace SudokuForms
             else
             {
                 return Color.AliceBlue;
-                //return ColorTranslator.FromHtml("#ccccff");
             }
+        }
+
+        public Color MyLoserColor()
+        {
+            return Color.Yellow;
         }
 
         // Reset this square to initial status.
@@ -70,7 +74,7 @@ namespace SudokuForms
             iWinner = 0;
             chWinner = '0';
             fOriginal = false;
-            btn.BackColor = SquareBackColor();
+            btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
             btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = "1 2 3 4 5 6 7 8 9";
@@ -82,7 +86,7 @@ namespace SudokuForms
             iWinner = 0;
             chWinner = '0';
             fOriginal = false;
-            btn.BackColor = SquareBackColor();
+            btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
             btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = argText;
@@ -102,7 +106,7 @@ namespace SudokuForms
             Color save = btn.BackColor;
             btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = chValue.ToString();
-            btn.BackColor = SquareBackColor();
+            btn.BackColor = MyBackColor();
             btn.ForeColor = colorWinner;
             btn.Refresh();
             Thread.Sleep(100);
@@ -110,7 +114,7 @@ namespace SudokuForms
             btn.BackColor = save;
         }
 
-        public bool FLoser(char chValue, Color colorLoser)
+        public bool FLoser(char chValue)
         {
             // If we're already a Winner, don't do anything.
             if (iWinner != 0)
@@ -126,7 +130,7 @@ namespace SudokuForms
             }
 
             Color save = btn.BackColor;
-            btn.BackColor = colorLoser;
+            btn.BackColor = MyLoserColor();
             btn.Refresh();
             Thread.Sleep(100);
             btn.Text = szTextNew;

@@ -66,7 +66,7 @@ namespace SudokuForms
             }
         }
 
-        public void LoadFile(Square[,] myBoard)
+        public void LoadFile(Game objGame, Square[,] myBoard)
         {
             string szName;
             string szValue;
@@ -94,6 +94,7 @@ namespace SudokuForms
             XmlReaderSettings settings = new XmlReaderSettings();
             using (XmlReader reader = XmlReader.Create(objDlg.FileName, settings))
             {
+                objGame.Text = "SudoKirk: " + objDlg.FileName;
                 while (reader.Read())
                 {
                     szName = reader.Name;

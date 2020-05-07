@@ -252,7 +252,7 @@ namespace SudokuForms
             this.ClientSize = new Size(1100, 980);
 
             this.Name = "Sudokirk";
-            //this.Text = "Sudokirk";
+            this.Text = "Sudokirk";
 
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -412,22 +412,21 @@ namespace SudokuForms
         void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;
-            Color colorNew;
-            if (box.Checked)
-            {
-                colorNew = Color.Black;
-            }
-            else
-            {
-                colorNew = Color.LightGray;
-            }
             for (int y = 0; y <= 8; y++)
             {
                 for (int x = 0; x <= 8; x++)
                 {
-                    if (objBoard.rgSquare[x, y].iWinner == 0)
+                    Square objSq = objBoard.rgSquare[x, y];
+                    if (objSq.iWinner == 0)
                     {
-                        objBoard.rgSquare[x, y].btn.ForeColor = colorNew;
+                        if (box.Checked)
+                        {
+                            objSq.btn.ForeColor = Color.Black;
+                        }
+                        else
+                        {
+                            objSq.btn.ForeColor = objSq.MyBackColor();
+                        }
                     }
                 }
             }
@@ -518,7 +517,7 @@ namespace SudokuForms
         void Load_Click(object sender, EventArgs e)
         {
             FileIO f = new FileIO();
-            f.LoadFile(objBoard.rgSquare);
+            f.LoadFile(this, objBoard.rgSquare);
         }
 
         Button btnReset;
