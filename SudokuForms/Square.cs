@@ -34,7 +34,7 @@ namespace SudokuForms
 
             btn = new Button
             {
-                BackColor = Color.LightGray,
+                BackColor = SquareBackColor(),
                 ForeColor = Color.Black,
                 Font = new Font("Microsoft Sans Serif", font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 Location = new Point(xPoint, yPoint),
@@ -50,13 +50,27 @@ namespace SudokuForms
             objGame.Controls.Add(btn);
         }
 
+        // Alternate background colors for sectors.
+        private Color SquareBackColor()
+        {
+            if ((sector % 2) == 1)
+            {
+                return Color.FloralWhite;
+            }
+            else
+            {
+                return Color.AliceBlue;
+                //return ColorTranslator.FromHtml("#ccccff");
+            }
+        }
+
         // Reset this square to initial status.
         public void Reset()
         {
             iWinner = 0;
             chWinner = '0';
             fOriginal = false;
-            btn.BackColor = Color.LightGray;
+            btn.BackColor = SquareBackColor();
             btn.ForeColor = Color.Black;
             btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = "1 2 3 4 5 6 7 8 9";
@@ -68,7 +82,7 @@ namespace SudokuForms
             iWinner = 0;
             chWinner = '0';
             fOriginal = false;
-            btn.BackColor = Color.LightGray;
+            btn.BackColor = SquareBackColor();
             btn.ForeColor = Color.Black;
             btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = argText;
@@ -88,7 +102,7 @@ namespace SudokuForms
             Color save = btn.BackColor;
             btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = chValue.ToString();
-            btn.BackColor = Color.LightGray;
+            btn.BackColor = SquareBackColor();
             btn.ForeColor = colorWinner;
             btn.Refresh();
             Thread.Sleep(100);
