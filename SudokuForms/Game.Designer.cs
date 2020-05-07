@@ -94,31 +94,31 @@ namespace SudokuForms
             this.SectorSweep.UseVisualStyleBackColor = true;
             this.SectorSweep.CheckedChanged += new EventHandler(this.SectorSweep_CheckedChanged);
             // 
-            // ColumnSweep
+            // ColumnSweeps
             // 
-            this.ColumnSweep = new RadioButton();
-            this.ColumnSweep.AutoSize = true;
-            this.ColumnSweep.Location = new Point(12, 102);
-            this.ColumnSweep.Name = "ColumnSweep";
-            this.ColumnSweep.Size = new Size(136, 24);
-            this.ColumnSweep.TabIndex = 106;
-            this.ColumnSweep.TabStop = true;
-            this.ColumnSweep.Text = "ColumnSweep";
-            this.ColumnSweep.UseVisualStyleBackColor = true;
-            this.ColumnSweep.CheckedChanged += new EventHandler(this.ColumnSweep_CheckedChanged);
+            this.ColumnSweeps = new RadioButton();
+            this.ColumnSweeps.AutoSize = true;
+            this.ColumnSweeps.Location = new Point(12, 102);
+            this.ColumnSweeps.Name = "ColumnSweeps";
+            this.ColumnSweeps.Size = new Size(136, 24);
+            this.ColumnSweeps.TabIndex = 106;
+            this.ColumnSweeps.TabStop = true;
+            this.ColumnSweeps.Text = "ColumnSweeps";
+            this.ColumnSweeps.UseVisualStyleBackColor = true;
+            this.ColumnSweeps.CheckedChanged += new EventHandler(this.ColumnSweeps_CheckedChanged);
             // 
-            // RowSweep
+            // RowSweeps
             // 
-            this.RowSweep = new RadioButton();
-            this.RowSweep.AutoSize = true;
-            this.RowSweep.Location = new Point(12, 132);
-            this.RowSweep.Name = "RowSweep";
-            this.RowSweep.Size = new Size(115, 24);
-            this.RowSweep.TabIndex = 107;
-            this.RowSweep.TabStop = true;
-            this.RowSweep.Text = "RowSweep";
-            this.RowSweep.UseVisualStyleBackColor = true;
-            this.RowSweep.CheckedChanged += new EventHandler(this.RowSweep_CheckedChanged);
+            this.RowSweeps = new RadioButton();
+            this.RowSweeps.AutoSize = true;
+            this.RowSweeps.Location = new Point(12, 132);
+            this.RowSweeps.Name = "RowSweeps";
+            this.RowSweeps.Size = new Size(115, 24);
+            this.RowSweeps.TabIndex = 107;
+            this.RowSweeps.TabStop = true;
+            this.RowSweeps.Text = "RowSweeps";
+            this.RowSweeps.UseVisualStyleBackColor = true;
+            this.RowSweeps.CheckedChanged += new EventHandler(this.RowSweeps_CheckedChanged);
             // 
             // TwoPair
             // 
@@ -133,31 +133,31 @@ namespace SudokuForms
             this.TwoPair.UseVisualStyleBackColor = true;
             this.TwoPair.CheckedChanged += new EventHandler(this.TwoPair_CheckedChanged);
             // 
-            // ThreesomeRow
+            // ThreesomeRows
             // 
-            this.ThreesomeRow = new RadioButton();
-            this.ThreesomeRow.AutoSize = true;
-            this.ThreesomeRow.Location = new Point(12, 192);
-            this.ThreesomeRow.Name = "ThreesomeRow";
-            this.ThreesomeRow.Size = new Size(115, 24);
-            this.ThreesomeRow.TabIndex = 109;
-            this.ThreesomeRow.TabStop = true;
-            this.ThreesomeRow.Text = "ThreesomeRow";
-            this.ThreesomeRow.UseVisualStyleBackColor = true;
-            this.ThreesomeRow.CheckedChanged += new EventHandler(this.ThreesomeRow_CheckedChanged);
+            this.ThreesomeRows = new RadioButton();
+            this.ThreesomeRows.AutoSize = true;
+            this.ThreesomeRows.Location = new Point(12, 192);
+            this.ThreesomeRows.Name = "ThreesomeRows";
+            this.ThreesomeRows.Size = new Size(115, 24);
+            this.ThreesomeRows.TabIndex = 109;
+            this.ThreesomeRows.TabStop = true;
+            this.ThreesomeRows.Text = "ThreesomeRows";
+            this.ThreesomeRows.UseVisualStyleBackColor = true;
+            this.ThreesomeRows.CheckedChanged += new EventHandler(this.ThreesomeRows_CheckedChanged);
             // 
-            // ThreesomeCol
+            // ThreesomeCols
             // 
-            this.ThreesomeCol = new RadioButton();
-            this.ThreesomeCol.AutoSize = true;
-            this.ThreesomeCol.Location = new Point(12, 222);
-            this.ThreesomeCol.Name = "ThreesomeCol";
-            this.ThreesomeCol.Size = new Size(115, 24);
-            this.ThreesomeCol.TabIndex = 110;
-            this.ThreesomeCol.TabStop = true;
-            this.ThreesomeCol.Text = "ThreesomeCol";
-            this.ThreesomeCol.UseVisualStyleBackColor = true;
-            this.ThreesomeCol.CheckedChanged += new EventHandler(this.ThreesomeCol_CheckedChanged);
+            this.ThreesomeCols = new RadioButton();
+            this.ThreesomeCols.AutoSize = true;
+            this.ThreesomeCols.Location = new Point(12, 222);
+            this.ThreesomeCols.Name = "ThreesomeCols";
+            this.ThreesomeCols.Size = new Size(115, 24);
+            this.ThreesomeCols.TabIndex = 110;
+            this.ThreesomeCols.TabStop = true;
+            this.ThreesomeCols.Text = "ThreesomeCols";
+            this.ThreesomeCols.UseVisualStyleBackColor = true;
+            this.ThreesomeCols.CheckedChanged += new EventHandler(this.ThreesomeCols_CheckedChanged);
             // 
             // LineFind
             // 
@@ -179,11 +179,11 @@ namespace SudokuForms
             this.RadioPanel.Controls.Add(this.Neighbor);
             this.RadioPanel.Controls.Add(this.AllNeighbors);
             this.RadioPanel.Controls.Add(this.SectorSweep);
-            this.RadioPanel.Controls.Add(this.ColumnSweep);
-            this.RadioPanel.Controls.Add(this.RowSweep);
+            this.RadioPanel.Controls.Add(this.ColumnSweeps);
+            this.RadioPanel.Controls.Add(this.RowSweeps);
             this.RadioPanel.Controls.Add(this.TwoPair);
-            this.RadioPanel.Controls.Add(this.ThreesomeRow);
-            this.RadioPanel.Controls.Add(this.ThreesomeCol);
+            this.RadioPanel.Controls.Add(this.ThreesomeRows);
+            this.RadioPanel.Controls.Add(this.ThreesomeCols);
             this.RadioPanel.Controls.Add(this.LineFind);
             this.RadioPanel.BorderStyle = BorderStyle.FixedSingle;
             this.RadioPanel.Location = new Point(740, 75);
@@ -359,21 +359,21 @@ namespace SudokuForms
             }
         }
 
-        void ColumnSweep_CheckedChanged(object sender, EventArgs e)
+        void ColumnSweeps_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
             if (radio.Checked)
             {
-                curTechnique = Technique.ColumnSweep;
+                curTechnique = Technique.ColumnSweeps;
             }
         }
 
-        void RowSweep_CheckedChanged(object sender, EventArgs e)
+        void RowSweeps_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
             if (radio.Checked)
             {
-                curTechnique = Technique.RowSweep;
+                curTechnique = Technique.RowSweeps;
             }
         }
 
@@ -385,20 +385,20 @@ namespace SudokuForms
                 curTechnique = Technique.TwoPair;
             }
         }
-        void ThreesomeRow_CheckedChanged(object sender, EventArgs e)
+        void ThreesomeRows_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
             if (radio.Checked)
             {
-                curTechnique = Technique.ThreesomeRow;
+                curTechnique = Technique.ThreesomeRows;
             }
         }
-        void ThreesomeCol_CheckedChanged(object sender, EventArgs e)
+        void ThreesomeCols_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
             if (radio.Checked)
             {
-                curTechnique = Technique.ThreesomeCol;
+                curTechnique = Technique.ThreesomeCols;
             }
         }
         void LineFind_CheckedChanged(object sender, EventArgs e)
@@ -456,25 +456,25 @@ namespace SudokuForms
                     objLogBox.Log("Step: SectorSweep");
                     Techniques.SectorSweep(objBoard.rgSquare);
                     break;
-                case Technique.ColumnSweep:
-                    objLogBox.Log("Step: ColumnSweep");
-                    Techniques.ColumnSweep(objBoard.rgSquare, curCol);
+                case Technique.ColumnSweeps:
+                    objLogBox.Log("Step: ColumnSweeps");
+                    Techniques.ColumnSweeps(objBoard.rgSquare);
                     break;
-                case Technique.RowSweep:
-                    objLogBox.Log("Step: RowSweep");
-                    Techniques.RowSweep(objBoard.rgSquare, curRow);
+                case Technique.RowSweeps:
+                    objLogBox.Log("Step: RowSweeps");
+                    Techniques.RowSweeps(objBoard.rgSquare);
                     break;
                 case Technique.TwoPair:
                     objLogBox.Log("Step: TwoPair");
                     Techniques.TwoPair(objBoard.rgSquare, objLogBox);
                     break;
-                case Technique.ThreesomeRow:
-                    objLogBox.Log("Step: ThreesomeRow");
-                    Techniques.ThreesomeRow(objBoard.rgSquare, curRow, objLogBox);
+                case Technique.ThreesomeRows:
+                    objLogBox.Log("Step: ThreesomeRows");
+                    Techniques.ThreesomeRows(objBoard.rgSquare, objLogBox);
                     break;
-                case Technique.ThreesomeCol:
-                    objLogBox.Log("Step: ThreesomeCol");
-                    Techniques.ThreesomeCol(objBoard.rgSquare, curCol, objLogBox);
+                case Technique.ThreesomeCols:
+                    objLogBox.Log("Step: ThreesomeCols");
+                    Techniques.ThreesomeCols(objBoard.rgSquare, objLogBox);
                     break;
                 case Technique.LineFind:
                     objLogBox.Log("Step: LineFind");
@@ -527,11 +527,11 @@ namespace SudokuForms
         RadioButton Neighbor;
         RadioButton AllNeighbors;
         RadioButton SectorSweep;
-        RadioButton ColumnSweep;
-        RadioButton RowSweep;
+        RadioButton ColumnSweeps;
+        RadioButton RowSweeps;
         RadioButton TwoPair;
-        RadioButton ThreesomeRow;
-        RadioButton ThreesomeCol;
+        RadioButton ThreesomeRows;
+        RadioButton ThreesomeCols;
         RadioButton LineFind;
         Panel RadioPanel;
         Button btnLoad;
