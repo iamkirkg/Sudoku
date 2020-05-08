@@ -277,7 +277,7 @@ namespace SudokuForms
             if (keyChar >= '1' && keyChar <= '9')
             {
                 //objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
-                objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, Color.DarkGreen);
+                objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, Color.DarkGreen, objBoard);
                 //Techniques.Neighbor(objBoard.rgSquare, curCol, curRow, keyChar);
             }
         }
@@ -445,40 +445,40 @@ namespace SudokuForms
                     objLogBox.Log("Step: Neighbor");
                     if (curTab != -1)
                     {
-                        Techniques.Neighbor(objBoard.rgSquare, curCol, curRow, curChar);
+                        Techniques.Neighbor(objBoard, curCol, curRow, curChar);
                     }
                     break;
                 case Technique.AllNeighbors:
                     objLogBox.Log("Step: AllNeighbors");
-                    Techniques.AllNeighbors(objBoard.rgSquare);
+                    Techniques.AllNeighbors(objBoard);
                     break;
                 case Technique.SectorSweep:
                     objLogBox.Log("Step: SectorSweep");
-                    Techniques.SectorSweep(objBoard.rgSquare);
+                    Techniques.SectorSweep(objBoard);
                     break;
                 case Technique.ColumnSweeps:
                     objLogBox.Log("Step: ColumnSweeps");
-                    Techniques.ColumnSweeps(objBoard.rgSquare);
+                    Techniques.ColumnSweeps(objBoard);
                     break;
                 case Technique.RowSweeps:
                     objLogBox.Log("Step: RowSweeps");
-                    Techniques.RowSweeps(objBoard.rgSquare);
+                    Techniques.RowSweeps(objBoard);
                     break;
                 case Technique.TwoPair:
                     objLogBox.Log("Step: TwoPair");
-                    Techniques.TwoPair(objBoard.rgSquare, objLogBox);
+                    Techniques.TwoPair(objBoard, objLogBox);
                     break;
                 case Technique.ThreesomeRows:
                     objLogBox.Log("Step: ThreesomeRows");
-                    Techniques.ThreesomeRows(objBoard.rgSquare, objLogBox);
+                    Techniques.ThreesomeRows(objBoard, objLogBox);
                     break;
                 case Technique.ThreesomeCols:
                     objLogBox.Log("Step: ThreesomeCols");
-                    Techniques.ThreesomeCols(objBoard.rgSquare, objLogBox);
+                    Techniques.ThreesomeCols(objBoard, objLogBox);
                     break;
                 case Technique.LineFind:
                     objLogBox.Log("Step: LineFind");
-                    Techniques.FLineFind(objBoard.rgSquare, objLogBox);
+                    Techniques.FLineFind(objBoard, objLogBox);
                     break;
             }
         }
@@ -517,7 +517,7 @@ namespace SudokuForms
         void Load_Click(object sender, EventArgs e)
         {
             FileIO f = new FileIO();
-            f.LoadFile(this, objBoard.rgSquare);
+            f.LoadFile(this, objBoard);
         }
 
         Button btnReset;

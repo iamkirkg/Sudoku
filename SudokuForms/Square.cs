@@ -92,7 +92,7 @@ namespace SudokuForms
             btn.Text = argText;
         }
 
-        public void Winner(char chValue, bool fOriginal, Color colorWinner)
+        public void Winner(char chValue, bool fOriginal, Color colorWinner, Board objBoard)
         {
             iWinner = chValue - '0';
             chWinner = chValue;
@@ -101,6 +101,13 @@ namespace SudokuForms
             if (fOriginal)
             {
                 this.fOriginal = fOriginal;
+            }
+
+            // This square has been declared to be a winner. But if its value is 
+            // anywhere else in the row/column/sector, then the puzzle is broken.
+            foreach (Square sq in objBoard.rgSquare)
+            {
+                //objLogBox.Log("foo");
             }
 
             Color save = btn.BackColor;
@@ -114,7 +121,7 @@ namespace SudokuForms
             btn.BackColor = save;
         }
 
-        public bool FLoser(char chValue)
+        public bool FLoser(char chValue, Board objBoard)
         {
             // If we're already a Winner, don't do anything.
             if (iWinner != 0)
@@ -141,7 +148,7 @@ namespace SudokuForms
             string sz = btn.Text.Replace(" ", string.Empty);
             if (sz.Length == 1)
             {
-                Winner(sz[0], false, Color.DarkBlue);
+                Winner(sz[0], false, Color.DarkBlue, objBoard);
             }
 
             return true;

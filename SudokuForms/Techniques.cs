@@ -14,27 +14,27 @@ namespace SudokuForms
         // Walk every square in the board. If it's in this sector, or row, or 
         // column, but isn't us, and isn't already a winner, then keyChar is a Loser.
         // REVIEW KirkG: Why does this need to be static?
-        public static bool Neighbor(Square[,] myBoard, int col, int row, char keyChar)
+        public static bool Neighbor(Board objBoard, int col, int row, char keyChar)
         {
             bool ret = false;
             // If we aren't currently clicked on a Winner square, then do nothing.
-            if (myBoard[col,row].iWinner != 0)
+            if (objBoard.rgSquare[col,row].iWinner != 0)
             {
                 for (int y = 0; y <= 8; y++)
                 {
                     for (int x = 0; x <= 8; x++)
                     {
-                        Square sqTest = myBoard[x, y];
+                        Square sqTest = objBoard.rgSquare[x, y];
                         if (sqTest.iWinner == 0)
                         {
                             if (x == col ||
                                 y == row ||
-                                sqTest.sector == myBoard[col, row].sector
+                                sqTest.sector == objBoard.rgSquare[col, row].sector
                                 )
                             {
                                 if (!(x == col && y == row))
                                 {
-                                    sqTest.FLoser(keyChar);
+                                    sqTest.FLoser(keyChar, objBoard);
                                     ret = true; // We changed something.
                                 }
                             }
@@ -46,17 +46,17 @@ namespace SudokuForms
         }
 
         // Walk every square in the board. If it's a winner, call Neighbor.
-        public static bool AllNeighbors(Square[,] myBoard)
+        public static bool AllNeighbors(Board objBoard)
         {
             bool ret = false;
             for (int y = 0; y <= 8; y++)
             {
                 for (int x = 0; x <= 8; x++)
                 {
-                    Square sqTest = myBoard[x, y];
+                    Square sqTest = objBoard.rgSquare[x, y];
                     if (sqTest.iWinner != 0)
                     {
-                        Neighbor(myBoard, x, y, sqTest.chWinner);
+                        Neighbor(objBoard, x, y, sqTest.chWinner);
                     }
                 }
             }
@@ -66,7 +66,7 @@ namespace SudokuForms
         // For each sector
         //    for the values 1 through 9
         //      if only one square has the value, it's a Winner.
-        public static bool SectorSweep(Square[,] myBoard)
+        public static bool SectorSweep(Board objBoard)
         {
             bool ret = false;
             Square sqTest;
@@ -75,7 +75,7 @@ namespace SudokuForms
             {
                 for (int x = 0; x <= 8; x++)
                 {
-                    sqTest = myBoard[x, y];
+                    sqTest = objBoard.rgSquare[x, y];
                     mpSectorText[sqTest.sector] += sqTest.btn.Text;
                 }
             }
@@ -98,18 +98,18 @@ namespace SudokuForms
                         {
                             for (int x = 0; x <= 8; x++)
                             {
-                                sqTest = myBoard[x, y];
+                                sqTest = objBoard.rgSquare[x, y];
                                 if (sqTest.sector == s)
                                 {
                                     if (sqTest.iWinner == 0)
                                     {
                                         if (sqTest.btn.Text.Contains(ch))
                                         {
-                                            sqTest.Winner(ch, false, Color.DarkBlue);
+                                            sqTest.Winner(ch, false, Color.DarkBlue, objBoard);
 
                                             // After we've marked someone a Winner, we need to erase their
                                             // neighboring little numbers.
-                                            Neighbor(myBoard, x, y, ch);
+                                            Neighbor(objBoard, x, y, ch);
 
                                             ret = true; // We changed something.
                                         }
@@ -128,7 +128,7 @@ namespace SudokuForms
         //   For all squares in the column (Winner and Loser)
         //     for the values 1 through 9
         //       if only one square has the value, it's a Winner.
-        public static bool ColumnSweeps(Square[,] myBoard)
+        public static bool ColumnSweeps(Board objBoard)
         {
             bool ret = false;
             Square sqTest;
@@ -137,7 +137,7 @@ namespace SudokuForms
                 string szColText = "";
                 for (int y = 0; y <= 8; y++)
                 {
-                    sqTest = myBoard[x, y];
+                    sqTest = objBoard.rgSquare[x, y];
                     szColText += sqTest.btn.Text;
                 }
                 // szColText contains the text strings of all squares in the column.
@@ -153,16 +153,16 @@ namespace SudokuForms
                         // find the square; ch is its Winner.
                         for (int y = 0; y <= 8; y++)
                         {
-                            sqTest = myBoard[x, y];
+                            sqTest = objBoard.rgSquare[x, y];
                             if (sqTest.iWinner == 0)
                             {
                                 if (sqTest.btn.Text.Contains(ch))
                                 {
-                                    sqTest.Winner(ch, false, Color.DarkBlue);
+                                    sqTest.Winner(ch, false, Color.DarkBlue, objBoard);
 
                                     // After we've marked someone a Winner, we need to erase their
                                     // neighboring little numbers.
-                                    Neighbor(myBoard, x, y, ch);
+                                    Neighbor(objBoard, x, y, ch);
 
                                     ret = true; // We changed something.
                                 }
@@ -178,7 +178,7 @@ namespace SudokuForms
         // for all squares in the row (Winner and Loser)
         //   for the values 1 through 9
         //     if only one square has the value, it's a Winner.
-        public static bool RowSweeps(Square[,] myBoard)
+        public static bool RowSweeps(Board objBoard)
         {
             bool ret = false;
             Square sqTest;
@@ -187,7 +187,7 @@ namespace SudokuForms
                 string szRowText = "";
                 for (int x = 0; x <= 8; x++)
                 {
-                    sqTest = myBoard[x, y];
+                    sqTest = objBoard.rgSquare[x, y];
                     szRowText += sqTest.btn.Text;
                 }
                 // szRowText contains the text strings of all squares in the row.
@@ -203,16 +203,16 @@ namespace SudokuForms
                         // find the square; ch is its Winner.
                         for (int x = 0; x <= 8; x++)
                         {
-                            sqTest = myBoard[x, y];
+                            sqTest = objBoard.rgSquare[x, y];
                             if (sqTest.iWinner == 0)
                             {
                                 if (sqTest.btn.Text.Contains(ch))
                                 {
-                                    sqTest.Winner(ch, false, Color.DarkBlue);
+                                    sqTest.Winner(ch, false, Color.DarkBlue, objBoard);
 
                                     // After we've marked someone a Winner, we need to erase their
                                     // neighboring little numbers.
-                                    Neighbor(myBoard, x, y, ch);
+                                    Neighbor(objBoard, x, y, ch);
 
                                     ret = true; // We changed something.
                                 }
@@ -227,7 +227,7 @@ namespace SudokuForms
         // Find two squares in a row|column|sector that have only two values, 
         // and the same two values. If found, mark those two values as Losers 
         // for the other squares in the row|column|sector.
-        public static bool TwoPair(Square[,] myBoard, LogBox objLogBox)
+        public static bool TwoPair(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
             Square sqFirst, sqSecond;
@@ -237,7 +237,7 @@ namespace SudokuForms
             {
                 for (int x1 = 0; x1 <= 8; x1++)
                 {
-                    sqFirst = myBoard[x1, y1];
+                    sqFirst = objBoard.rgSquare[x1, y1];
                     // Does our text have just two characters?
                     string szTextFirst = sqFirst.btn.Text.Replace(" ", string.Empty);
                     if (szTextFirst.Length == 2)
@@ -247,7 +247,7 @@ namespace SudokuForms
                         {
                             for (int x2 = 0; x2 <= 8; x2++)
                             {
-                                sqSecond = myBoard[x2, y2];
+                                sqSecond = objBoard.rgSquare[x2, y2];
                                 // Speed hack: don't check squares before us.
                                 if (sqSecond.btn.TabIndex > sqFirst.btn.TabIndex)
                                 { 
@@ -267,8 +267,8 @@ namespace SudokuForms
                                                 if (y3 != y1 && y3 != y2)
                                                 {
                                                     //objLogBox.Log("TwoPair col: [" + x1 + "," + y3 + "]");
-                                                    myBoard[x1, y3].FLoser(ch1);
-                                                    myBoard[x1, y3].FLoser(ch2);
+                                                    objBoard.rgSquare[x1, y3].FLoser(ch1, objBoard);
+                                                    objBoard.rgSquare[x1, y3].FLoser(ch2, objBoard);
                                                 }
                                             }
                                         }
@@ -279,8 +279,8 @@ namespace SudokuForms
                                                 if (x3 != x1 && x3 != x2)
                                                 {
                                                     //objLogBox.Log("TwoPair row: [" + x3 + "," + y1 + "]");
-                                                    myBoard[x3, y1].FLoser(ch1);
-                                                    myBoard[x3, y1].FLoser(ch2);
+                                                    objBoard.rgSquare[x3, y1].FLoser(ch1, objBoard);
+                                                    objBoard.rgSquare[x3, y1].FLoser(ch2, objBoard);
                                                 }
                                             }
 
@@ -298,7 +298,7 @@ namespace SudokuForms
                                                 for (int x3 = 0; x3 <= 8; x3++)
                                                 {
                                                     // If it's in our sector ...
-                                                    if (myBoard[x3,y3].sector == secFirst)
+                                                    if (objBoard.rgSquare[x3,y3].sector == secFirst)
                                                     {
                                                         // But isn't either of our TwoPair squares ...
                                                         if (!(x1 == x3 && y1 == y3) &&
@@ -306,8 +306,8 @@ namespace SudokuForms
                                                         {
                                                             // It's a loser for both values.
                                                             //objLogBox.Log("TwoPair sec: [" + x3 + "," + y3 + "]");
-                                                            myBoard[x3, y3].FLoser(ch1);
-                                                            myBoard[x3, y3].FLoser(ch2);
+                                                            objBoard.rgSquare[x3, y3].FLoser(ch1, objBoard);
+                                                            objBoard.rgSquare[x3, y3].FLoser(ch2, objBoard);
                                                         }
                                                     }
                                                 }
@@ -346,7 +346,7 @@ namespace SudokuForms
 
         // BUGBUG: This will crash if you click ThreesomeRows and Step, having never selected
         // a (current) square.
-        public static bool ThreesomeRows(Square[,] myBoard, LogBox objLogBox)
+        public static bool ThreesomeRows(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
             Square sqTest, sqFirst, sqSecond, sqThird;
@@ -357,18 +357,17 @@ namespace SudokuForms
             {
                 for (int xFirst = 0; xFirst <= 8; xFirst++)
                 {
-                    sqFirst = myBoard[xFirst, y];
+                    sqFirst = objBoard.rgSquare[xFirst, y];
 
                     // These are the three chars we're looking for.
                     szTrio = sqFirst.btn.Text.Replace(" ", string.Empty);
                     if (szTrio.Length == 3)
                     {
                         sqSecond = null;
-                        sqThird = null;
 
                         for (int xTest = 0; xTest <= 8; xTest++)
                         {
-                            sqTest = myBoard[xTest, y];
+                            sqTest = objBoard.rgSquare[xTest, y];
 
                             // Don't want to compare against ourselves.
                             if (sqTest != sqFirst)
@@ -400,14 +399,14 @@ namespace SudokuForms
 
                                         for (int xLoser = 0; xLoser <= 8; xLoser++)
                                         {
-                                            sqTest = myBoard[xLoser, y];
+                                            sqTest = objBoard.rgSquare[xLoser, y];
 
                                             // Protect the Threesome.
                                             if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                             {
-                                                sqTest.FLoser(szTrio[0]);
-                                                sqTest.FLoser(szTrio[1]);
-                                                sqTest.FLoser(szTrio[2]);
+                                                sqTest.FLoser(szTrio[0], objBoard);
+                                                sqTest.FLoser(szTrio[1], objBoard);
+                                                sqTest.FLoser(szTrio[2], objBoard);
                                             }
                                         }
 
@@ -425,7 +424,7 @@ namespace SudokuForms
         return ret;
         }
 
-        public static bool ThreesomeCols(Square[,] myBoard, LogBox objLogBox)
+        public static bool ThreesomeCols(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
             Square sqTest, sqFirst, sqSecond, sqThird;
@@ -436,18 +435,17 @@ namespace SudokuForms
             {
                 for (int yFirst = 0; yFirst <= 8; yFirst++)
                 {
-                    sqFirst = myBoard[x, yFirst];
+                    sqFirst = objBoard.rgSquare[x, yFirst];
 
                     // These are the three chars we're looking for.
                     szTrio = sqFirst.btn.Text.Replace(" ", string.Empty);
                     if (szTrio.Length == 3)
                     {
                         sqSecond = null;
-                        sqThird = null;
 
                         for (int yTest = 0; yTest <= 8; yTest++)
                         {
-                            sqTest = myBoard[x, yTest];
+                            sqTest = objBoard.rgSquare[x, yTest];
 
                             // Don't want to compare against ourselves.
                             if (sqTest != sqFirst)
@@ -479,14 +477,14 @@ namespace SudokuForms
 
                                         for (int yLoser = 0; yLoser <= 8; yLoser++)
                                         {
-                                            sqTest = myBoard[x, yLoser];
+                                            sqTest = objBoard.rgSquare[x, yLoser];
 
                                             // Protect the Threesome.
                                             if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                             {
-                                                sqTest.FLoser(szTrio[0]);
-                                                sqTest.FLoser(szTrio[1]);
-                                                sqTest.FLoser(szTrio[2]);
+                                                sqTest.FLoser(szTrio[0], objBoard);
+                                                sqTest.FLoser(szTrio[1], objBoard);
+                                                sqTest.FLoser(szTrio[2], objBoard);
                                             }
                                         }
 
@@ -544,7 +542,7 @@ namespace SudokuForms
             public string[] col { get; set; }
         }
 
-        public static bool FLineFind(Square[,] myBoard, LogBox objLogBox)
+        public static bool FLineFind(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
 
@@ -559,8 +557,8 @@ namespace SudokuForms
             {
                 for (int x1 = 0; x1 <= 8; x1++)
                 {
-                    mpsLineText[myBoard[x1, y1].sector].row[y1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
-                    mpsLineText[myBoard[x1, y1].sector].col[x1 % 3] += myBoard[x1, y1].btn.Text.Replace(" ", string.Empty);
+                    mpsLineText[objBoard.rgSquare[x1, y1].sector].row[y1 % 3] += objBoard.rgSquare[x1, y1].btn.Text.Replace(" ", string.Empty);
+                    mpsLineText[objBoard.rgSquare[x1, y1].sector].col[x1 % 3] += objBoard.rgSquare[x1, y1].btn.Text.Replace(" ", string.Empty);
                 }
             }
 
@@ -577,7 +575,7 @@ namespace SudokuForms
                         (!mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        ret |= FRowLoser(myBoard, s, 0, ch, objLogBox);
+                        ret |= FRowLoser(objBoard, s, 0, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].row[0].Contains(ch)) &&
@@ -585,7 +583,7 @@ namespace SudokuForms
                         (!mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        ret |= FRowLoser(myBoard, s, 1, ch, objLogBox);
+                        ret |= FRowLoser(objBoard, s, 1, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].row[0].Contains(ch)) &&
@@ -593,7 +591,7 @@ namespace SudokuForms
                         ( mpsLineText[s].row[2].Contains(ch))
                         )
                     {
-                        ret |= FRowLoser(myBoard, s, 2, ch, objLogBox);
+                        ret |= FRowLoser(objBoard, s, 2, ch, objLogBox);
                     }
 
                     if (
@@ -602,7 +600,7 @@ namespace SudokuForms
                         (!mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        ret |= FColLoser(myBoard, s, 0, ch, objLogBox);
+                        ret |= FColLoser(objBoard, s, 0, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].col[0].Contains(ch)) &&
@@ -610,7 +608,7 @@ namespace SudokuForms
                         (!mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        ret |= FColLoser(myBoard, s, 1, ch, objLogBox);
+                        ret |= FColLoser(objBoard, s, 1, ch, objLogBox);
                     }
                     if (
                         (!mpsLineText[s].col[0].Contains(ch)) &&
@@ -618,7 +616,7 @@ namespace SudokuForms
                         ( mpsLineText[s].col[2].Contains(ch))
                         )
                     {
-                        ret |= FColLoser(myBoard, s, 2, ch, objLogBox);
+                        ret |= FColLoser(objBoard, s, 2, ch, objLogBox);
                     }
                 }
             }
@@ -636,7 +634,7 @@ namespace SudokuForms
         //  6 6 6 7 7 7 8 8 8
         //  6 6 6 7 7 7 8 8 8
 
-        private static bool FRowLoser(Square[,] myBoard, int s, int rs, char ch, LogBox objLogBox)
+        private static bool FRowLoser(Board objBoard, int s, int rs, char ch, LogBox objLogBox)
         {
             // For squares in the same row, but not the same sector, ch is a Loser.
             // The trick is, the row value is 0-1-2, relative to the sector. We have
@@ -659,10 +657,10 @@ namespace SudokuForms
 
             for (int x = 0; x <= 8; x++)
             {
-                sq = myBoard[x, row];
+                sq = objBoard.rgSquare[x, row];
                 if (sq.sector != s)
                 {
-                    ret |= sq.FLoser(ch);
+                    ret |= sq.FLoser(ch, objBoard);
                 }
             }
 
@@ -674,7 +672,7 @@ namespace SudokuForms
             return ret;
         }
 
-        private static bool FColLoser(Square[,] myBoard, int s, int cs, char ch, LogBox objLogBox)
+        private static bool FColLoser(Board objBoard, int s, int cs, char ch, LogBox objLogBox)
         {
             // For squares in the same column, but not the same sector, ch is a Loser.
             // The trick is, the col value is 0-1-2, relative to the sector. We have
@@ -697,10 +695,10 @@ namespace SudokuForms
 
             for (int y = 0; y <= 8; y++)
             {
-                sq = myBoard[col, y];
+                sq = objBoard.rgSquare[col, y];
                 if (sq.sector != s)
                 {
-                    ret |= sq.FLoser(ch);
+                    ret |= sq.FLoser(ch, objBoard);
                 }
             }
 

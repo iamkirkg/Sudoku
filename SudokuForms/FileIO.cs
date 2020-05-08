@@ -28,8 +28,10 @@ namespace SudokuForms
 
         public void SaveFile(Square[,] myBoard)
         {
-            SaveFileDialog objDlg = new SaveFileDialog();
-            objDlg.Filter = "Xml files (*.xml)|*.xml";
+            SaveFileDialog objDlg = new SaveFileDialog
+            {
+                Filter = "Xml files (*.xml)|*.xml"
+            };
             DialogResult result = objDlg.ShowDialog();
             if (result != DialogResult.OK)
             {
@@ -66,7 +68,7 @@ namespace SudokuForms
             }
         }
 
-        public void LoadFile(Game objGame, Square[,] myBoard)
+        public void LoadFile(Game objGame, Board objBoard)
         {
             string szName;
             string szValue;
@@ -80,11 +82,13 @@ namespace SudokuForms
             int iWinner = 0;
             char chWinner = '0';
             bool fOriginal = false;
-            int TabIndex = -1;
+            int TabIndex;
             string Text = null;
 
-            OpenFileDialog objDlg = new OpenFileDialog();
-            objDlg.Filter = "Xml files (*.xml)|*.xml";
+            OpenFileDialog objDlg = new OpenFileDialog
+            {
+                Filter = "Xml files (*.xml)|*.xml"
+            };
             DialogResult result = objDlg.ShowDialog();
             if (result != DialogResult.OK)
             {
@@ -168,7 +172,7 @@ namespace SudokuForms
                         case XmlNodeType.EndElement:
                             if (szName == "Square")
                             {
-                                sq = myBoard[Column, Row];
+                                sq = objBoard.rgSquare[Column, Row];
                                 sq.sector = Sector;
                                 sq.iWinner = iWinner;
                                 sq.chWinner = chWinner;
@@ -182,11 +186,11 @@ namespace SudokuForms
                                 {
                                     if (sq.fOriginal)
                                     {
-                                        sq.Winner(chWinner, true, Color.DarkGreen);
+                                        sq.Winner(chWinner, true, Color.DarkGreen, objBoard);
                                     }
                                     else
                                     {
-                                        sq.Winner(chWinner, true, Color.DarkBlue);
+                                        sq.Winner(chWinner, true, Color.DarkBlue, objBoard);
                                     }
                                 }
                             }

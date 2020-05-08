@@ -3,14 +3,14 @@ using System.Windows.Forms;
 
 namespace SudokuForms
 {
-    class Board
+    public class Board
     {
         public Square[,] rgSquare;
 
         // map TabIndex to Sector. There's probably an arithmetic way to
         // do this (index, 27, 9, 3, modulo, remainders?) but I can't 
         // see it, and it'd probably be a pain to document or maintain.
-        private int[] mpTabSector =
+        readonly private int[] mpTabSector =
         {
             0, 0, 0, 1, 1, 1, 2, 2, 2,
             0, 0, 0, 1, 1, 1, 2, 2, 2,
