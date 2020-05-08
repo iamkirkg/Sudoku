@@ -7,6 +7,8 @@ namespace SudokuForms
     {
         public Square[,] rgSquare;
 
+        public LogBox objLogBox;
+
         // map TabIndex to Sector. There's probably an arithmetic way to
         // do this (index, 27, 9, 3, modulo, remainders?) but I can't 
         // see it, and it'd probably be a pain to document or maintain.
@@ -27,9 +29,12 @@ namespace SudokuForms
                      int xOrigin, int yOrigin, int xSize, int ySize, float font,
                      KeyPressEventHandler fnKeyPress,
                      KeyEventHandler fnKeyDown,
-                     EventHandler fnClick
+                     EventHandler fnClick,
+                     LogBox argLogBox
                     )
         {
+            objLogBox = argLogBox;
+
             int xDelta = xSize + 2;
             int yDelta = ySize + 2;
             int xPoint;

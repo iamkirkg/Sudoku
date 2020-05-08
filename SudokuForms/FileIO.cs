@@ -186,11 +186,11 @@ namespace SudokuForms
                                 {
                                     if (sq.fOriginal)
                                     {
-                                        sq.Winner(chWinner, true, Color.DarkGreen, objBoard);
+                                        sq.Winner(chWinner, sq.fOriginal, Color.DarkGreen, objBoard);
                                     }
                                     else
                                     {
-                                        sq.Winner(chWinner, true, Color.DarkBlue, objBoard);
+                                        sq.Winner(chWinner, sq.fOriginal, Color.DarkBlue, objBoard);
                                     }
                                 }
                             }

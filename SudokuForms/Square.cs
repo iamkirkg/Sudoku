@@ -96,6 +96,7 @@ namespace SudokuForms
         {
             iWinner = chValue - '0';
             chWinner = chValue;
+            Color colorSquare = colorWinner;
             
             // We only want to set this once. Once you're Original, you stay that way.
             if (fOriginal)
@@ -107,14 +108,21 @@ namespace SudokuForms
             // anywhere else in the row/column/sector, then the puzzle is broken.
             foreach (Square sq in objBoard.rgSquare)
             {
-                //objLogBox.Log("foo");
+                if ((sq.chWinner == chValue) &&
+                    (sq.btn.TabIndex != btn.TabIndex) &&
+                    ((sq.row == row) || (sq.col == col) || (sq.sector == sector))
+                   )
+                {
+                    objBoard.objLogBox.Log("Error: r" + sq.row + "c" + sq.col + ":r" + row + "c" + col + ":" + chValue);
+                    colorSquare = Color.Red;
+                }
             }
 
             Color save = btn.BackColor;
             btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = chValue.ToString();
             btn.BackColor = MyBackColor();
-            btn.ForeColor = colorWinner;
+            btn.ForeColor = colorSquare;
             btn.Refresh();
             Thread.Sleep(50);
             btn.Refresh();

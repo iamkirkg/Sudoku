@@ -2,7 +2,7 @@
 
 namespace SudokuForms
 {
-    class LogBox
+    public class LogBox
     {
         public System.Windows.Forms.TextBox objBox { get; set; }
 

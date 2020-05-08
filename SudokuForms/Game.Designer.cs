@@ -323,12 +323,10 @@ namespace SudokuForms
 
         void Reset_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y <= 8; y++)
+            objLogBox.Log("------- RESET ------------------");
+            foreach (Square sq in objBoard.rgSquare)
             {
-                for (int x = 0; x <= 8; x++)
-                {
-                    objBoard.rgSquare[x, y].Reset();
-                }
+                sq.Reset();
             }
         }
 

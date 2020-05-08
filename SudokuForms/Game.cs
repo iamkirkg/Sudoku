@@ -47,7 +47,8 @@ namespace SudokuForms
 
             objBoard = new Board(this,
                                  xOrigin, yOrigin, xSize, ySize, font, 
-                                 sq_KeyPress, sq_KeyDown, sq_Click
+                                 sq_KeyPress, sq_KeyDown, sq_Click,
+                                 objLogBox
                                  );
         }
     }
