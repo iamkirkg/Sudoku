@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -18,25 +19,22 @@ namespace SudokuForms
         {
             bool ret = false;
             // If we aren't currently clicked on a Winner square, then do nothing.
-            if (objBoard.rgSquare[col,row].iWinner != 0)
+            Square sqUs = objBoard.rgSquare[col, row];
+            if (sqUs.iWinner != 0)
             {
-                for (int y = 0; y <= 8; y++)
+                foreach (Square sqThem in objBoard.rgSquare)
                 {
-                    for (int x = 0; x <= 8; x++)
+                    if (sqThem.iWinner == 0)
                     {
-                        Square sqTest = objBoard.rgSquare[x, y];
-                        if (sqTest.iWinner == 0)
+                        if (sqThem.col == sqUs.col ||
+                            sqThem.row == sqUs.row ||
+                            sqThem.sector == sqUs.sector
+                            )
                         {
-                            if (x == col ||
-                                y == row ||
-                                sqTest.sector == objBoard.rgSquare[col, row].sector
-                                )
+                            if (!(sqThem.col == sqUs.col && sqThem.row == sqUs.row))
                             {
-                                if (!(x == col && y == row))
-                                {
-                                    sqTest.FLoser(keyChar, objBoard);
-                                    ret = true; // We changed something.
-                                }
+                                sqThem.FLoser(keyChar, objBoard);
+                                ret = true; // We changed something.
                             }
                         }
                     }
@@ -49,15 +47,11 @@ namespace SudokuForms
         public static bool AllNeighbors(Board objBoard)
         {
             bool ret = false;
-            for (int y = 0; y <= 8; y++)
+            foreach (Square sqTest in objBoard.rgSquare)
             {
-                for (int x = 0; x <= 8; x++)
+                if (sqTest.iWinner != 0)
                 {
-                    Square sqTest = objBoard.rgSquare[x, y];
-                    if (sqTest.iWinner != 0)
-                    {
-                        Neighbor(objBoard, x, y, sqTest.chWinner);
-                    }
+                    Neighbor(objBoard, sqTest.col, sqTest.row, sqTest.chWinner);
                 }
             }
             return ret;
@@ -69,17 +63,14 @@ namespace SudokuForms
         public static bool SectorSweep(Board objBoard)
         {
             bool ret = false;
-            Square sqTest;
-            string[] mpSectorText = { "", "", "", "", "", "", "", "", "" };
-            for (int y = 0; y <= 8; y++)
-            {
-                for (int x = 0; x <= 8; x++)
-                {
-                    sqTest = objBoard.rgSquare[x, y];
-                    mpSectorText[sqTest.sector] += sqTest.btn.Text;
-                }
-            }
+
             // mpSectorText contains the text strings of each sector.
+            string[] mpSectorText = { "", "", "", "", "", "", "", "", "" };
+            foreach (Square sqTest in objBoard.rgSquare)
+            {
+                mpSectorText[sqTest.sector] += sqTest.btn.Text;
+            }
+
             // Does any character value exist in just one of them?
             string szText;
             int cchText;
@@ -94,25 +85,21 @@ namespace SudokuForms
                     {
                         // There is only one square in sector 's' that has 'ch';
                         // find the square; ch is its Winner.
-                        for (int y = 0; y <= 8; y++)
+                        foreach (Square sqTest in objBoard.rgSquare)
                         {
-                            for (int x = 0; x <= 8; x++)
+                            if (sqTest.sector == s)
                             {
-                                sqTest = objBoard.rgSquare[x, y];
-                                if (sqTest.sector == s)
+                                if (sqTest.iWinner == 0)
                                 {
-                                    if (sqTest.iWinner == 0)
+                                    if (sqTest.btn.Text.Contains(ch))
                                     {
-                                        if (sqTest.btn.Text.Contains(ch))
-                                        {
-                                            sqTest.Winner(ch, false, Color.DarkBlue, objBoard);
+                                        sqTest.Winner(ch, false, Color.DarkBlue, objBoard);
 
-                                            // After we've marked someone a Winner, we need to erase their
-                                            // neighboring little numbers.
-                                            Neighbor(objBoard, x, y, ch);
+                                        // After we've marked someone a Winner, we need to erase their
+                                        // neighboring little numbers.
+                                        Neighbor(objBoard, sqTest.col, sqTest.row, ch);
 
-                                            ret = true; // We changed something.
-                                        }
+                                        ret = true; // We changed something.
                                     }
                                 }
                             }
@@ -553,13 +540,10 @@ namespace SudokuForms
             }
 
             // Walk the board, concatenating all our Text strings into our array.
-            for (int y1 = 0; y1 <= 8; y1++)
+            foreach (Square sq in objBoard.rgSquare)
             {
-                for (int x1 = 0; x1 <= 8; x1++)
-                {
-                    mpsLineText[objBoard.rgSquare[x1, y1].sector].row[y1 % 3] += objBoard.rgSquare[x1, y1].btn.Text.Replace(" ", string.Empty);
-                    mpsLineText[objBoard.rgSquare[x1, y1].sector].col[x1 % 3] += objBoard.rgSquare[x1, y1].btn.Text.Replace(" ", string.Empty);
-                }
+                mpsLineText[sq.sector].row[sq.row % 3] += sq.btn.Text.Replace(" ", string.Empty);
+                mpsLineText[sq.sector].col[sq.col % 3] += sq.btn.Text.Replace(" ", string.Empty);
             }
 
             // Within a sector, find a value that is present in just one row, 

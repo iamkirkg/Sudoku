@@ -410,21 +410,17 @@ namespace SudokuForms
         void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;
-            for (int y = 0; y <= 8; y++)
+            foreach (Square objSq in objBoard.rgSquare)
             {
-                for (int x = 0; x <= 8; x++)
+                if (objSq.iWinner == 0)
                 {
-                    Square objSq = objBoard.rgSquare[x, y];
-                    if (objSq.iWinner == 0)
+                    if (box.Checked)
                     {
-                        if (box.Checked)
-                        {
-                            objSq.btn.ForeColor = Color.Black;
-                        }
-                        else
-                        {
-                            objSq.btn.ForeColor = objSq.MyBackColor();
-                        }
+                        objSq.btn.ForeColor = Color.Black;
+                    }
+                    else
+                    {
+                        objSq.btn.ForeColor = objSq.MyBackColor();
                     }
                 }
             }
@@ -508,7 +504,7 @@ namespace SudokuForms
         void Save_Click(object sender, EventArgs e)
         {
             FileIO f = new FileIO();
-            f.SaveFile(objBoard.rgSquare);
+            f.SaveFile(objBoard);
         }
 
         // This is the ButtonClick function for the Load button.

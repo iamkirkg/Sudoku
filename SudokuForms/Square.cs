@@ -106,6 +106,7 @@ namespace SudokuForms
 
             // This square has been declared to be a winner. But if its value is 
             // anywhere else in the row/column/sector, then the puzzle is broken.
+            // This doesn't get specifically recorded in the saved XML file. Should it?
             foreach (Square sq in objBoard.rgSquare)
             {
                 if ((sq.chWinner == chValue) &&

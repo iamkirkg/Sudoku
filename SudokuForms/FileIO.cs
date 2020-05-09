@@ -26,7 +26,7 @@ namespace SudokuForms
             TabIndex
         }
 
-        public void SaveFile(Square[,] myBoard)
+        public void SaveFile(Board objBoard)
         {
             SaveFileDialog objDlg = new SaveFileDialog
             {
@@ -43,24 +43,20 @@ namespace SudokuForms
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Squares");
 
-                for (int y = 0; y <= 8; y++)
+                foreach (Square sq in objBoard.rgSquare)
                 {
-                    for (int x = 0; x <= 8; x++)
-                    {
-                        Square sq = myBoard[x, y];
-                        writer.WriteStartElement("Square");
+                    writer.WriteStartElement("Square");
 
-                        writer.WriteElementString("Row", y.ToString());
-                        writer.WriteElementString("Column", x.ToString());
-                        writer.WriteElementString("Sector", sq.sector.ToString());
-                        writer.WriteElementString("iWinner", sq.iWinner.ToString());
-                        writer.WriteElementString("chWinner", sq.chWinner.ToString());
-                        writer.WriteElementString("fOriginal", sq.fOriginal.ToString());
-                        writer.WriteElementString("Text", sq.btn.Text);
-                        writer.WriteElementString("TabIndex", sq.btn.TabIndex.ToString());
+                    writer.WriteElementString("Row", sq.row.ToString());
+                    writer.WriteElementString("Column", sq.col.ToString());
+                    writer.WriteElementString("Sector", sq.sector.ToString());
+                    writer.WriteElementString("iWinner", sq.iWinner.ToString());
+                    writer.WriteElementString("chWinner", sq.chWinner.ToString());
+                    writer.WriteElementString("fOriginal", sq.fOriginal.ToString());
+                    writer.WriteElementString("Text", sq.btn.Text);
+                    writer.WriteElementString("TabIndex", sq.btn.TabIndex.ToString());
 
-                        writer.WriteEndElement();
-                    }
+                    writer.WriteEndElement();
                 }
 
                 writer.WriteEndElement();
