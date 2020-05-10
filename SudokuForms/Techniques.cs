@@ -335,11 +335,9 @@ namespace SudokuForms
         // a (current) square.
         public static bool ThreesomeRows(Board objBoard, LogBox objLogBox)
         {
-            bool ret = false;
             Square sqTest, sqFirst, sqSecond, sqThird;
             string szTrio;
             bool fSubset;
-
             for (int y = 0; y <= 8; y++)
             {
                 for (int xFirst = 0; xFirst <= 8; xFirst++)
@@ -406,9 +404,88 @@ namespace SudokuForms
                             }
                         }
                     }
+                    if (szTrio.Length == 2)
+                    {
+                        char firstDigit = szTrio[0];
+                        char secondDigit = szTrio[1];
+                        // Placeholder value - needs to be non-null below; but should never be passed as 0
+                        char thirdDigit = '0';
+                        sqSecond = null;
+                        for (int xTest = 0; xTest <= 8; xTest++)
+                        {
+                            sqTest = objBoard.rgSquare[xTest, y];
+                            // Speed hack: don't check squares before us.
+                            if (sqTest.btn.TabIndex > sqFirst.btn.TabIndex)
+                            {
+                                // Check if the square has 2 numbers; the 3-numbered case is covered above
+                                string szTest = sqTest.btn.Text.Replace(" ", string.Empty);
+                                if (szTest.Length == 2)
+                                {
+                                    char firstTestDigit = szTest[0];
+                                    char secondTestDigit = szTest[1];
+                                    if (sqSecond == null)
+                                    {
+                                        // if both digits are the same, we've found a TwoPair. Consider merging these two methods
+                                        // (don't think it can form an infinite loop this way)
+                                        if (firstTestDigit == firstDigit && secondTestDigit == secondDigit)
+                                        {
+                                            return TwoPair(objBoard, objLogBox);
+                                        }
+                                        // if exactly one digit is the same between squares, the other digit in the square is the other 
+                                        else if ((firstTestDigit != firstDigit && secondTestDigit == secondDigit) ||
+                                                 (secondTestDigit != firstDigit && firstTestDigit == secondDigit))
+                                        {
+                                            thirdDigit = firstTestDigit;
+                                        }
+                                        else if ((firstTestDigit == firstDigit && secondTestDigit != secondDigit) ||
+                                                 (secondTestDigit == firstDigit && firstTestDigit != secondDigit))
+                                        {
+                                            thirdDigit = secondTestDigit;
+                                        }
+                                        // If no values are the same, continue iterating
+                                        else continue;
+
+                                        sqSecond = sqTest;
+                                    }
+                                    else
+                                    {
+                                        if (szTest.Contains(thirdDigit))
+                                        {
+                                            sqThird = sqTest;
+                                            szTrio += thirdDigit;
+                                            // We have found sqFirst, sqSecond, and sqThird.
+                                            // The three digits are Losers in the squares
+                                            //   that aren't sqFirst/sqSecond/sqThird.
+                                            objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                                                    + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                                                    + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                            for (int xLoser = 0; xLoser <= 8; xLoser++)
+                                            {
+                                                sqTest = objBoard.rgSquare[xLoser, y];
+
+                                                // Protect the Threesome.
+                                                if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
+                                                {
+                                                    sqTest.FLoser(szTrio[0], objBoard);
+                                                    sqTest.FLoser(szTrio[1], objBoard);
+                                                    sqTest.FLoser(szTrio[2], objBoard);
+                                                }
+                                            }
+
+                                            // Could there be another Threesome in the row? Maybe, but we've 
+                                            // changed its state, I think we just bail and let it get picked up
+                                            // on another run.
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-        return ret;
+        return false;
         }
 
         public static bool ThreesomeCols(Board objBoard, LogBox objLogBox)
