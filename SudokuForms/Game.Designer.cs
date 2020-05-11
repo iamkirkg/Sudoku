@@ -43,6 +43,19 @@ namespace SudokuForms
             this.btnReset.Text = "Reset";
             this.Controls.Add(this.btnReset);
             // 
+            // btnClear
+            // 
+            this.btnClear = new Button();
+            this.btnClear.Click += Clear_Click;
+            this.btnClear.BackColor = Color.LightGray;
+            this.btnClear.ForeColor = Color.Black;
+            this.btnClear.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnClear.Location = new Point(846, 10);
+            this.btnClear.Size = new Size(100, 60);
+            this.btnClear.TabIndex = 101;
+            this.btnClear.Text = "Clear";
+            this.Controls.Add(this.btnClear);
+            // 
             // btnStep
             // 
             this.btnStep = new Button();
@@ -326,6 +339,18 @@ namespace SudokuForms
             objLogBox.Log("------- RESET ------------------");
             foreach (Square sq in objBoard.rgSquare)
             {
+                if (!sq.fOriginal)
+                {
+                    sq.Reset();
+                }
+            }
+        }
+
+        void Clear_Click(object sender, EventArgs e)
+        {
+            objLogBox.Log("------- CLEAR ------------------");
+            foreach (Square sq in objBoard.rgSquare)
+            {
                 sq.Reset();
             }
         }
@@ -515,6 +540,7 @@ namespace SudokuForms
         }
 
         Button btnReset;
+        Button btnClear;
         Button btnStep;
         LogBox objLogBox;
         CheckBox CouldBe;
