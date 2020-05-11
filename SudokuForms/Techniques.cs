@@ -339,7 +339,6 @@ namespace SudokuForms
             Square sqTest, sqFirst, sqSecond, sqThird;
             string szTrio;
             bool fSubset;
-
             for (int y = 0; y <= 8; y++)
             {
                 for (int xFirst = 0; xFirst <= 8; xFirst++)
@@ -401,6 +400,88 @@ namespace SudokuForms
                                         // changed its state, I think we just bail and let it get picked up
                                         // on another run.
                                         return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (szTrio.Length == 2)
+                    {
+                        char firstDigit = szTrio[0];
+                        char secondDigit = szTrio[1];
+                        // Placeholder values - needs to be initialized below; but should never be passed as 0
+                        char thirdDigit = '0';
+
+                        sqSecond = null;
+                        for (int xTest = 0; xTest <= 8; xTest++)
+                        {
+                            sqTest = objBoard.rgSquare[xTest, y];
+                            // Speed hack: don't check squares before us.
+                            if (sqTest.btn.TabIndex > sqFirst.btn.TabIndex)
+                            {
+                                // Check if the square has 2 numbers; any 3-numbered case can be covered above
+                                string szTest = sqTest.btn.Text.Replace(" ", string.Empty);
+                                if (szTest.Length == 2)
+                                {
+                                    char firstTestDigit = szTest[0];
+                                    char secondTestDigit = szTest[1];
+                                    // if both digits are the same, there's a TwoPair. Consider merging these methods
+                                    // (don't think it can form an infinite loop this way)
+                                    if (firstTestDigit == firstDigit && secondTestDigit == secondDigit)
+                                    {
+                                        return TwoPair(objBoard, objLogBox);
+                                    }
+                                    if (sqSecond == null)
+                                    {
+
+                                        // if exactly one digit is the same between squares, the other digit in the square is the other 
+                                        // the digit that's different is the third digit of the threesome
+                                        if ((firstTestDigit == firstDigit) || (secondTestDigit == firstDigit))
+                                        {
+                                            thirdDigit = (firstTestDigit == firstDigit) ? secondTestDigit : firstTestDigit;
+                                        }
+                                        else if ((firstTestDigit == secondDigit) || (secondTestDigit == secondDigit))
+                                        {
+                                            thirdDigit = (firstTestDigit == secondDigit) ? firstTestDigit : secondTestDigit;
+                                        }
+                                        // If no values are the same, continue iterating
+                                        else continue;
+
+                                        sqSecond = sqTest;
+                                    }
+                                    else
+                                    {
+                                        //TODO add TwoPair
+                                        if (szTest.Contains(thirdDigit) && (szTest.Contains(firstDigit) || szTest.Contains(secondDigit)))
+                                        {
+                                            sqThird = sqTest;
+                                            szTrio += thirdDigit;
+                                            // We have found sqFirst, sqSecond, and sqThird.
+                                            // The three digits are Losers in the squares
+                                            //   that aren't sqFirst/sqSecond/sqThird.
+                                            objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                                                    + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                                                    + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                            for (int xLoser = 0; xLoser <= 8; xLoser++)
+                                            {
+                                                sqTest = objBoard.rgSquare[xLoser, y];
+
+                                                // Protect the Threesome.
+                                                if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
+                                                {
+                                                    sqTest.FLoser(szTrio[0], objBoard);
+                                                    sqTest.FLoser(szTrio[1], objBoard);
+                                                    sqTest.FLoser(szTrio[2], objBoard);
+                                                }
+                                            }
+
+                                            // Could there be another Threesome in the row? Maybe, but we've 
+                                            // changed its state, I think we just bail and let it get picked up
+                                            // on another run.
+                                            ret = true;
+                                            return ret;
+                                        }
                                     }
                                 }
                             }
@@ -479,6 +560,88 @@ namespace SudokuForms
                                         // changed its state, I think we just bail and let it get picked up
                                         // on another run.
                                         return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (szTrio.Length == 2)
+                    {
+                        char firstDigit = szTrio[0];
+                        char secondDigit = szTrio[1];
+                        // Placeholder values - needs to be non-null below; but should never be passed as 0
+                        char thirdDigit = '0';
+
+                        sqSecond = null;
+                        for (int yTest = 0; yTest <= 8; yTest++)
+                        {
+                            sqTest = objBoard.rgSquare[x, yTest];
+                            // Speed hack: don't check squares before us.
+                            if (sqTest.btn.TabIndex > sqFirst.btn.TabIndex)
+                            {
+                                // Check if the square has 2 numbers; any 3-numbered case can be covered above
+                                string szTest = sqTest.btn.Text.Replace(" ", string.Empty);
+                                if (szTest.Length == 2)
+                                {
+                                    char firstTestDigit = szTest[0];
+                                    char secondTestDigit = szTest[1];
+                                    // if both digits are the same, there's a TwoPair. Consider merging these methods
+                                    // (don't think it can form an infinite loop this way)
+                                    if (firstTestDigit == firstDigit && secondTestDigit == secondDigit)
+                                    {
+                                        return TwoPair(objBoard, objLogBox);
+                                    }
+                                    if (sqSecond == null)
+                                    {
+
+                                        // if exactly one digit is the same between squares, the other digit in the square is the other 
+                                        // the digit that's different is the third digit of the threesome
+                                        if ((firstTestDigit == firstDigit) || (secondTestDigit == firstDigit))
+                                        {
+                                            thirdDigit = (firstTestDigit == firstDigit) ? secondTestDigit : firstTestDigit;
+                                        }
+                                        else if ((firstTestDigit == secondDigit) || (secondTestDigit == secondDigit))
+                                        {
+                                            thirdDigit = (firstTestDigit == secondDigit) ? firstTestDigit : secondTestDigit;
+                                        }
+                                        // If no values are the same, continue iterating
+                                        else continue;
+
+                                        sqSecond = sqTest;
+                                    }
+                                    else
+                                    {
+                                        //TODO add TwoPair
+                                        if (szTest.Contains(thirdDigit) && (szTest.Contains(firstDigit) || szTest.Contains(secondDigit)))
+                                        {
+                                            sqThird = sqTest;
+                                            szTrio += thirdDigit;
+                                            // We have found sqFirst, sqSecond, and sqThird.
+                                            // The three digits are Losers in the squares
+                                            //   that aren't sqFirst/sqSecond/sqThird.
+                                            objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                                              + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                                              + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                            for (int yLoser = 0; yLoser <= 8; yLoser++)
+                                            {
+                                                sqTest = objBoard.rgSquare[x, yLoser];
+
+                                                // Protect the Threesome.
+                                                if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
+                                                {
+                                                    sqTest.FLoser(szTrio[0], objBoard);
+                                                    sqTest.FLoser(szTrio[1], objBoard);
+                                                    sqTest.FLoser(szTrio[2], objBoard);
+                                                }
+                                            }
+
+                                            // Could there be another Threesome in the row? Maybe, but we've 
+                                            // changed its state, I think we just bail and let it get picked up
+                                            // on another run.
+                                            ret = true;
+                                            return ret;
+                                        }
                                     }
                                 }
                             }
