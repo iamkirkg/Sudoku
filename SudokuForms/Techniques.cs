@@ -33,8 +33,7 @@ namespace SudokuForms
                         {
                             if (!(sqThem.col == sqUs.col && sqThem.row == sqUs.row))
                             {
-                                sqThem.FLoser(keyChar, objBoard);
-                                ret = true; // We changed something.
+                                ret |= sqThem.FLoser(keyChar, objBoard);
                             }
                         }
                     }
@@ -51,7 +50,7 @@ namespace SudokuForms
             {
                 if (sqTest.iWinner != 0)
                 {
-                    Neighbor(objBoard, sqTest.col, sqTest.row, sqTest.chWinner);
+                    ret |= Neighbor(objBoard, sqTest.col, sqTest.row, sqTest.chWinner);
                 }
             }
             return ret;
@@ -97,9 +96,7 @@ namespace SudokuForms
 
                                         // After we've marked someone a Winner, we need to erase their
                                         // neighboring little numbers.
-                                        Neighbor(objBoard, sqTest.col, sqTest.row, ch);
-
-                                        ret = true; // We changed something.
+                                        ret |= Neighbor(objBoard, sqTest.col, sqTest.row, ch);
                                     }
                                 }
                             }
@@ -149,16 +146,13 @@ namespace SudokuForms
 
                                     // After we've marked someone a Winner, we need to erase their
                                     // neighboring little numbers.
-                                    Neighbor(objBoard, x, y, ch);
-
-                                    ret = true; // We changed something.
+                                    ret |= Neighbor(objBoard, x, y, ch);
                                 }
                             }
                         }
                     }
                 }
             }
-
             return ret;
         }
 
@@ -199,9 +193,7 @@ namespace SudokuForms
 
                                     // After we've marked someone a Winner, we need to erase their
                                     // neighboring little numbers.
-                                    Neighbor(objBoard, x, y, ch);
-
-                                    ret = true; // We changed something.
+                                    ret |= Neighbor(objBoard, x, y, ch);
                                 }
                             }
                         }
@@ -245,7 +237,7 @@ namespace SudokuForms
                                         // Same two-char strings! 
                                         char ch1 = szTextFirst[0];
                                         char ch2 = szTextFirst[1];
-                                        objLogBox.Log("TwoPair: [" + x1 + "," + y1 + "] [" + x2 + "," + y2 + "]:" + ch1 + ' ' + ch2);
+                                        //objLogBox.Log("TwoPair: [" + x1 + "," + y1 + "] [" + x2 + "," + y2 + "]:" + ch1 + ' ' + ch2);
 
                                         if (x1 == x2)
                                         {
@@ -254,8 +246,8 @@ namespace SudokuForms
                                                 if (y3 != y1 && y3 != y2)
                                                 {
                                                     //objLogBox.Log("TwoPair col: [" + x1 + "," + y3 + "]");
-                                                    objBoard.rgSquare[x1, y3].FLoser(ch1, objBoard);
-                                                    objBoard.rgSquare[x1, y3].FLoser(ch2, objBoard);
+                                                    ret |= objBoard.rgSquare[x1, y3].FLoser(ch1, objBoard);
+                                                    ret |= objBoard.rgSquare[x1, y3].FLoser(ch2, objBoard);
                                                 }
                                             }
                                         }
@@ -266,8 +258,8 @@ namespace SudokuForms
                                                 if (x3 != x1 && x3 != x2)
                                                 {
                                                     //objLogBox.Log("TwoPair row: [" + x3 + "," + y1 + "]");
-                                                    objBoard.rgSquare[x3, y1].FLoser(ch1, objBoard);
-                                                    objBoard.rgSquare[x3, y1].FLoser(ch2, objBoard);
+                                                    ret |= objBoard.rgSquare[x3, y1].FLoser(ch1, objBoard);
+                                                    ret |= objBoard.rgSquare[x3, y1].FLoser(ch2, objBoard);
                                                 }
                                             }
 
@@ -293,8 +285,8 @@ namespace SudokuForms
                                                         {
                                                             // It's a loser for both values.
                                                             //objLogBox.Log("TwoPair sec: [" + x3 + "," + y3 + "]");
-                                                            objBoard.rgSquare[x3, y3].FLoser(ch1, objBoard);
-                                                            objBoard.rgSquare[x3, y3].FLoser(ch2, objBoard);
+                                                            ret |= objBoard.rgSquare[x3, y3].FLoser(ch1, objBoard);
+                                                            ret |= objBoard.rgSquare[x3, y3].FLoser(ch2, objBoard);
                                                         }
                                                     }
                                                 }
@@ -308,6 +300,10 @@ namespace SudokuForms
                         }
                     }
                 }
+            }
+            if (ret)
+            {
+                objLogBox.Log("TwoPair found some losers.");
             }
             return ret;
         }
@@ -379,9 +375,10 @@ namespace SudokuForms
                                         // We have found sqFirst, sqSecond, and sqThird.
                                         // The three chars of sqFirst are Losers in the squares
                                         //   that aren't sqFirst/sqSecond/sqThird.
-                                        objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
-                                                              + " [" + sqSecond.col + "," + sqSecond.row + "]"
-                                                              + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                        //objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                        //                      + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                        //                      + " [" + sqThird.col + "," + sqThird.row + "]");
 
                                         for (int xLoser = 0; xLoser <= 8; xLoser++)
                                         {
@@ -390,16 +387,20 @@ namespace SudokuForms
                                             // Protect the Threesome.
                                             if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                             {
-                                                sqTest.FLoser(szTrio[0], objBoard);
-                                                sqTest.FLoser(szTrio[1], objBoard);
-                                                sqTest.FLoser(szTrio[2], objBoard);
+                                                ret |= sqTest.FLoser(szTrio[0], objBoard);
+                                                ret |= sqTest.FLoser(szTrio[1], objBoard);
+                                                ret |= sqTest.FLoser(szTrio[2], objBoard);
                                             }
                                         }
 
                                         // Could there be another Threesome in the row? Maybe, but we've 
                                         // changed its state, I think we just bail and let it get picked up
                                         // on another run.
-                                        return true;
+                                        if (ret)
+                                        {
+                                            objLogBox.Log("ThreesomeRows found some losers.");
+                                            return ret;
+                                        }
                                     }
                                 }
                             }
@@ -459,9 +460,10 @@ namespace SudokuForms
                                             // We have found sqFirst, sqSecond, and sqThird.
                                             // The three digits are Losers in the squares
                                             //   that aren't sqFirst/sqSecond/sqThird.
-                                            objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
-                                                                    + " [" + sqSecond.col + "," + sqSecond.row + "]"
-                                                                    + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                            //objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                            //                        + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                            //                        + " [" + sqThird.col + "," + sqThird.row + "]");
 
                                             for (int xLoser = 0; xLoser <= 8; xLoser++)
                                             {
@@ -470,17 +472,20 @@ namespace SudokuForms
                                                 // Protect the Threesome.
                                                 if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                                 {
-                                                    sqTest.FLoser(szTrio[0], objBoard);
-                                                    sqTest.FLoser(szTrio[1], objBoard);
-                                                    sqTest.FLoser(szTrio[2], objBoard);
+                                                    ret |= sqTest.FLoser(szTrio[0], objBoard);
+                                                    ret |= sqTest.FLoser(szTrio[1], objBoard);
+                                                    ret |= sqTest.FLoser(szTrio[2], objBoard);
                                                 }
                                             }
 
                                             // Could there be another Threesome in the row? Maybe, but we've 
                                             // changed its state, I think we just bail and let it get picked up
                                             // on another run.
-                                            ret = true;
-                                            return ret;
+                                            if (ret)
+                                            {
+                                                objLogBox.Log("ThreesomeRows found some losers.");
+                                                return ret;
+                                            }
                                         }
                                     }
                                 }
@@ -539,9 +544,10 @@ namespace SudokuForms
                                         // We have found sqFirst, sqSecond, and sqThird.
                                         // The three chars of sqFirst are Losers in the squares
                                         //   that aren't sqFirst/sqSecond/sqThird.
-                                        objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
-                                                              + " [" + sqSecond.col + "," + sqSecond.row + "]"
-                                                              + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                        //objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                        //                      + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                        //                      + " [" + sqThird.col + "," + sqThird.row + "]");
 
                                         for (int yLoser = 0; yLoser <= 8; yLoser++)
                                         {
@@ -550,16 +556,20 @@ namespace SudokuForms
                                             // Protect the Threesome.
                                             if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                             {
-                                                sqTest.FLoser(szTrio[0], objBoard);
-                                                sqTest.FLoser(szTrio[1], objBoard);
-                                                sqTest.FLoser(szTrio[2], objBoard);
+                                                ret |= sqTest.FLoser(szTrio[0], objBoard);
+                                                ret |= sqTest.FLoser(szTrio[1], objBoard);
+                                                ret |= sqTest.FLoser(szTrio[2], objBoard);
                                             }
                                         }
 
                                         // Could there be another Threesome in the row? Maybe, but we've 
                                         // changed its state, I think we just bail and let it get picked up
                                         // on another run.
-                                        return true;
+                                        if (ret)
+                                        {
+                                            objLogBox.Log("ThreesomeCols found some losers.");
+                                            return ret;
+                                        }
                                     }
                                 }
                             }
@@ -619,9 +629,10 @@ namespace SudokuForms
                                             // We have found sqFirst, sqSecond, and sqThird.
                                             // The three digits are Losers in the squares
                                             //   that aren't sqFirst/sqSecond/sqThird.
-                                            objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
-                                                              + " [" + sqSecond.col + "," + sqSecond.row + "]"
-                                                              + " [" + sqThird.col + "," + sqThird.row + "]");
+
+                                            //objLogBox.Log("Threesome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                            //                  + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                            //                  + " [" + sqThird.col + "," + sqThird.row + "]");
 
                                             for (int yLoser = 0; yLoser <= 8; yLoser++)
                                             {
@@ -630,17 +641,20 @@ namespace SudokuForms
                                                 // Protect the Threesome.
                                                 if ((sqTest != sqFirst) && (sqTest != sqSecond) && (sqTest != sqThird))
                                                 {
-                                                    sqTest.FLoser(szTrio[0], objBoard);
-                                                    sqTest.FLoser(szTrio[1], objBoard);
-                                                    sqTest.FLoser(szTrio[2], objBoard);
+                                                    ret |= sqTest.FLoser(szTrio[0], objBoard);
+                                                    ret |= sqTest.FLoser(szTrio[1], objBoard);
+                                                    ret |= sqTest.FLoser(szTrio[2], objBoard);
                                                 }
                                             }
 
                                             // Could there be another Threesome in the row? Maybe, but we've 
                                             // changed its state, I think we just bail and let it get picked up
                                             // on another run.
-                                            ret = true;
-                                            return ret;
+                                            if (ret)
+                                            {
+                                                objLogBox.Log("ThreesomeCols found some losers.");
+                                                return ret;
+                                            }
                                         }
                                     }
                                 }
@@ -766,6 +780,10 @@ namespace SudokuForms
                         ret |= FColLoser(objBoard, s, 2, ch, objLogBox);
                     }
                 }
+            }
+            if (ret)
+            {
+                objLogBox.Log("FLineFind found some losers.");
             }
             return ret;
         }
