@@ -458,45 +458,35 @@ namespace SudokuForms
             switch (curTechnique)
             {
                 case Technique.none:
-                    objLogBox.Log("Step: no selection");
                     break;
                 case Technique.Neighbor:
-                    objLogBox.Log("Step: Neighbor");
                     if (curTab != -1)
                     {
                         Techniques.Neighbor(objBoard, curCol, curRow, curChar);
                     }
                     break;
                 case Technique.AllNeighbors:
-                    objLogBox.Log("Step: AllNeighbors");
-                    Techniques.AllNeighbors(objBoard);
+                    Techniques.AllNeighbors(objBoard, objLogBox);
                     break;
                 case Technique.SectorSweep:
-                    objLogBox.Log("Step: SectorSweep");
-                    Techniques.SectorSweep(objBoard);
+                    Techniques.SectorSweep(objBoard, objLogBox);
                     break;
                 case Technique.ColumnSweeps:
-                    objLogBox.Log("Step: ColumnSweeps");
-                    Techniques.ColumnSweeps(objBoard);
+                    Techniques.ColumnSweeps(objBoard, objLogBox);
                     break;
                 case Technique.RowSweeps:
-                    objLogBox.Log("Step: RowSweeps");
-                    Techniques.RowSweeps(objBoard);
+                    Techniques.RowSweeps(objBoard, objLogBox);
                     break;
                 case Technique.TwoPair:
-                    objLogBox.Log("Step: TwoPair");
                     Techniques.TwoPair(objBoard, objLogBox);
                     break;
                 case Technique.ThreesomeRows:
-                    objLogBox.Log("Step: ThreesomeRows");
                     Techniques.ThreesomeRows(objBoard, objLogBox);
                     break;
                 case Technique.ThreesomeCols:
-                    objLogBox.Log("Step: ThreesomeCols");
                     Techniques.ThreesomeCols(objBoard, objLogBox);
                     break;
                 case Technique.LineFind:
-                    objLogBox.Log("Step: LineFind");
                     Techniques.FLineFind(objBoard, objLogBox);
                     break;
             }

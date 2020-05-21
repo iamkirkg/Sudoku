@@ -43,7 +43,7 @@ namespace SudokuForms
         }
 
         // Walk every square in the board. If it's a winner, call Neighbor.
-        public static bool AllNeighbors(Board objBoard)
+        public static bool AllNeighbors(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
             foreach (Square sqTest in objBoard.rgSquare)
@@ -53,13 +53,17 @@ namespace SudokuForms
                     ret |= Neighbor(objBoard, sqTest.col, sqTest.row, sqTest.chWinner);
                 }
             }
+            if (ret)
+            {
+                objLogBox.Log("AllNeighbors");
+            }
             return ret;
         }
 
         // For each sector
         //    for the values 1 through 9
         //      if only one square has the value, it's a Winner.
-        public static bool SectorSweep(Board objBoard)
+        public static bool SectorSweep(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
 
@@ -105,6 +109,10 @@ namespace SudokuForms
                 }
             }
 
+            if (ret)
+            {
+                objLogBox.Log("SectorSweep");
+            }
             return ret;
         }
 
@@ -112,7 +120,7 @@ namespace SudokuForms
         //   For all squares in the column (Winner and Loser)
         //     for the values 1 through 9
         //       if only one square has the value, it's a Winner.
-        public static bool ColumnSweeps(Board objBoard)
+        public static bool ColumnSweeps(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
             Square sqTest;
@@ -153,13 +161,17 @@ namespace SudokuForms
                     }
                 }
             }
+            if (ret)
+            {
+                objLogBox.Log("ColumnSweeps");
+            }
             return ret;
         }
 
         // for all squares in the row (Winner and Loser)
         //   for the values 1 through 9
         //     if only one square has the value, it's a Winner.
-        public static bool RowSweeps(Board objBoard)
+        public static bool RowSweeps(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
             Square sqTest;
@@ -199,6 +211,10 @@ namespace SudokuForms
                         }
                     }
                 }
+            }
+            if (ret)
+            {
+                objLogBox.Log("RowSweeps");
             }
             return ret;
         }
@@ -303,7 +319,7 @@ namespace SudokuForms
             }
             if (ret)
             {
-                objLogBox.Log("TwoPair found some losers.");
+                objLogBox.Log("TwoPair");
             }
             return ret;
         }
@@ -398,7 +414,7 @@ namespace SudokuForms
                                         // on another run.
                                         if (ret)
                                         {
-                                            objLogBox.Log("ThreesomeRows found some losers.");
+                                            objLogBox.Log("ThreesomeRows");
                                             return ret;
                                         }
                                     }
@@ -483,7 +499,7 @@ namespace SudokuForms
                                             // on another run.
                                             if (ret)
                                             {
-                                                objLogBox.Log("ThreesomeRows found some losers.");
+                                                objLogBox.Log("ThreesomeRows");
                                                 return ret;
                                             }
                                         }
@@ -567,7 +583,7 @@ namespace SudokuForms
                                         // on another run.
                                         if (ret)
                                         {
-                                            objLogBox.Log("ThreesomeCols found some losers.");
+                                            objLogBox.Log("ThreesomeCols");
                                             return ret;
                                         }
                                     }
@@ -652,7 +668,7 @@ namespace SudokuForms
                                             // on another run.
                                             if (ret)
                                             {
-                                                objLogBox.Log("ThreesomeCols found some losers.");
+                                                objLogBox.Log("ThreesomeCols");
                                                 return ret;
                                             }
                                         }
@@ -783,7 +799,7 @@ namespace SudokuForms
             }
             if (ret)
             {
-                objLogBox.Log("FLineFind found some losers.");
+                objLogBox.Log("FLineFind");
             }
             return ret;
         }
@@ -831,7 +847,7 @@ namespace SudokuForms
 
             if (ret)
             {
-                objLogBox.Log("LineFind: in sector " + s + ", only row " + row + " has char " + ch);
+                //objLogBox.Log("LineFind: in sector " + s + ", only row " + row + " has char " + ch);
             }
 
             return ret;
@@ -869,7 +885,7 @@ namespace SudokuForms
 
             if (ret)
             {
-                objLogBox.Log("LineFind: in sector " + s + ", only col " + col + " has char " + ch);
+                //objLogBox.Log("LineFind: in sector " + s + ", only col " + col + " has char " + ch);
             }
 
             return ret;
