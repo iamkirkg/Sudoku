@@ -334,7 +334,7 @@ namespace SudokuForms
         //         Call it Third
         // As soon as we find a First Second and Third
         //   Mark the other squares in the row|column|sector as Losers.
-        //   Return true
+        //   Return the result of the FLoser calls.
 
         // [ 3 4 5 ] [ 3 4 5 ] [ 3 4 5 ]
         // [ 3 4 5 ] [ 3 4 5 ] [ 3   5 ]
@@ -578,9 +578,12 @@ namespace SudokuForms
                                             }
                                         }
 
-                                        // Could there be another Threesome in the row? Maybe, but we've 
-                                        // changed its state, I think we just bail and let it get picked up
-                                        // on another run.
+                                        // Could there be another Threesome in the row?
+                                        // BUGBUG: we find the first Threesome, but (say) its calls
+                                        // to FLoser change nothing. If we just return, another run
+                                        // will do the same, we make no progress, we never uncover the
+                                        // second Threesome.
+                                        
                                         if (ret)
                                         {
                                             objLogBox.Log("ThreesomeCols");
@@ -682,6 +685,211 @@ namespace SudokuForms
         return ret;
         }
 
+        // ------------------------------------------------------------------
+        //
+        // This will find this case:
+        //   [ 2 9 ] [ 2 3 8 9 ] [ 2 3 8 9 ] [ 1 2 7 9 ] [ 2 3 ] [ 1 2 3 7 ]
+        //   [ 2 9 ] [ 2 3 8 9 ] [ 2 3 8 9 ] [ 1   7   ] [ 2 3 ] [ 1     7 ]
+        // Sample file for testing: 20200523_hard_partway.xml
+        //
+        // BUGBUG: This will not find four three-chars:
+        //   [ 1 2 3 ] [ 2 3 4 ] [ 1 2 4 ] [ 1 3 4 ]
+        // BUGBUG: This will not find four two-chars:
+        //   [ 1 2 ] [ 2 3 ] [ 3 4 ] [ 1 4 ] 
+
+        public static bool FoursomeRows(Board objBoard, LogBox objLogBox)
+        {
+            bool ret = false;
+            Square sqTest, sqFirst, sqSecond, sqThird, sqFourth;
+            string szQuad;
+            bool fSubset;
+            for (int y = 0; y <= 8; y++)
+            {
+                for (int xFirst = 0; xFirst <= 8; xFirst++)
+                {
+                    sqFirst = objBoard.rgSquare[xFirst, y];
+
+                    // Find a square with four values.
+                    szQuad = sqFirst.btn.Text.Replace(" ", string.Empty);
+                    if (szQuad.Length == 4)
+                    {
+                        sqSecond = null;
+                        sqThird = null;
+
+                        for (int xTest = 0; xTest <= 8; xTest++)
+                        {
+                            sqTest = objBoard.rgSquare[xTest, y];
+
+                            // Don't want to compare against ourselves.
+                            if (sqTest != sqFirst)
+                            {
+                                // Does this square have the same contents as our Quad?
+                                fSubset = true;
+                                foreach (char c in sqTest.btn.Text.Replace(" ", string.Empty))
+                                {
+                                    if (!szQuad.Contains(c))
+                                    {
+                                        fSubset = false;
+                                    }
+                                }
+                                if (fSubset)
+                                {
+                                    if (sqSecond == null)
+                                    {
+                                        sqSecond = sqTest;
+                                    }
+                                    else
+                                    if (sqThird == null)
+                                    {
+                                        sqThird = sqTest;
+                                    }
+                                    else
+                                    {
+                                        sqFourth = sqTest;
+                                        // We have found sqFirst, sqSecond, sqThird, and sqFourth.
+                                        // The four chars of sqFirst are Losers in the squares
+                                        //   that aren't sqFirst/sqSecond/sqThird/sqFourth.
+
+                                        //objLogBox.Log("Foursome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                        //                     + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                        //                     + " [" + sqThird.col + "," + sqThird.row + "]"
+                                        //                     + " [" + sqFourth.col + "," + sqFourth.row + "]");
+
+                                        for (int xLoser = 0; xLoser <= 8; xLoser++)
+                                        {
+                                            sqTest = objBoard.rgSquare[xLoser, y];
+
+                                            // Protect the Foursome.
+                                            if ((sqTest != sqFirst) && 
+                                                (sqTest != sqSecond) && 
+                                                (sqTest != sqThird) &&
+                                                (sqTest != sqFourth)
+                                               )
+                                            {
+                                                ret |= sqTest.FLoser(szQuad[0], objBoard);
+                                                ret |= sqTest.FLoser(szQuad[1], objBoard);
+                                                ret |= sqTest.FLoser(szQuad[2], objBoard);
+                                                ret |= sqTest.FLoser(szQuad[3], objBoard);
+                                            }
+                                        }
+
+                                        // Could there be another Foursome in the row? Maybe, but we've 
+                                        // changed its state, I think we just bail and let it get picked up
+                                        // on another run.
+                                        if (ret)
+                                        {
+                                            objLogBox.Log("FoursomeRows");
+                                            return ret;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (szQuad.Length == 2)
+                    {
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public static bool FoursomeCols(Board objBoard, LogBox objLogBox)
+        {
+            bool ret = false;
+            Square sqTest, sqFirst, sqSecond, sqThird, sqFourth;
+            string szQuad;
+            bool fSubset;
+            for (int x = 0; x <= 8; x++)
+            {
+                for (int yFirst = 0; yFirst <= 8; yFirst++)
+                {
+                    sqFirst = objBoard.rgSquare[x, yFirst];
+
+                    // Find a square with four values.
+                    szQuad = sqFirst.btn.Text.Replace(" ", string.Empty);
+                    if (szQuad.Length == 4)
+                    {
+                        sqSecond = null;
+                        sqThird = null;
+
+                        for (int yTest = 0; yTest <= 8; yTest++)
+                        {
+                            sqTest = objBoard.rgSquare[x, yTest];
+
+                            // Don't want to compare against ourselves.
+                            if (sqTest != sqFirst)
+                            {
+                                // Does this square have the same contents as our Quad?
+                                fSubset = true;
+                                foreach (char c in sqTest.btn.Text.Replace(" ", string.Empty))
+                                {
+                                    if (!szQuad.Contains(c))
+                                    {
+                                        fSubset = false;
+                                    }
+                                }
+                                if (fSubset)
+                                {
+                                    if (sqSecond == null)
+                                    {
+                                        sqSecond = sqTest;
+                                    }
+                                    else
+                                    if (sqThird == null)
+                                    {
+                                        sqThird = sqTest;
+                                    }
+                                    else
+                                    {
+                                        sqFourth = sqTest;
+                                        // We have found sqFirst, sqSecond, sqThird, and sqFourth.
+                                        // The four chars of sqFirst are Losers in the squares
+                                        //   that aren't sqFirst/sqSecond/sqThird/sqFourth.
+
+                                        //objLogBox.Log("Foursome: [" + sqFirst.col + "," + sqFirst.row + "]"
+                                        //                     + " [" + sqSecond.col + "," + sqSecond.row + "]"
+                                        //                     + " [" + sqThird.col + "," + sqThird.row + "]"
+                                        //                     + " [" + sqFourth.col + "," + sqFourth.row + "]");
+
+                                        for (int yLoser = 0; yLoser <= 8; yLoser++)
+                                        {
+                                            sqTest = objBoard.rgSquare[x, yLoser];
+
+                                            // Protect the Foursome.
+                                            if ((sqTest != sqFirst) &&
+                                                (sqTest != sqSecond) &&
+                                                (sqTest != sqThird) &&
+                                                (sqTest != sqFourth)
+                                               )
+                                            {
+                                                ret |= sqTest.FLoser(szQuad[0], objBoard);
+                                                ret |= sqTest.FLoser(szQuad[1], objBoard);
+                                                ret |= sqTest.FLoser(szQuad[2], objBoard);
+                                                ret |= sqTest.FLoser(szQuad[3], objBoard);
+                                            }
+                                        }
+
+                                        // Could there be another Foursome in the row? Maybe, but we've 
+                                        // changed its state, I think we just bail and let it get picked up
+                                        // on another run.
+                                        if (ret)
+                                        {
+                                            objLogBox.Log("FoursomeRows");
+                                            return ret;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (szQuad.Length == 2)
+                    {
+                    }
+                }
+            }
+            return ret;
+        }
         /*
 
         Below is our sector 's'.

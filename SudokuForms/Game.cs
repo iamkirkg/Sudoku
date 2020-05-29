@@ -19,6 +19,8 @@ namespace SudokuForms
             TwoPair,
             ThreesomeRows,
             ThreesomeCols,
+            FoursomeRows,
+            FoursomeCols,
             LineFind
         }
         public Technique curTechnique = Technique.none;

@@ -172,14 +172,40 @@ namespace SudokuForms
             this.ThreesomeCols.UseVisualStyleBackColor = true;
             this.ThreesomeCols.CheckedChanged += new EventHandler(this.ThreesomeCols_CheckedChanged);
             // 
+            // FoursomeRows
+            // 
+            this.FoursomeRows = new RadioButton();
+            this.FoursomeRows.AutoSize = true;
+            this.FoursomeRows.Location = new Point(12, 252);
+            this.FoursomeRows.Name = "FoursomeRows";
+            this.FoursomeRows.Size = new Size(115, 24);
+            this.FoursomeRows.TabIndex = 111;
+            this.FoursomeRows.TabStop = true;
+            this.FoursomeRows.Text = "FoursomeRows";
+            this.FoursomeRows.UseVisualStyleBackColor = true;
+            this.FoursomeRows.CheckedChanged += new EventHandler(this.FoursomeRows_CheckedChanged);
+            // 
+            // FoursomeCols
+            // 
+            this.FoursomeCols = new RadioButton();
+            this.FoursomeCols.AutoSize = true;
+            this.FoursomeCols.Location = new Point(12, 282);
+            this.FoursomeCols.Name = "FoursomeCols";
+            this.FoursomeCols.Size = new Size(115, 24);
+            this.FoursomeCols.TabIndex = 112;
+            this.FoursomeCols.TabStop = true;
+            this.FoursomeCols.Text = "FoursomeCols";
+            this.FoursomeCols.UseVisualStyleBackColor = true;
+            this.FoursomeCols.CheckedChanged += new EventHandler(this.FoursomeCols_CheckedChanged);
+            // 
             // LineFind
             // 
             this.LineFind = new RadioButton();
             this.LineFind.AutoSize = true;
-            this.LineFind.Location = new Point(12, 252);
+            this.LineFind.Location = new Point(12, 312);
             this.LineFind.Name = "LineFind";
             this.LineFind.Size = new Size(115, 24);
-            this.LineFind.TabIndex = 111;
+            this.LineFind.TabIndex = 113;
             this.LineFind.TabStop = true;
             this.LineFind.Text = "LineFind";
             this.LineFind.UseVisualStyleBackColor = true;
@@ -197,12 +223,14 @@ namespace SudokuForms
             this.RadioPanel.Controls.Add(this.TwoPair);
             this.RadioPanel.Controls.Add(this.ThreesomeRows);
             this.RadioPanel.Controls.Add(this.ThreesomeCols);
+            this.RadioPanel.Controls.Add(this.FoursomeRows);
+            this.RadioPanel.Controls.Add(this.FoursomeCols);
             this.RadioPanel.Controls.Add(this.LineFind);
             this.RadioPanel.BorderStyle = BorderStyle.FixedSingle;
             this.RadioPanel.Location = new Point(740, 75);
             this.RadioPanel.Name = "RadioPanel";
-            this.RadioPanel.Size = new Size(160, 290);
-            this.RadioPanel.TabIndex = 112;
+            this.RadioPanel.Size = new Size(160, 350);
+            this.RadioPanel.TabIndex = 114;
 
             this.Controls.Add(this.RadioPanel);
             this.RadioPanel.ResumeLayout(false);
@@ -216,9 +244,9 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new Point(740, 374);
+            this.btnLoad.Location = new Point(740, 434);
             this.btnLoad.Size = new Size(100, 60);
-            this.btnLoad.TabIndex = 113;
+            this.btnLoad.TabIndex = 115;
             this.btnLoad.Text = "Load";
             this.Controls.Add(this.btnLoad);
 
@@ -230,9 +258,9 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new Point(740, 436);
+            this.btnSave.Location = new Point(740, 496);
             this.btnSave.Size = new Size(100, 60);
-            this.btnSave.TabIndex = 114;
+            this.btnSave.TabIndex = 116;
             this.btnSave.Text = "Save";
             this.Controls.Add(this.btnSave);
 
@@ -242,10 +270,10 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(740, 500);
+            this.CouldBe.Location = new Point(740, 560);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
-            this.CouldBe.TabIndex = 115;
+            this.CouldBe.TabIndex = 117;
             this.CouldBe.Text = "CouldBe";
             this.CouldBe.UseVisualStyleBackColor = true;
             this.CouldBe.CheckedChanged += new EventHandler(this.CouldBe_CheckedChanged);
@@ -254,7 +282,7 @@ namespace SudokuForms
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(740, 530, 350, 440, 116);
+            this.objLogBox = new LogBox(740, 590, 350, 380, 116);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
@@ -285,7 +313,7 @@ namespace SudokuForms
             curRow = ((iTab - 1) / 9);  // Divide
             curChar = keyChar;
 
-            objLogBox.Log("KeyPress " + keyChar);
+            //objLogBox.Log("KeyPress " + keyChar);
 
             if (keyChar >= '1' && keyChar <= '9')
             {
@@ -308,7 +336,7 @@ namespace SudokuForms
             curCol = ((iTab - 1) % 9);  // Modulo (remainder)
             curRow = ((iTab - 1) / 9);  // Divide
 
-            objLogBox.Log("KeyDown " + keyCode.ToString());
+            //objLogBox.Log("KeyDown " + keyCode.ToString());
 
             switch (keyCode)
             {
@@ -424,6 +452,22 @@ namespace SudokuForms
                 curTechnique = Technique.ThreesomeCols;
             }
         }
+        void FoursomeRows_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.FoursomeRows;
+            }
+        }
+        void FoursomeCols_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.FoursomeCols;
+            }
+        }
         void LineFind_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
@@ -486,6 +530,12 @@ namespace SudokuForms
                 case Technique.ThreesomeCols:
                     Techniques.ThreesomeCols(objBoard, objLogBox);
                     break;
+                case Technique.FoursomeRows:
+                    Techniques.FoursomeRows(objBoard, objLogBox);
+                    break;
+                case Technique.FoursomeCols:
+                    Techniques.FoursomeCols(objBoard, objLogBox);
+                    break;
                 case Technique.LineFind:
                     Techniques.FLineFind(objBoard, objLogBox);
                     break;
@@ -542,6 +592,8 @@ namespace SudokuForms
         RadioButton TwoPair;
         RadioButton ThreesomeRows;
         RadioButton ThreesomeCols;
+        RadioButton FoursomeRows;
+        RadioButton FoursomeCols;
         RadioButton LineFind;
         Panel RadioPanel;
         Button btnLoad;
