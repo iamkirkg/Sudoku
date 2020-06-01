@@ -49,6 +49,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="LogBox.cs" />
+    <Compile Include="Range.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="Game.cs">
       <SubType>Form</SubType>

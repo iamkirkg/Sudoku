@@ -60,6 +60,22 @@ namespace SudokuForms
             return ret;
         }
 
+        // Examine a Range of the board. Eventually, examine all the Ranges.
+        public static bool RangeCheck(Board objBoard, LogBox objLogBox)
+        {
+            bool ret = false;
+
+            Range objRange = new Range(objBoard, Range.Type.Column, 0);
+
+            objRange.GenerateMapping(objBoard.objLogBox);
+
+            if (ret)
+            {
+                objLogBox.Log("RangeCheck");
+            }
+            return ret;
+        }
+
         // For each sector
         //    for the values 1 through 9
         //      if only one square has the value, it's a Winner.
@@ -890,6 +906,9 @@ namespace SudokuForms
             }
             return ret;
         }
+
+        // ==================================================================
+
         /*
 
         Below is our sector 's'.

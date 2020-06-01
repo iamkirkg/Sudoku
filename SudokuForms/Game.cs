@@ -13,6 +13,7 @@ namespace SudokuForms
             none,
             Neighbor,
             AllNeighbors,
+            RangeCheck,
             SectorSweep,
             ColumnSweeps,
             RowSweeps,

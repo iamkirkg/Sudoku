@@ -29,6 +29,8 @@ namespace SudokuForms
             // REVIEW KirkG: This suspend/resume should go around our double-for-loops too.
             this.SuspendLayout();
 
+            int iTabIndex = 100;
+
             // 
             // btnReset
             // 
@@ -39,7 +41,7 @@ namespace SudokuForms
             this.btnReset.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.btnReset.Location = new Point(740, 10);
             this.btnReset.Size = new Size(100, 60);
-            this.btnReset.TabIndex = 101;
+            this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
             this.Controls.Add(this.btnReset);
             // 
@@ -52,7 +54,7 @@ namespace SudokuForms
             this.btnClear.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.Location = new Point(846, 10);
             this.btnClear.Size = new Size(100, 60);
-            this.btnClear.TabIndex = 101;
+            this.btnClear.TabIndex = iTabIndex++;
             this.btnClear.Text = "Clear";
             this.Controls.Add(this.btnClear);
             // 
@@ -63,153 +65,185 @@ namespace SudokuForms
             this.btnStep.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.btnStep.Location = new Point(910, 130);
             this.btnStep.Size = new Size(90, 60);
-            this.btnStep.TabIndex = 102;
+            this.btnStep.TabIndex = iTabIndex++;
             this.btnStep.Text = "Step";
             this.Controls.Add(this.btnStep);
-            
+
+            // ------------------------------------------
+            // All our radio buttons.
+
+            int yPoint = 12;
+            int yPointDelta = 30;
+
             // 
             // Neighbor
             // 
             this.Neighbor = new RadioButton();
             this.Neighbor.AutoSize = true;
-            this.Neighbor.Location = new Point(12, 12);
+            this.Neighbor.Location = new Point(12, yPoint);
             this.Neighbor.Name = "Neighbor";
             this.Neighbor.Size = new Size(98, 24);
-            this.Neighbor.TabIndex = 103;
+            //this.Neighbor.TabIndex = iTabIndex++;
             this.Neighbor.TabStop = true;
             this.Neighbor.Text = "Neighbor";
             this.Neighbor.UseVisualStyleBackColor = true;
             this.Neighbor.CheckedChanged += new EventHandler(this.Neighbor_CheckedChanged);
+            yPoint += yPointDelta;
             // 
             // AllNeighbors
             // 
             this.AllNeighbors = new RadioButton();
             this.AllNeighbors.AutoSize = true;
-            this.AllNeighbors.Location = new Point(12, 42);
+            this.AllNeighbors.Location = new Point(12, yPoint);
             this.AllNeighbors.Name = "AllNeighbors";
             this.AllNeighbors.Size = new Size(98, 24);
-            this.AllNeighbors.TabIndex = 104;
-            this.AllNeighbors.TabStop = true;
+            //this.AllNeighbors.TabIndex = iTabIndex++;
+            //this.AllNeighbors.TabStop = true;
             this.AllNeighbors.Text = "AllNeighbors";
             this.AllNeighbors.UseVisualStyleBackColor = true;
             this.AllNeighbors.CheckedChanged += new EventHandler(this.AllNeighbors_CheckedChanged);
+            yPoint += yPointDelta;
             // 
-            // SectorSweep
+            // RangeCheck
             // 
-            this.SectorSweep = new RadioButton();
-            this.SectorSweep.AutoSize = true;
-            this.SectorSweep.Location = new Point(12, 72);
-            this.SectorSweep.Name = "SectorSweep";
-            this.SectorSweep.Size = new Size(130, 24);
-            this.SectorSweep.TabIndex = 105;
-            this.SectorSweep.TabStop = true;
-            this.SectorSweep.Text = "SectorSweep";
-            this.SectorSweep.UseVisualStyleBackColor = true;
-            this.SectorSweep.CheckedChanged += new EventHandler(this.SectorSweep_CheckedChanged);
-            // 
-            // ColumnSweeps
-            // 
-            this.ColumnSweeps = new RadioButton();
-            this.ColumnSweeps.AutoSize = true;
-            this.ColumnSweeps.Location = new Point(12, 102);
-            this.ColumnSweeps.Name = "ColumnSweeps";
-            this.ColumnSweeps.Size = new Size(136, 24);
-            this.ColumnSweeps.TabIndex = 106;
-            this.ColumnSweeps.TabStop = true;
-            this.ColumnSweeps.Text = "ColumnSweeps";
-            this.ColumnSweeps.UseVisualStyleBackColor = true;
-            this.ColumnSweeps.CheckedChanged += new EventHandler(this.ColumnSweeps_CheckedChanged);
-            // 
-            // RowSweeps
-            // 
-            this.RowSweeps = new RadioButton();
-            this.RowSweeps.AutoSize = true;
-            this.RowSweeps.Location = new Point(12, 132);
-            this.RowSweeps.Name = "RowSweeps";
-            this.RowSweeps.Size = new Size(115, 24);
-            this.RowSweeps.TabIndex = 107;
-            this.RowSweeps.TabStop = true;
-            this.RowSweeps.Text = "RowSweeps";
-            this.RowSweeps.UseVisualStyleBackColor = true;
-            this.RowSweeps.CheckedChanged += new EventHandler(this.RowSweeps_CheckedChanged);
-            // 
-            // TwoPair
-            // 
-            this.TwoPair = new RadioButton();
-            this.TwoPair.AutoSize = true;
-            this.TwoPair.Location = new Point(12, 162);
-            this.TwoPair.Name = "TwoPair";
-            this.TwoPair.Size = new Size(115, 24);
-            this.TwoPair.TabIndex = 108;
-            this.TwoPair.TabStop = true;
-            this.TwoPair.Text = "TwoPair";
-            this.TwoPair.UseVisualStyleBackColor = true;
-            this.TwoPair.CheckedChanged += new EventHandler(this.TwoPair_CheckedChanged);
-            // 
-            // ThreesomeRows
-            // 
-            this.ThreesomeRows = new RadioButton();
-            this.ThreesomeRows.AutoSize = true;
-            this.ThreesomeRows.Location = new Point(12, 192);
-            this.ThreesomeRows.Name = "ThreesomeRows";
-            this.ThreesomeRows.Size = new Size(115, 24);
-            this.ThreesomeRows.TabIndex = 109;
-            this.ThreesomeRows.TabStop = true;
-            this.ThreesomeRows.Text = "ThreesomeRows";
-            this.ThreesomeRows.UseVisualStyleBackColor = true;
-            this.ThreesomeRows.CheckedChanged += new EventHandler(this.ThreesomeRows_CheckedChanged);
-            // 
-            // ThreesomeCols
-            // 
-            this.ThreesomeCols = new RadioButton();
-            this.ThreesomeCols.AutoSize = true;
-            this.ThreesomeCols.Location = new Point(12, 222);
-            this.ThreesomeCols.Name = "ThreesomeCols";
-            this.ThreesomeCols.Size = new Size(115, 24);
-            this.ThreesomeCols.TabIndex = 110;
-            this.ThreesomeCols.TabStop = true;
-            this.ThreesomeCols.Text = "ThreesomeCols";
-            this.ThreesomeCols.UseVisualStyleBackColor = true;
-            this.ThreesomeCols.CheckedChanged += new EventHandler(this.ThreesomeCols_CheckedChanged);
-            // 
-            // FoursomeRows
-            // 
-            this.FoursomeRows = new RadioButton();
-            this.FoursomeRows.AutoSize = true;
-            this.FoursomeRows.Location = new Point(12, 252);
-            this.FoursomeRows.Name = "FoursomeRows";
-            this.FoursomeRows.Size = new Size(115, 24);
-            this.FoursomeRows.TabIndex = 111;
-            this.FoursomeRows.TabStop = true;
-            this.FoursomeRows.Text = "FoursomeRows";
-            this.FoursomeRows.UseVisualStyleBackColor = true;
-            this.FoursomeRows.CheckedChanged += new EventHandler(this.FoursomeRows_CheckedChanged);
-            // 
-            // FoursomeCols
-            // 
-            this.FoursomeCols = new RadioButton();
-            this.FoursomeCols.AutoSize = true;
-            this.FoursomeCols.Location = new Point(12, 282);
-            this.FoursomeCols.Name = "FoursomeCols";
-            this.FoursomeCols.Size = new Size(115, 24);
-            this.FoursomeCols.TabIndex = 112;
-            this.FoursomeCols.TabStop = true;
-            this.FoursomeCols.Text = "FoursomeCols";
-            this.FoursomeCols.UseVisualStyleBackColor = true;
-            this.FoursomeCols.CheckedChanged += new EventHandler(this.FoursomeCols_CheckedChanged);
+            this.RangeCheck = new RadioButton();
+            this.RangeCheck.AutoSize = true;
+            this.RangeCheck.Location = new Point(12, yPoint);
+            this.RangeCheck.Name = "RangeCheck";
+            this.RangeCheck.Size = new Size(98, 24);
+            //this.RangeCheck.TabIndex = iTabIndex++;
+            //this.RangeCheck.TabStop = true;
+            this.RangeCheck.Text = "RangeCheck";
+            this.RangeCheck.UseVisualStyleBackColor = true;
+            this.RangeCheck.CheckedChanged += new EventHandler(this.RangeCheck_CheckedChanged);
+            yPoint += yPointDelta;
             // 
             // LineFind
             // 
             this.LineFind = new RadioButton();
             this.LineFind.AutoSize = true;
-            this.LineFind.Location = new Point(12, 312);
+            this.LineFind.Location = new Point(12, yPoint);
             this.LineFind.Name = "LineFind";
             this.LineFind.Size = new Size(115, 24);
-            this.LineFind.TabIndex = 113;
-            this.LineFind.TabStop = true;
+            //this.LineFind.TabIndex = iTabIndex++;
+            //this.LineFind.TabStop = true;
             this.LineFind.Text = "LineFind";
             this.LineFind.UseVisualStyleBackColor = true;
             this.LineFind.CheckedChanged += new EventHandler(this.LineFind_CheckedChanged);
+            yPoint += yPointDelta;
+            // 
+            // SectorSweep
+            // 
+            this.SectorSweep = new RadioButton();
+            this.SectorSweep.AutoSize = true;
+            this.SectorSweep.Location = new Point(12, yPoint);
+            this.SectorSweep.Name = "SectorSweep";
+            this.SectorSweep.Size = new Size(115, 24);
+            //this.SectorSweep.TabIndex = iTabIndex++;
+            //this.SectorSweep.TabStop = true;
+            this.SectorSweep.Text = "SectorSweep";
+            this.SectorSweep.UseVisualStyleBackColor = true;
+            this.SectorSweep.CheckedChanged += new EventHandler(this.SectorSweep_CheckedChanged);
+            yPoint += yPointDelta;
+            // 
+            // ColumnSweeps
+            // 
+            this.ColumnSweeps = new RadioButton();
+            this.ColumnSweeps.AutoSize = true;
+            this.ColumnSweeps.Location = new Point(12, yPoint);
+            this.ColumnSweeps.Name = "ColumnSweeps";
+            this.ColumnSweeps.Size = new Size(115, 24);
+            //this.ColumnSweeps.TabIndex = iTabIndex++;
+            //this.ColumnSweeps.TabStop = true;
+            this.ColumnSweeps.Text = "ColumnSweeps";
+            this.ColumnSweeps.UseVisualStyleBackColor = true;
+            this.ColumnSweeps.CheckedChanged += new EventHandler(this.ColumnSweeps_CheckedChanged);
+            yPoint += yPointDelta;
+            // 
+            // RowSweeps
+            // 
+            this.RowSweeps = new RadioButton();
+            this.RowSweeps.AutoSize = true;
+            this.RowSweeps.Location = new Point(12, yPoint);
+            this.RowSweeps.Name = "RowSweeps";
+            this.RowSweeps.Size = new Size(115, 24);
+            //this.RowSweeps.TabIndex = iTabIndex++;
+            //this.RowSweeps.TabStop = true;
+            this.RowSweeps.Text = "RowSweeps";
+            this.RowSweeps.UseVisualStyleBackColor = true;
+            this.RowSweeps.CheckedChanged += new EventHandler(this.RowSweeps_CheckedChanged);
+            yPoint += yPointDelta;
+            // 
+            // TwoPair
+            // 
+            this.TwoPair = new RadioButton();
+            this.TwoPair.AutoSize = true;
+            this.TwoPair.Location = new Point(12, yPoint);
+            this.TwoPair.Name = "TwoPair";
+            this.TwoPair.Size = new Size(115, 24);
+            //this.TwoPair.TabIndex = iTabIndex++;
+            //this.TwoPair.TabStop = true;
+            this.TwoPair.Text = "TwoPair";
+            this.TwoPair.UseVisualStyleBackColor = true;
+            this.TwoPair.CheckedChanged += new EventHandler(this.TwoPair_CheckedChanged);
+            yPoint += yPointDelta;
+            // 
+            // ThreesomeRows
+            // 
+            this.ThreesomeRows = new RadioButton();
+            this.ThreesomeRows.AutoSize = true;
+            this.ThreesomeRows.Location = new Point(12, yPoint);
+            this.ThreesomeRows.Name = "ThreesomeRows";
+            this.ThreesomeRows.Size = new Size(115, 24);
+            //this.ThreesomeRows.TabIndex = iTabIndex++;
+            //this.ThreesomeRows.TabStop = true;
+            this.ThreesomeRows.Text = "ThreesomeRows";
+            this.ThreesomeRows.UseVisualStyleBackColor = true;
+            this.ThreesomeRows.CheckedChanged += new EventHandler(this.ThreesomeRows_CheckedChanged);
+            yPoint += yPointDelta;
+            // 
+            // ThreesomeCols
+            // 
+            this.ThreesomeCols = new RadioButton();
+            this.ThreesomeCols.AutoSize = true;
+            this.ThreesomeCols.Location = new Point(12, yPoint);
+            this.ThreesomeCols.Name = "ThreesomeCols";
+            this.ThreesomeCols.Size = new Size(115, 24);
+            //this.ThreesomeCols.TabIndex = iTabIndex++;
+            //this.ThreesomeCols.TabStop = true;
+            this.ThreesomeCols.Text = "ThreesomeCols";
+            this.ThreesomeCols.UseVisualStyleBackColor = true;
+            this.ThreesomeCols.CheckedChanged += new EventHandler(this.ThreesomeCols_CheckedChanged);
+            yPoint += yPointDelta;
+            // 
+            // FoursomeRows
+            // 
+            this.FoursomeRows = new RadioButton();
+            this.FoursomeRows.AutoSize = true;
+            this.FoursomeRows.Location = new Point(12, yPoint);
+            this.FoursomeRows.Name = "FoursomeRows";
+            this.FoursomeRows.Size = new Size(115, 24);
+            //this.FoursomeRows.TabIndex = iTabIndex++;
+            //this.FoursomeRows.TabStop = true;
+            this.FoursomeRows.Text = "FoursomeRows";
+            this.FoursomeRows.UseVisualStyleBackColor = true;
+            this.FoursomeRows.CheckedChanged += new EventHandler(this.FoursomeRows_CheckedChanged);
+            yPoint += yPointDelta;
+            // 
+            // FoursomeCols
+            // 
+            this.FoursomeCols = new RadioButton();
+            this.FoursomeCols.AutoSize = true;
+            this.FoursomeCols.Location = new Point(12, yPoint);
+            this.FoursomeCols.Name = "FoursomeCols";
+            this.FoursomeCols.Size = new Size(115, 24);
+            //this.FoursomeCols.TabIndex = iTabIndex++;
+            //this.FoursomeCols.TabStop = true;
+            this.FoursomeCols.Text = "FoursomeCols";
+            this.FoursomeCols.UseVisualStyleBackColor = true;
+            this.FoursomeCols.CheckedChanged += new EventHandler(this.FoursomeCols_CheckedChanged);
+            yPoint += yPointDelta;
+
             // 
             // RadioPanel
             // 
@@ -217,6 +251,8 @@ namespace SudokuForms
             this.RadioPanel.SuspendLayout();
             this.RadioPanel.Controls.Add(this.Neighbor);
             this.RadioPanel.Controls.Add(this.AllNeighbors);
+            this.RadioPanel.Controls.Add(this.RangeCheck);
+            this.RadioPanel.Controls.Add(this.LineFind);
             this.RadioPanel.Controls.Add(this.SectorSweep);
             this.RadioPanel.Controls.Add(this.ColumnSweeps);
             this.RadioPanel.Controls.Add(this.RowSweeps);
@@ -225,12 +261,11 @@ namespace SudokuForms
             this.RadioPanel.Controls.Add(this.ThreesomeCols);
             this.RadioPanel.Controls.Add(this.FoursomeRows);
             this.RadioPanel.Controls.Add(this.FoursomeCols);
-            this.RadioPanel.Controls.Add(this.LineFind);
             this.RadioPanel.BorderStyle = BorderStyle.FixedSingle;
             this.RadioPanel.Location = new Point(740, 75);
             this.RadioPanel.Name = "RadioPanel";
-            this.RadioPanel.Size = new Size(160, 350);
-            this.RadioPanel.TabIndex = 114;
+            this.RadioPanel.Size = new Size(160, 380);
+            this.RadioPanel.TabIndex = iTabIndex++;
 
             this.Controls.Add(this.RadioPanel);
             this.RadioPanel.ResumeLayout(false);
@@ -244,9 +279,9 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new Point(740, 434);
+            this.btnLoad.Location = new Point(740, 464);
             this.btnLoad.Size = new Size(100, 60);
-            this.btnLoad.TabIndex = 115;
+            this.btnLoad.TabIndex = iTabIndex++;
             this.btnLoad.Text = "Load";
             this.Controls.Add(this.btnLoad);
 
@@ -258,9 +293,9 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new Point(740, 496);
+            this.btnSave.Location = new Point(740, 526);
             this.btnSave.Size = new Size(100, 60);
-            this.btnSave.TabIndex = 116;
+            this.btnSave.TabIndex = iTabIndex++;
             this.btnSave.Text = "Save";
             this.Controls.Add(this.btnSave);
 
@@ -270,10 +305,10 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(740, 560);
+            this.CouldBe.Location = new Point(740, 590);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
-            this.CouldBe.TabIndex = 117;
+            this.CouldBe.TabIndex = iTabIndex++;
             this.CouldBe.Text = "CouldBe";
             this.CouldBe.UseVisualStyleBackColor = true;
             this.CouldBe.CheckedChanged += new EventHandler(this.CouldBe_CheckedChanged);
@@ -282,7 +317,7 @@ namespace SudokuForms
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(740, 590, 350, 380, 116);
+            this.objLogBox = new LogBox(740, 620, 350, 350, iTabIndex);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
@@ -376,6 +411,7 @@ namespace SudokuForms
 
         void Clear_Click(object sender, EventArgs e)
         {
+            this.Text = "SudoKirk";
             objLogBox.Log("------- CLEAR ------------------");
             foreach (Square sq in objBoard.rgSquare)
             {
@@ -398,6 +434,24 @@ namespace SudokuForms
             if (radio.Checked)
             {
                 curTechnique = Technique.AllNeighbors;
+            }
+        }
+
+        void RangeCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.RangeCheck;
+            }
+        }
+
+        void LineFind_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.LineFind;
             }
         }
 
@@ -436,6 +490,7 @@ namespace SudokuForms
                 curTechnique = Technique.TwoPair;
             }
         }
+
         void ThreesomeRows_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
@@ -444,6 +499,7 @@ namespace SudokuForms
                 curTechnique = Technique.ThreesomeRows;
             }
         }
+
         void ThreesomeCols_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
@@ -452,6 +508,7 @@ namespace SudokuForms
                 curTechnique = Technique.ThreesomeCols;
             }
         }
+
         void FoursomeRows_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
@@ -460,6 +517,7 @@ namespace SudokuForms
                 curTechnique = Technique.FoursomeRows;
             }
         }
+
         void FoursomeCols_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
@@ -468,14 +526,7 @@ namespace SudokuForms
                 curTechnique = Technique.FoursomeCols;
             }
         }
-        void LineFind_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.LineFind;
-            }
-        }
+
         void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;
@@ -512,6 +563,12 @@ namespace SudokuForms
                 case Technique.AllNeighbors:
                     Techniques.AllNeighbors(objBoard, objLogBox);
                     break;
+                case Technique.RangeCheck:
+                    Techniques.RangeCheck(objBoard, objLogBox);
+                    break;
+                case Technique.LineFind:
+                    Techniques.FLineFind(objBoard, objLogBox);
+                    break;
                 case Technique.SectorSweep:
                     Techniques.SectorSweep(objBoard, objLogBox);
                     break;
@@ -535,9 +592,6 @@ namespace SudokuForms
                     break;
                 case Technique.FoursomeCols:
                     Techniques.FoursomeCols(objBoard, objLogBox);
-                    break;
-                case Technique.LineFind:
-                    Techniques.FLineFind(objBoard, objLogBox);
                     break;
             }
         }
@@ -586,6 +640,8 @@ namespace SudokuForms
         CheckBox CouldBe;
         RadioButton Neighbor;
         RadioButton AllNeighbors;
+        RadioButton RangeCheck;
+        RadioButton LineFind;
         RadioButton SectorSweep;
         RadioButton ColumnSweeps;
         RadioButton RowSweeps;
@@ -594,7 +650,6 @@ namespace SudokuForms
         RadioButton ThreesomeCols;
         RadioButton FoursomeRows;
         RadioButton FoursomeCols;
-        RadioButton LineFind;
         Panel RadioPanel;
         Button btnLoad;
         Button btnSave;
