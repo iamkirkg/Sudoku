@@ -60,19 +60,141 @@ namespace SudokuForms
             return ret;
         }
 
-        // Examine a Range of the board. Eventually, examine all the Ranges.
-        public static bool RangeCheck(Board objBoard, LogBox objLogBox)
+        // ==================================================================
+        //
+        // Call for every Row and Column and Sector.
+        public static bool AllRanges(Board objBoard, LogBox objLogBox)
         {
             bool ret = false;
 
-            Range objRange = new Range(objBoard, Range.Type.Column, 0);
-
-            objRange.GenerateMapping(objBoard.objLogBox);
+            for (int i = 0; i <= 8; i++)
+            {
+                Range objRange = new Range(objBoard, Range.Type.Column, i);
+                ret |= RangeCheck(objBoard, objRange, objLogBox);
+            }
+            for (int i = 0; i <= 8; i++)
+            {
+                Range objRange = new Range(objBoard, Range.Type.Row, i);
+                ret |= RangeCheck(objBoard, objRange, objLogBox);
+            }
+            for (int i = 0; i <= 8; i++)
+            {
+                Range objRange = new Range(objBoard, Range.Type.Sector, i);
+                ret |= RangeCheck(objBoard, objRange, objLogBox);
+            }
 
             if (ret)
             {
-                objLogBox.Log("RangeCheck");
+                objLogBox.Log("AllRanges");
             }
+            return ret;
+        }
+
+        // Examine a Range of the board.
+        //
+        // There are nine Squares in a Range. We want to examine all 512 (2^9)
+        // combinations (not permuations) of those Squares. For each combination,
+        // concatenate-sort-uniq their Text strings (both Winner and CouldBes).
+        // If the length matches the count of Squares, then we have an Nsome: Twosome or
+        // Threesome or Foursome ... Eightsome Ninesome.
+        //
+        // The first test, with value 0, is binary 000000000. It represents
+        // looking at no Squares in the Range. This is a degenerative case. 
+        // It looks at no Squares, has no values, has length 0, matching the 
+        // bitcount of 0, matching the Square count of 0. It's a 'Zerosome', 
+        // and we would call 'Loser' on no values.
+        //
+        // The last test, with value 511, is binary 111111111. It represents
+        // looking at every Square in the Range. This is a degenerative case. 
+        // Every (legit) Range, whether just starting, partially or fully solved, 
+        // will have all nine values somewhere, thus its length of nine matches its
+        // bit count, its Square count. Thus, every Range has a 'Ninesome'
+        // with all nine Squares. It would call 'Loser' on all nine values, but 
+        // (amusingly) only on the *other* Squares in the Range, and here there are
+        // none.
+        //
+        // Consider this Range:
+        //
+        //   +=====+=====+=====+=====+=====+=====+=====+=====+=====+
+        //   | 2 4 |     |     |     |     | 2 6 |     | 1 4 | 4 6 |
+        //   |  6  | 2 4 |  9  | 1 7 |  5  |  8  |  3  | 7 8 |  8  |
+        //   |     |     |     |     |     |     |     |     |     |
+        //   +=====+=====+=====+=====+=====+=====+=====+=====+=====+
+        //      1     1     0     0     0     1     0     0     1
+        //
+        // When we get to 291, binary 100100011 (low bit first, on the left 
+        // Square), we combine 246+24+268+468 -> 2468. Four characters, four
+        // ON bits, four Squares: it's a Foursome. Call Loser(2), Loser(4), 
+        // Loser(6), Loser(8), and Square 7's 1478 becomes 17.
+
+        public static bool RangeCheck(Board objBoard, Range objRange, LogBox objLogBox)
+        {
+            bool ret = false;
+
+            for (int bitmask = 0; bitmask < Math.Pow(2, 9); bitmask++)
+            {
+                int bitshift = bitmask;
+                int bitcount = 0;
+                string szTuple = "";
+                for (int ibit = 0; ((ibit < 9) && (bitshift != 0)); ibit++)
+                {
+                    // If the low bit is set, we want that Square.
+                    if ((bitshift % 2) == 1)
+                    {
+                        bitcount++;
+                        if (objRange.rgSquare[ibit].btn.Text.Equals("34"))
+                        {
+                            //objLogBox.Log("1 Found a 34");
+                        }
+                        foreach (char ch in objRange.rgSquare[ibit].btn.Text)
+                        {
+                            if (!szTuple.Contains(ch) && ch != ' ')
+                            {
+                                szTuple += ch;
+                            }
+                        }
+                    }
+                    bitshift = (bitshift / 2);
+                }
+                if (szTuple.Equals("34"))
+                {
+                    //objLogBox.Log("2 Found a 34");
+                }
+                if (szTuple.Length == bitcount)
+                {
+                    // We have found an Nsome.
+
+                    bool ret2 = false;
+                    bitshift = bitmask;
+
+                    // For all the Squares of Range that _aren't_ in bitmask, 
+                    //   call Loser for all the values of szTuple.
+                    for (int ibit = 0; ibit < 9; ibit++)
+                    {
+                        // If the low bit is NOT set, we want that Square.
+                        if ((bitshift % 2) == 0)
+                        {
+                            foreach (char ch in szTuple)
+                            {
+                                ret2 |= objRange.rgSquare[ibit].FLoser(ch, objBoard);
+                            }
+                        }
+                        bitshift = (bitshift / 2);
+                    }
+
+                    if (ret2)
+                    {
+                        objLogBox.Log("RangeCheck " + objRange.type + objRange.i + " " +
+                                      bitcount.ToString() + "some " + 
+                                      szTuple + " " + Convert.ToString(bitmask, 2) + " " );
+                    }
+                    ret |= ret2;
+                }
+            }
+
+            // We ran this once, to get our code to paste into Range.cs.
+            //objRange.GenerateMapping(objBoard.objLogBox);
+
             return ret;
         }
 

@@ -21,7 +21,46 @@ namespace SudokuForms
             Sector
         }
 
-        public Range(Board objBoard, Type argType, int argI)
+        // Output of GenerateMapping below (and then cut'n'pasted to here):
+        // This is the count of bits in the values [0..511], or 2^9.
+        // This represents every permutation of nine Squares within a Range.
+        public static int[] rgBitCount = 
+        {
+            0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,
+            1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,
+            1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8,
+            1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8,
+            2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8,
+            3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,
+            4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8,
+            4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8,
+            5,6,6,7,6,7,7,8,6,7,7,8,7,8,8,9
+        };
+
+    public Range(Board objBoard, Type argType, int argI)
         {
             rgSquare = new Square[9];
             type = argType;
@@ -72,10 +111,26 @@ namespace SudokuForms
 
         public void GenerateMapping(LogBox logBox)
         {
+            string sz = null;
+            logBox.Log("public static int[] rgBitCount =");
+            logBox.Log("{");
             for (int i = 0; i < Math.Pow(2, 9); i++)
             {
-                logBox.Log(i.ToString() + ": " + CountBits(i).ToString());
+                if (i != (Math.Pow(2, 9) - 1))
+                {
+                    sz = sz + CountBits(i).ToString() + ",";
+                }
+                else
+                {
+                    sz = sz + CountBits(i).ToString();
+                }
+                if ((i % 16) == 15)
+                {
+                    logBox.Log("\t" + sz);
+                    sz = null;
+                }
             }
+            logBox.Log("};");
         }
     }
 }

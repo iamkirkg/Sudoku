@@ -317,7 +317,7 @@ namespace SudokuForms
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(740, 620, 350, 350, iTabIndex);
+            this.objLogBox = new LogBox(740, 620, 350, 850, iTabIndex);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
@@ -564,7 +564,7 @@ namespace SudokuForms
                     Techniques.AllNeighbors(objBoard, objLogBox);
                     break;
                 case Technique.RangeCheck:
-                    Techniques.RangeCheck(objBoard, objLogBox);
+                    Techniques.AllRanges(objBoard, objLogBox);
                     break;
                 case Technique.LineFind:
                     Techniques.FLineFind(objBoard, objLogBox);

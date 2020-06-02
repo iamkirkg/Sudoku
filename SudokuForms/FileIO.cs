@@ -91,6 +91,8 @@ namespace SudokuForms
                 return;
             }
 
+            objBoard.objLogBox.Log("LOAD: " + objDlg.FileName);
+
             XmlReaderSettings settings = new XmlReaderSettings();
             using (XmlReader reader = XmlReader.Create(objDlg.FileName, settings))
             {

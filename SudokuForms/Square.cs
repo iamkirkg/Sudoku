@@ -125,7 +125,7 @@ namespace SudokuForms
             btn.BackColor = MyBackColor();
             btn.ForeColor = colorSquare;
             btn.Refresh();
-            Thread.Sleep(50);
+            Thread.Sleep(20);
             btn.Refresh();
             btn.BackColor = save;
         }
@@ -148,7 +148,7 @@ namespace SudokuForms
             Color save = btn.BackColor;
             btn.BackColor = MyLoserColor();
             btn.Refresh();
-            Thread.Sleep(50);
+            Thread.Sleep(20);
             btn.Text = szTextNew;
             btn.Refresh();
             btn.BackColor = save;
