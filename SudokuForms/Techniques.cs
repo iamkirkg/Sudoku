@@ -69,7 +69,7 @@ namespace SudokuForms
 
             for (int i = 0; i <= 8; i++)
             {
-                Range objRange = new Range(objBoard, Range.Type.Column, i);
+                Range objRange = new Range(objBoard, Range.Type.Col, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
             for (int i = 0; i <= 8; i++)
@@ -79,7 +79,7 @@ namespace SudokuForms
             }
             for (int i = 0; i <= 8; i++)
             {
-                Range objRange = new Range(objBoard, Range.Type.Sector, i);
+                Range objRange = new Range(objBoard, Range.Type.Sec, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
 
@@ -136,16 +136,13 @@ namespace SudokuForms
                 int bitshift = bitmask;
                 int bitcount = 0;
                 string szTuple = "";
+
                 for (int ibit = 0; ((ibit < 9) && (bitshift != 0)); ibit++)
                 {
                     // If the low bit is set, we want that Square.
                     if ((bitshift % 2) == 1)
                     {
                         bitcount++;
-                        if (objRange.rgSquare[ibit].btn.Text.Equals("34"))
-                        {
-                            //objLogBox.Log("1 Found a 34");
-                        }
                         foreach (char ch in objRange.rgSquare[ibit].btn.Text)
                         {
                             if (!szTuple.Contains(ch) && ch != ' ')
@@ -155,10 +152,6 @@ namespace SudokuForms
                         }
                     }
                     bitshift = (bitshift / 2);
-                }
-                if (szTuple.Equals("34"))
-                {
-                    //objLogBox.Log("2 Found a 34");
                 }
                 if (szTuple.Length == bitcount)
                 {
@@ -182,12 +175,12 @@ namespace SudokuForms
                         bitshift = (bitshift / 2);
                     }
 
-                    if (ret2)
-                    {
-                        objLogBox.Log("RangeCheck " + objRange.type + objRange.i + " " +
-                                      bitcount.ToString() + "some " + 
-                                      szTuple + " " + Convert.ToString(bitmask, 2) + " " );
-                    }
+                    //if (ret2)
+                    //{
+                    //    objLogBox.Log("RangeCheck " + objRange.type + objRange.i + " " +
+                    //                  bitcount.ToString() + "some " + 
+                    //                  szTuple + " " + Convert.ToString(bitmask, 2) + " " );
+                    //}
                     ret |= ret2;
                 }
             }

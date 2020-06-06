@@ -17,13 +17,15 @@ namespace SudokuForms
         public enum Type
         {
             Row,
-            Column,
-            Sector
+            Col,
+            Sec
         }
 
         // Output of GenerateMapping below (and then cut'n'pasted to here):
         // This is the count of bits in the values [0..511], or 2^9.
         // This represents every permutation of nine Squares within a Range.
+        // And, alas, it turns out we don't even need it.
+        /*
         public static int[] rgBitCount = 
         {
             0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,
@@ -59,6 +61,7 @@ namespace SudokuForms
             4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8,
             5,6,6,7,6,7,7,8,6,7,7,8,7,8,8,9
         };
+        */
 
     public Range(Board objBoard, Type argType, int argI)
         {
@@ -75,13 +78,13 @@ namespace SudokuForms
                         rgSquare[r] = objBoard.rgSquare[r, i];
                     }
                     break;
-                case Type.Column:
+                case Type.Col:
                     for (r = 0; r <= 8; r++)
                     {
                         rgSquare[r] = objBoard.rgSquare[i, r];
                     }
                     break;
-                case Type.Sector:
+                case Type.Sec:
                     foreach (Square sq in objBoard.rgSquare)
                     {
                         if (sq.sector == i)

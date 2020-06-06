@@ -40,7 +40,7 @@ namespace SudokuForms
                 Location = new Point(xPoint, yPoint),
                 Size = new Size(xSize, ySize),
                 TabIndex = iTab,
-                Text = "1 2 3 4 5 6 7 8 9"
+                Text = "1 2 3 4 5 6 7 8 9 "
             };
 
             btn.KeyPress += fnKeyPress;
@@ -77,7 +77,7 @@ namespace SudokuForms
             btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
             btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            btn.Text = "1 2 3 4 5 6 7 8 9";
+            btn.Text = "1 2 3 4 5 6 7 8 9 ";
         }
 
         // Set this square to an 'intermediate' status, partly evaluated.
@@ -121,7 +121,7 @@ namespace SudokuForms
 
             Color save = btn.BackColor;
             btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            btn.Text = chValue.ToString();
+            btn.Text = chValue.ToString() + " ";
             btn.BackColor = MyBackColor();
             btn.ForeColor = colorSquare;
             btn.Refresh();
@@ -139,7 +139,7 @@ namespace SudokuForms
             }
 
             // If the Text doesn't change, don't do anything.
-            string szTextNew = btn.Text.Replace(chValue, ' ').Replace("  ", " ");
+            string szTextNew = btn.Text.Replace(chValue + " ", null);
             if (btn.Text.Equals(szTextNew))
             {
                 return false;
