@@ -1068,6 +1068,8 @@ namespace SudokuForms
         {
             bool ret = false;
 
+            // REVIEW KirkG: surely this isn't right, doing 'new' both in the
+            // decl and the initialization loop.  Am I leaking memory?
             LineText[] mpsLineText = new LineText[9];
             for (int s = 0; s <= 8; s++)
             {
@@ -1228,6 +1230,136 @@ namespace SudokuForms
             if (ret)
             {
                 //objLogBox.Log("LineFind: in sector " + s + ", only col " + col + " has char " + ch);
+            }
+
+            return ret;
+        }
+
+        // ==================================================================
+        //
+        // This is the flipside version of FLineFind, above.
+        //
+        // For each row and column
+        //   For ch 1 through 9
+        //     If ch is found in only one sector of the row|column
+        //       Call FLoser(ch) on the squares of the sector, not in our row|column.
+
+        public static bool FSectorsFind(Board objBoard, LogBox objLogBox)
+        {
+            bool ret = false;
+
+            for (int i = 0; i <= 8; i++)
+            {
+                Range objRange = new Range(objBoard, Range.Type.Col, i);
+                ret |= FSectorFind(objBoard, objRange, objLogBox);
+            }
+            for (int i = 0; i <= 8; i++)
+            {
+                Range objRange = new Range(objBoard, Range.Type.Row, i);
+                ret |= FSectorFind(objBoard, objRange, objLogBox);
+            }
+
+            return ret;
+        }
+
+        public static bool FSectorFind(Board objBoard, Range objRange, LogBox objLogBox)
+        {
+            bool ret = false;
+            bool ret2;
+
+            // What sector(s) we've seen for each charater, across all the squares of
+            // this range.
+            //   -1 : no sectors
+            //   0 .. 9 : the only sector seen by that char
+            //   -2 : multiple sectors
+
+            int[] mpchs = { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+
+            foreach (Square sq in objRange.rgSquare)
+            {
+                for (char ch = '1'; ch <= '9'; ch++)
+                {
+                    int ich = ch - '1';
+                    if (sq.btn.Text.Contains(ch))
+                    {
+                        switch (mpchs[ich])
+                        {
+                            case -1:
+                                mpchs[ich] = sq.sector;
+                                break;
+                            // 0 .. 9
+                            default:
+                                if (mpchs[ich] != sq.sector)
+                                {
+                                    mpchs[ich] = -2;
+                                }
+                                break;
+                            case -2:
+                                break;
+                        }
+                    }
+                }
+            }
+
+            /*
+            String szLog = "FSectorFind ";
+            if (objRange.type == Range.Type.Col)
+            {
+                szLog += "col" + objRange.i + ":";
+            }
+            else
+            {
+                szLog += "row" + objRange.i + ":";
+            }
+            for (int ich = 0; ich <= 8; ich++)
+            {
+                szLog += " " + mpchs[ich];
+            }
+            objLogBox.Log(szLog);
+            */
+
+            for (int ich = 0; ich <= 8; ich++)
+            {
+                char ch = (char)(ich + '1');
+                int sec = mpchs[ich];
+
+                foreach (Square sq in objBoard.rgSquare)
+                {
+                    if (sq.sector == sec)
+                    {
+                        // The value ch was found (in our row|column) _only_ in
+                        // this sector. If this square is not in the row|column
+                        // of our Range, then ch is a Loser.
+                        switch (objRange.type)
+                        {
+                            case Range.Type.Row:
+                                if (sq.row != objRange.i)
+                                {
+                                    ret2 = sq.FLoser(ch, objBoard);
+                                    if (ret2)
+                                    {
+                                        objLogBox.Log("FSectorFind row s" + sec + " r" + sq.row + " c" + sq.col + " ch" + ch);
+                                        ret = ret2;
+                                    }
+                                }
+                                break;
+                            case Range.Type.Col:
+                                if (sq.col != objRange.i)
+                                {
+                                    ret2 = sq.FLoser(ch, objBoard);
+                                    if (ret2)
+                                    {
+                                        objLogBox.Log("FSectorFind col s" + sec + " r" + sq.row + " c" + sq.col + " ch" + ch);
+                                        ret = ret2;
+                                    }
+                                }
+                                break;
+                            case Range.Type.Sec:
+                                // This shouldn't happen.
+                                break;
+                        }
+                    }
+                }
             }
 
             return ret;

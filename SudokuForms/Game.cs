@@ -14,15 +14,16 @@ namespace SudokuForms
             Neighbor,
             AllNeighbors,
             RangeCheck,
+            LineFind,
+            SectorFind,
             SectorSweep,
             ColumnSweeps,
-            RowSweeps,
-            TwoPair,
-            ThreesomeRows,
-            ThreesomeCols,
-            FoursomeRows,
-            FoursomeCols,
-            LineFind
+            RowSweeps
+            //TwoPair,
+            //ThreesomeRows,
+            //ThreesomeCols,
+            //FoursomeRows,
+            //FoursomeCols,
         }
         public Technique curTechnique = Technique.none;
 
