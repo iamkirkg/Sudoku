@@ -11,14 +11,14 @@ namespace SudokuForms
         public enum Technique
         {
             none,
-            Neighbor,
-            AllNeighbors,
+            //Neighbor,
+            //AllNeighbors,
             RangeCheck,
             LineFind,
-            SectorFind,
-            SectorSweep,
-            ColumnSweeps,
-            RowSweeps
+            SectorFind
+            //SectorSweep,
+            //ColumnSweeps,
+            //RowSweeps
             //TwoPair,
             //ThreesomeRows,
             //ThreesomeCols,

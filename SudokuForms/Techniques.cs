@@ -12,6 +12,9 @@ namespace SudokuForms
     // This class holds the functions used to solve the puzzle.
     class Techniques
     {
+
+        /* ===========================================================================
+
         // Walk every square in the board. If it's in this sector, or row, or 
         // column, but isn't us, and isn't already a winner, then keyChar is a Loser.
         // REVIEW KirkG: Why does this need to be static?
@@ -59,6 +62,8 @@ namespace SudokuForms
             }
             return ret;
         }
+
+        =========================================================================== */
 
         // ==================================================================
         //
@@ -190,6 +195,8 @@ namespace SudokuForms
 
             return ret;
         }
+
+        /* ======================================================================
 
         // For each sector
         //    for the values 1 through 9
@@ -1021,6 +1028,8 @@ namespace SudokuForms
             }
             return ret;
         }
+
+        ====================================================================== */
 
         // ==================================================================
 
