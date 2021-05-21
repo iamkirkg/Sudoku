@@ -8,6 +8,7 @@ namespace SudokuForms
 {
     public class Square
     {
+        public bool myfSuper;
         public int iWinner { get; set; } // When there's only one left.
         public char chWinner { get; set; }
         public bool fOriginal { get; set; } // Is this one of the starting squares?
@@ -25,12 +26,13 @@ namespace SudokuForms
                       EventHandler fnClick
                       )
         {
+            myfSuper = objGame.fSuper;
             iWinner = 0;
             chWinner = '0';
             fOriginal = false;
             sector = iSector;
-            col = ((iTab - 1) % 9); // Modulo (remainder)
-            row = ((iTab - 1) / 9); // Divide
+            col = ((iTab - 1) % objGame.cDimension); // Modulo (remainder)
+            row = ((iTab - 1) / objGame.cDimension); // Divide
 
             btn = new Button
             {
@@ -40,7 +42,7 @@ namespace SudokuForms
                 Location = new Point(xPoint, yPoint),
                 Size = new Size(xSize, ySize),
                 TabIndex = iTab,
-                Text = "1 2 3 4 5 6 7 8 9 "
+                Text = myfSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "
             };
 
             btn.KeyPress += fnKeyPress;
@@ -51,16 +53,20 @@ namespace SudokuForms
         }
 
         // Alternate background colors for sectors.
+        readonly Color[] mpSectorColor = {
+            Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue,
+            Color.FloralWhite, Color.AliceBlue,   Color.FloralWhite,
+            Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue
+        };
+        readonly Color[] mpSectorColorSuper = {
+            Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue,   Color.FloralWhite,
+            Color.FloralWhite, Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue,
+            Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue,   Color.FloralWhite,
+            Color.FloralWhite, Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue
+        };
         public Color MyBackColor()
         {
-            if ((sector % 2) == 1)
-            {
-                return Color.FloralWhite;
-            }
-            else
-            {
-                return Color.AliceBlue;
-            }
+            return myfSuper ? mpSectorColorSuper[sector] : mpSectorColor[sector];
         }
 
         public Color MyLoserColor()
@@ -77,7 +83,7 @@ namespace SudokuForms
             btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
             btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            btn.Text = "1 2 3 4 5 6 7 8 9 ";
+            btn.Text = myfSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 ";
         }
 
         // Set this square to an 'intermediate' status, partly evaluated.

@@ -8,6 +8,9 @@ namespace SudokuForms
 {
     public partial class Game : Form
     {
+        public bool fSuper = true; // 3x3x3 or 4x4x4
+        public int cDimension = 16;  // 9 or 16
+
         public enum Technique
         {
             none,
@@ -42,14 +45,33 @@ namespace SudokuForms
 
             // ------------------------------------
             // Tweak these to change the board size
-            int xOrigin = 2;
-            int yOrigin = 2;
-            int xSize = 52;
-            int ySize = 68;
-            float font = 12F;
+            int xOrigin;
+            int yOrigin;
+            int xSize;
+            int ySize;
+            float font;
+
+            if (fSuper) {
+                xOrigin = 2;
+                yOrigin = 2;
+                //xSize = 64;
+                //ySize = 76;
+                //font = 10F;
+                xSize = 52;
+                ySize = 60;
+                font = 8F;
+            }
+            else {
+                xOrigin = 2;
+                yOrigin = 2;
+                xSize = 52;
+                ySize = 68;
+                font = 12F;
+            }
+
             // ------------------------------------
 
-            objBoard = new Board(this,
+            objBoard = new Board(this, fSuper,
                                  xOrigin, yOrigin, xSize, ySize, font, 
                                  sq_KeyPress, sq_KeyDown, sq_Click,
                                  objLogBox

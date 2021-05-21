@@ -322,6 +322,21 @@ namespace SudokuForms
             this.CouldBe.CheckedChanged += new EventHandler(this.CouldBe_CheckedChanged);
             this.Controls.Add(this.CouldBe);
 
+            // 
+            // Super
+            // 
+            this.Super = new CheckBox();
+            this.Super.AutoSize = true;
+            this.Super.Checked = true;
+            this.Super.Location = new Point(900, 326);
+            this.Super.Name = "Super";
+            this.Super.Size = new Size(104, 24);
+            this.Super.TabIndex = iTabIndex++;
+            this.Super.Text = "SuperSudoku!";
+            this.Super.UseVisualStyleBackColor = true;
+            this.Super.CheckedChanged += new EventHandler(this.Super_CheckedChanged);
+            this.Controls.Add(this.Super);
+
             //
             // LogBox
             //
@@ -342,7 +357,7 @@ namespace SudokuForms
             this.PerformLayout();
         }
 
-        // This is the KeyPress function for all 81 of our Squares.
+        // This is the KeyPress function for all 81-or-256 of our Squares.
         void sq_KeyPress(object sender, KeyPressEventArgs e)
         {
             Button btn = sender as Button;
@@ -350,15 +365,15 @@ namespace SudokuForms
             char keyChar = e.KeyChar;
 
             // Calculate objBoard.rgSquare[col,row] location from the tabindex.
-            // TabIndex is [1..81]; the array is [0..8][0..8].
+            // TabIndex is [1..81] or [1..256]; the array is [0..8][0..8] or [0..15][0..15].
             curTab = iTab;
-            curCol = ((iTab - 1) % 9);  // Modulo (remainder)
-            curRow = ((iTab - 1) / 9);  // Divide
+            curCol = ((iTab - 1) % cDimension);  // Modulo (remainder)
+            curRow = ((iTab - 1) / cDimension);  // Divide
             curChar = keyChar;
 
             //objLogBox.Log("KeyPress " + keyChar);
 
-            if (keyChar >= '1' && keyChar <= '9')
+            if ((keyChar >= '1' && keyChar <= '9') || (fSuper && keyChar >= 'a' && keyChar <= 'f'))
             {
                 //objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
                 objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, Color.DarkGreen, objBoard);
@@ -366,7 +381,7 @@ namespace SudokuForms
             }
         }
 
-        // KeyDown for all 81 squares
+        // KeyDown for all 81-or-256 squares
         void sq_KeyDown(object sender, KeyEventArgs e)
         {
             Button btn = sender as Button;
@@ -374,10 +389,10 @@ namespace SudokuForms
             Keys keyCode = e.KeyCode;
 
             // Calculate objBoard.rgSquare[col,row] location from the tabindex.
-            // TabIndex is [1..81]; the array is [0..8][0..8].
+            // TabIndex is [1..81] or [1..256]; the array is [0..8][0..8] or [0..15][0..15].
             curTab = iTab;
-            curCol = ((iTab - 1) % 9);  // Modulo (remainder)
-            curRow = ((iTab - 1) / 9);  // Divide
+            curCol = ((iTab - 1) % cDimension);  // Modulo (remainder)
+            curRow = ((iTab - 1) / cDimension);  // Divide
 
             //objLogBox.Log("KeyDown " + keyCode.ToString());
 
@@ -398,7 +413,7 @@ namespace SudokuForms
             }
         }
 
-        // This is the ButtonClick function for all 81 of our Squares.
+        // This is the ButtonClick function for all 81-or-256 of our Squares.
         void sq_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
@@ -569,6 +584,20 @@ namespace SudokuForms
             }
         }
 
+        void Super_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox box = sender as CheckBox;
+            if (box.Checked) {
+                fSuper = true;
+                this.btnLoad.Text = "Load!";
+                cDimension = 16;
+            } else {
+                fSuper = false;
+                this.btnLoad.Text = "Load";
+                cDimension = 9;
+            }
+        }
+
         // This is the ButtonClick function for the Step button.
         void Step_Click(object sender, EventArgs e)
         {
@@ -626,10 +655,10 @@ namespace SudokuForms
         {
             {
                 // Calculate objBoard.rgSquare[col,row] location from the tabindex.
-                // TabIndex is [1..81]; the array is [0..8][0..8].
+                // TabIndex is [1..81] or [1..256]; the array is [0..8][0..8] or [0..15][0..15].
                 curTab = iTab;
-                curCol = ((iTab - 1) % 9);  // Modulo (remainder)
-                curRow = ((iTab - 1) / 9);  // Divide
+                curCol = ((iTab - 1) % cDimension);  // Modulo (remainder)
+                curRow = ((iTab - 1) / cDimension);  // Divide
                 Square mySquare = objBoard.rgSquare[curCol, curRow];
                 if (mySquare.iWinner != 0)
                 {
@@ -664,6 +693,7 @@ namespace SudokuForms
         Button btnStep;
         LogBox objLogBox;
         CheckBox CouldBe;
+        CheckBox Super;
         //RadioButton Neighbor;
         //RadioButton AllNeighbors;
         RadioButton RangeCheck;

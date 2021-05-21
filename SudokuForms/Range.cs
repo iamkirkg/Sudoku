@@ -1,12 +1,7 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using System.Xml;
-
+﻿
 namespace SudokuForms
 {
-    // A Range is simply an array of nine Squares.
+    // A Range is simply an array of nine-or-sixteen Squares.
     // It is the Squares of a row, or a column, or a sector.
     class Range
     {
@@ -23,7 +18,7 @@ namespace SudokuForms
 
     public Range(Board objBoard, Type argType, int argI)
         {
-            rgSquare = new Square[9];
+            rgSquare = new Square[objBoard.objGame.cDimension];
             type = argType;
             i = argI;
 
