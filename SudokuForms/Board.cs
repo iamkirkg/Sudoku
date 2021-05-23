@@ -72,10 +72,10 @@ namespace SudokuForms
             rgSquare = new Square[argGame.cDimension, argGame.cDimension];
 
             int iTab = 0; // [1 ... 81] or [1..256]
-            for (int y = 0; y <= argGame.cDimension-1; y++)
+            for (int y = 0; y < argGame.cDimension; y++)
             {
                 xPoint = xOrigin;
-                for (int x = 0; x <= argGame.cDimension-1; x++)
+                for (int x = 0; x < argGame.cDimension; x++)
                 {
                     iTab++;
                     iSector = (fSuper ? mpTabSectorSuper[iTab - 1] : mpTabSector[iTab - 1]);

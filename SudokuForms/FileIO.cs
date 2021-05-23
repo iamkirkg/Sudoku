@@ -76,7 +76,7 @@ namespace SudokuForms
             int Column = -1;
             int Sector = -1;
             int iWinner = -1;
-            char chWinner = '0';
+            char chWinner = 'X';
             bool fOriginal = false;
             int TabIndex;
             string Text = null;

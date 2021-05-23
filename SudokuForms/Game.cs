@@ -8,20 +8,48 @@ namespace SudokuForms
 {
     public partial class Game : Form
     {
-        /*
-        public bool fSuper = true; // 3x3x3 or 4x4x4
-        public int cDimension = 16;  // 9 or 16
-        public int xDelta = 564; // how far to move right
-        public string szTitle = "SuperSudokirk";
-        public Single emSizeWinner = 36F;
-        public int bitCount = 16;
-        */
-        public bool fSuper = false; // 3x3x3 or 4x4x4
-        public int cDimension = 9;  // 9 or 16
-        public int xDelta = 0; // how far to move right
-        public string szTitle = "Sudokirk";
-        public Single emSizeWinner = 40F;
-        public int bitCount = 9;
+        private bool _fSuper = true; // field
+        public bool fSuper   // property
+        {
+            get { return _fSuper; }
+            set { _fSuper = value; }
+        }
+        public int cDimension { // Are we 3x3 or 4x4?
+            get { return _fSuper ? 16 : 9; }
+        }
+        public int xDelta { // how far to move right
+            get { return _fSuper ? 564 : 0; }
+        }
+        public string szTitle {
+            get { return _fSuper ? "SuperSudokirk" : "Sudokirk"; }
+        }
+        public Single emSizeWinner {
+            get { return _fSuper ? 36F : 40F; }
+        }
+        public int bitCount {
+            get { return _fSuper ? 16 : 9; }
+        }
+        public float font {
+            get { return _fSuper ? 8F : 12F; }
+        }
+        // Board origin
+        private int xOrigin = 2;
+        private int yOrigin = 2;
+        // Board size
+        public int iBoardWidth {
+            get { return _fSuper ? 1662 : 1100; }
+        }
+        public int iBoardHeight
+        {
+            get { return _fSuper ? 1600 : 1000; }
+        }
+        // Square size
+        private int xSize {
+            get { return _fSuper ? 52 : 52; }
+        }
+        private int ySize {
+            get { return _fSuper ? 69 : 68; }
+        }
 
         public enum Technique
         {
@@ -54,34 +82,6 @@ namespace SudokuForms
         public Game()
         {
             InitializeComponent();
-
-            // ------------------------------------
-            // Tweak these to change the board size
-            int xOrigin;
-            int yOrigin;
-            int xSize;
-            int ySize;
-            float font;
-
-            if (fSuper) {
-                xOrigin = 2;
-                yOrigin = 2;
-                //xSize = 64;
-                //ySize = 76;
-                //font = 10F;
-                xSize = 52;
-                ySize = 60;
-                font = 8F;
-            }
-            else {
-                xOrigin = 2;
-                yOrigin = 2;
-                xSize = 52;
-                ySize = 68;
-                font = 12F;
-            }
-
-            // ------------------------------------
 
             objBoard = new Board(this, fSuper,
                                  xOrigin, yOrigin, xSize, ySize, font, 

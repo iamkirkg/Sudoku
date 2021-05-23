@@ -66,17 +66,17 @@ namespace SudokuForms
         {
             bool ret = false;
 
-            for (int i = 0; i <= objBoard.objGame.cDimension; i++)
+            for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Col, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i <= objBoard.objGame.cDimension; i++)
+            for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Row, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i <= objBoard.objGame.cDimension; i++)
+            for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Sec, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
@@ -1097,7 +1097,7 @@ namespace SudokuForms
 
             for (int s = 0; s < objBoard.objGame.cDimension; s++)
             {
-                for (char ch = '1'; ch < objBoard.objGame.cDimension; ch++)
+                for (char ch = '0'; ch < objBoard.objGame.cDimension; ch++)
                 {
                     if (
                         ( mpsLineText[s].row[0].Contains(ch)) &&
@@ -1288,7 +1288,8 @@ namespace SudokuForms
             //   0 .. 9 : the only sector seen by that char
             //   -2 : multiple sectors
 
-            int[] mpchs = { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+            int[] mpchs = new int[objBoard.objGame.cDimension];
+            foreach (int ichs in mpchs) { mpchs[ichs] = -1;  }
 
             foreach (Square sq in objRange.rgSquare)
             {

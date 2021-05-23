@@ -349,7 +349,7 @@ namespace SudokuForms
             // 
             this.AutoScaleDimensions = new SizeF(9F, 20F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(1100, 980);
+            this.ClientSize = new Size(iBoardWidth, iBoardHeight);
 
             this.Name = szTitle;
             this.Text = szTitle;

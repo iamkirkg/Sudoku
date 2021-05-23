@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -8,7 +7,7 @@ namespace SudokuForms
 {
     public class Square
     {
-        public bool myfSuper;
+        public Game objGame;
         public int iWinner { get; set; } // When there's only one left.
         public char chWinner { get; set; }
         public bool fOriginal { get; set; } // Is this one of the starting squares?
@@ -18,7 +17,7 @@ namespace SudokuForms
         public Button btn { get; set; }
 
         // Constructor
-        public Square(Game objGame,
+        public Square(Game argGame,
                       int iTab, int iSector, 
                       int xPoint, int yPoint, int xSize, int ySize, float font, 
                       KeyPressEventHandler fnKeyPress,
@@ -26,7 +25,7 @@ namespace SudokuForms
                       EventHandler fnClick
                       )
         {
-            myfSuper = objGame.fSuper;
+            objGame = argGame;
             iWinner = -1;
             chWinner = 'X';
             fOriginal = false;
@@ -42,7 +41,7 @@ namespace SudokuForms
                 Location = new Point(xPoint, yPoint),
                 Size = new Size(xSize, ySize),
                 TabIndex = iTab,
-                Text = myfSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "
+                Text = objGame.fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "
             };
 
             btn.KeyPress += fnKeyPress;
@@ -66,7 +65,7 @@ namespace SudokuForms
         };
         public Color MyBackColor()
         {
-            return myfSuper ? mpSectorColorSuper[sector] : mpSectorColor[sector];
+            return objGame.fSuper ? mpSectorColorSuper[sector] : mpSectorColor[sector];
         }
 
         public Color MyLoserColor()
@@ -82,8 +81,8 @@ namespace SudokuForms
             fOriginal = false;
             btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
-            btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            btn.Text = myfSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 ";
+            btn.Font = new Font("Microsoft Sans Serif", objGame.font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Text = objGame.fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 ";
         }
 
         // Set this square to an 'intermediate' status, partly evaluated.
@@ -94,7 +93,7 @@ namespace SudokuForms
             fOriginal = false;
             btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
-            btn.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Font = new Font("Microsoft Sans Serif", objGame.font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = argText;
         }
 
@@ -151,7 +150,7 @@ namespace SudokuForms
         public bool FLoser(char chValue, Board objBoard)
         {
             // If we're already a Winner, don't do anything.
-            if (iWinner != 0)
+            if (iWinner != -1)
             {
                 return false;
             }
