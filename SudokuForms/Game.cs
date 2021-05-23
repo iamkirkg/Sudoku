@@ -1,15 +1,27 @@
 ﻿using System;
-using System.Drawing;
+//using System.Drawing;
 using System.Windows.Forms;
-using System.Xml;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Page;
+//using System.Xml;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement.Page;
 
 namespace SudokuForms
 {
     public partial class Game : Form
     {
+        /*
         public bool fSuper = true; // 3x3x3 or 4x4x4
         public int cDimension = 16;  // 9 or 16
+        public int xDelta = 564; // how far to move right
+        public string szTitle = "SuperSudokirk";
+        public Single emSizeWinner = 36F;
+        public int bitCount = 16;
+        */
+        public bool fSuper = false; // 3x3x3 or 4x4x4
+        public int cDimension = 9;  // 9 or 16
+        public int xDelta = 0; // how far to move right
+        public string szTitle = "Sudokirk";
+        public Single emSizeWinner = 40F;
+        public int bitCount = 9;
 
         public enum Technique
         {

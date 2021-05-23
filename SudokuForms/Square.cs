@@ -27,8 +27,8 @@ namespace SudokuForms
                       )
         {
             myfSuper = objGame.fSuper;
-            iWinner = 0;
-            chWinner = '0';
+            iWinner = -1;
+            chWinner = 'X';
             fOriginal = false;
             sector = iSector;
             col = ((iTab - 1) % objGame.cDimension); // Modulo (remainder)
@@ -77,8 +77,8 @@ namespace SudokuForms
         // Reset this square to initial status.
         public void Reset()
         {
-            iWinner = 0;
-            chWinner = '0';
+            iWinner = -1;
+            chWinner = 'X';
             fOriginal = false;
             btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
@@ -89,8 +89,8 @@ namespace SudokuForms
         // Set this square to an 'intermediate' status, partly evaluated.
         public void CouldBes(string argText)
         {
-            iWinner = 0;
-            chWinner = '0';
+            iWinner = -1;
+            chWinner = 'X';
             fOriginal = false;
             btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
@@ -100,7 +100,19 @@ namespace SudokuForms
 
         public void Winner(char chValue, bool fOriginal, Color colorWinner, Board objBoard)
         {
-            iWinner = chValue - '0';
+            // For char values '0' through '9', iWinner is 0 to 9.
+            // For char values 'A' through 'F', iWinner is 10 to 15.
+            if (chValue >= '0' && chValue <= '9')
+            {
+                iWinner = chValue - '0';
+            }
+            else if (chValue >= 'A' && chValue <= 'F')
+            {
+                iWinner = chValue - 'A' + 10;
+            } else {
+                objBoard.objLogBox.Log("Error: bogus 'Winner' char of " + chValue);
+            }
+
             chWinner = chValue;
             Color colorSquare = colorWinner;
             
@@ -126,7 +138,7 @@ namespace SudokuForms
             }
 
             Color save = btn.BackColor;
-            btn.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Font = new Font("Microsoft Sans Serif", objBoard.objGame.emSizeWinner, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = chValue.ToString() + " ";
             btn.BackColor = MyBackColor();
             btn.ForeColor = colorSquare;

@@ -75,7 +75,7 @@ namespace SudokuForms
             int Row = -1;
             int Column = -1;
             int Sector = -1;
-            int iWinner = 0;
+            int iWinner = -1;
             char chWinner = '0';
             bool fOriginal = false;
             int TabIndex;
@@ -176,7 +176,7 @@ namespace SudokuForms
                                 sq.chWinner = chWinner;
                                 sq.fOriginal = fOriginal;
                                 sq.btn.Text = Text;
-                                if (iWinner == 0)
+                                if (iWinner == -1)
                                 {
                                     sq.CouldBes(Text);
                                 }

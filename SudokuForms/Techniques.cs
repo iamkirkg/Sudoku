@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SudokuForms
 {
@@ -72,17 +66,17 @@ namespace SudokuForms
         {
             bool ret = false;
 
-            for (int i = 0; i <= 8; i++)
+            for (int i = 0; i <= objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Col, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i <= 8; i++)
+            for (int i = 0; i <= objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Row, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i <= 8; i++)
+            for (int i = 0; i <= objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Sec, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
@@ -97,22 +91,25 @@ namespace SudokuForms
 
         // Examine a Range of the board.
         //
-        // There are nine Squares in a Range. We want to examine all 512 (2^9)
+        // Note that objBoard.objGame.bitCount is 9 for normal Sudoku, 16 for SuperSudoku.
+        //
+        // There are nine(16) Squares in a Range. We want to examine all 512 (2^9)
+        // or 65536 (2^16)
         // combinations (not permuations) of those Squares. For each combination,
         // concatenate-sort-uniq their Text strings (both Winner and CouldBes).
         // If the length matches the count of Squares, then we have an Nsome: Twosome or
         // Threesome or Foursome ... Eightsome Ninesome.
         //
-        // The first test, with value 0, is binary 000000000. It represents
+        // The first test, with value 0, is binary 000000000 (or 0000000000000000). It represents
         // looking at no Squares in the Range. This is a degenerative case. 
         // It looks at no Squares, has no values, has length 0, matching the 
         // bitcount of 0, matching the Square count of 0. It's a 'Zerosome', 
         // and we would call 'Loser' on no values.
         //
-        // The last test, with value 511, is binary 111111111. It represents
+        // The last test, with value 511, is binary 111111111 (or 1111111111111111). It represents
         // looking at every Square in the Range. This is a degenerative case. 
         // Every (legit) Range, whether just starting, partially or fully solved, 
-        // will have all nine values somewhere, thus its length of nine matches its
+        // will have all nine(16) values somewhere, thus its length of nine(16) matches its
         // bit count, its Square count. Thus, every Range has a 'Ninesome'
         // with all nine Squares. It would call 'Loser' on all nine values, but 
         // (amusingly) only on the *other* Squares in the Range, and here there are
@@ -136,13 +133,13 @@ namespace SudokuForms
         {
             bool ret = false;
 
-            for (int bitmask = 0; bitmask < Math.Pow(2, 9); bitmask++)
+            for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.objGame.bitCount); bitmask++)
             {
                 int bitshift = bitmask;
                 int bitcount = 0;
                 string szTuple = "";
 
-                for (int ibit = 0; ((ibit < 9) && (bitshift != 0)); ibit++)
+                for (int ibit = 0; ((ibit < objBoard.objGame.bitCount) && (bitshift != 0)); ibit++)
                 {
                     // If the low bit is set, we want that Square.
                     if ((bitshift % 2) == 1)
@@ -167,7 +164,7 @@ namespace SudokuForms
 
                     // For all the Squares of Range that _aren't_ in bitmask, 
                     //   call Loser for all the values of szTuple.
-                    for (int ibit = 0; ibit < 9; ibit++)
+                    for (int ibit = 0; ibit < objBoard.objGame.bitCount; ibit++)
                     {
                         // If the low bit is NOT set, we want that Square.
                         if ((bitshift % 2) == 0)
@@ -1075,12 +1072,15 @@ namespace SudokuForms
 
         public static bool FLineFind(Board objBoard, LogBox objLogBox)
         {
+            // BUGBUG This routine needs work for SuperSudoku.
+            // BUGBUG We need to check foursies, not threesies.
+
             bool ret = false;
 
             // REVIEW KirkG: surely this isn't right, doing 'new' both in the
             // decl and the initialization loop.  Am I leaking memory?
-            LineText[] mpsLineText = new LineText[9];
-            for (int s = 0; s <= 8; s++)
+            LineText[] mpsLineText = new LineText[objBoard.objGame.cDimension];
+            for (int s = 0; s < objBoard.objGame.cDimension; s++)
             {
                 mpsLineText[s] = new LineText();
             }
@@ -1095,9 +1095,9 @@ namespace SudokuForms
             // Within a sector, find a value that is present in just one row, 
             // or just one column.
 
-            for (int s = 0; s <= 8; s++)
+            for (int s = 0; s < objBoard.objGame.cDimension; s++)
             {
-                for (char ch = '1'; ch <= '8'; ch++)
+                for (char ch = '1'; ch < objBoard.objGame.cDimension; ch++)
                 {
                     if (
                         ( mpsLineText[s].row[0].Contains(ch)) &&
@@ -1170,6 +1170,10 @@ namespace SudokuForms
 
         private static bool FRowLoser(Board objBoard, int s, int rs, char ch, LogBox objLogBox)
         {
+            // BUGBUG This routine needs work for SuperSudoku.
+            // BUGBUG Whatever this crazy row-mapping calculation, SuperSize it.
+            // BUGBUG Just change the 3s to 4s?
+
             // For squares in the same row, but not the same sector, ch is a Loser.
             // The trick is, the row value is 0-1-2, relative to the sector. We have
             // to map it to row [0-8] of the board.
@@ -1189,7 +1193,7 @@ namespace SudokuForms
             int row = ((s / 3) * 3) + rs;
             Square sq;
 
-            for (int x = 0; x <= 8; x++)
+            for (int x = 0; x < objBoard.objGame.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
                 if (sq.sector != s)
@@ -1227,7 +1231,7 @@ namespace SudokuForms
             int col = ((s % 3) * 3) + cs;
             Square sq;
 
-            for (int y = 0; y <= 8; y++)
+            for (int y = 0; y < objBoard.objGame.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
                 if (sq.sector != s)
@@ -1257,12 +1261,12 @@ namespace SudokuForms
         {
             bool ret = false;
 
-            for (int i = 0; i <= 8; i++)
+            for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Col, i);
                 ret |= FSectorFind(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i <= 8; i++)
+            for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Row, i);
                 ret |= FSectorFind(objBoard, objRange, objLogBox);
@@ -1273,6 +1277,8 @@ namespace SudokuForms
 
         public static bool FSectorFind(Board objBoard, Range objRange, LogBox objLogBox)
         {
+            // BUGBUG: needs work for SuperSudoku.
+
             bool ret = false;
             bool ret2;
 
@@ -1327,8 +1333,9 @@ namespace SudokuForms
             objLogBox.Log(szLog);
             */
 
-            for (int ich = 0; ich <= 8; ich++)
+            for (int ich = 0; ich < objBoard.objGame.cDimension; ich++)
             {
+                // BUGBUG Fix for SuperSudoku.
                 char ch = (char)(ich + '1');
                 int sec = mpchs[ich];
 

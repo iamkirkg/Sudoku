@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace SudokuForms
@@ -39,7 +40,7 @@ namespace SudokuForms
             this.btnReset.BackColor = Color.LightGray;
             this.btnReset.ForeColor = Color.Black;
             this.btnReset.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new Point(740, 10);
+            this.btnReset.Location = new Point(740+xDelta, 10);
             this.btnReset.Size = new Size(100, 60);
             this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
@@ -52,7 +53,7 @@ namespace SudokuForms
             this.btnClear.BackColor = Color.LightGray;
             this.btnClear.ForeColor = Color.Black;
             this.btnClear.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.Location = new Point(846, 10);
+            this.btnClear.Location = new Point(846+xDelta, 10);
             this.btnClear.Size = new Size(100, 60);
             this.btnClear.TabIndex = iTabIndex++;
             this.btnClear.Text = "Clear";
@@ -63,7 +64,7 @@ namespace SudokuForms
             this.btnStep = new Button();
             this.btnStep.Click += Step_Click;
             this.btnStep.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new Point(910, 100);
+            this.btnStep.Location = new Point(910+xDelta, 100);
             this.btnStep.Size = new Size(90, 60);
             this.btnStep.TabIndex = iTabIndex++;
             this.btnStep.Text = "Step";
@@ -270,7 +271,7 @@ namespace SudokuForms
             //this.RadioPanel.Controls.Add(this.FoursomeRows);
             //this.RadioPanel.Controls.Add(this.FoursomeCols);
             this.RadioPanel.BorderStyle = BorderStyle.FixedSingle;
-            this.RadioPanel.Location = new Point(740, 75);
+            this.RadioPanel.Location = new Point(740+xDelta, 75);
             this.RadioPanel.Name = "RadioPanel";
             this.RadioPanel.Size = new Size(160, 110);
             this.RadioPanel.TabIndex = iTabIndex++;
@@ -287,7 +288,7 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new Point(740, 194);
+            this.btnLoad.Location = new Point(740+xDelta, 194);
             this.btnLoad.Size = new Size(100, 60);
             this.btnLoad.TabIndex = iTabIndex++;
             this.btnLoad.Text = "Load";
@@ -301,7 +302,7 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new Point(740, 260);
+            this.btnSave.Location = new Point(740+xDelta, 260);
             this.btnSave.Size = new Size(100, 60);
             this.btnSave.TabIndex = iTabIndex++;
             this.btnSave.Text = "Save";
@@ -313,7 +314,7 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(740, 326);
+            this.CouldBe.Location = new Point(740+xDelta, 326);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
             this.CouldBe.TabIndex = iTabIndex++;
@@ -328,11 +329,11 @@ namespace SudokuForms
             this.Super = new CheckBox();
             this.Super.AutoSize = true;
             this.Super.Checked = true;
-            this.Super.Location = new Point(900, 326);
+            this.Super.Location = new Point(900+xDelta, 326);
             this.Super.Name = "Super";
             this.Super.Size = new Size(104, 24);
             this.Super.TabIndex = iTabIndex++;
-            this.Super.Text = "SuperSudoku!";
+            this.Super.Text = "SuperSudoku";
             this.Super.UseVisualStyleBackColor = true;
             this.Super.CheckedChanged += new EventHandler(this.Super_CheckedChanged);
             this.Controls.Add(this.Super);
@@ -340,7 +341,7 @@ namespace SudokuForms
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(740, 360, 350, 600, iTabIndex);
+            this.objLogBox = new LogBox(740+xDelta, 360, 350, 600, iTabIndex);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
@@ -350,8 +351,8 @@ namespace SudokuForms
             this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(1100, 980);
 
-            this.Name = "Sudokirk";
-            this.Text = "Sudokirk";
+            this.Name = szTitle;
+            this.Text = szTitle;
 
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -362,7 +363,7 @@ namespace SudokuForms
         {
             Button btn = sender as Button;
             int iTab = btn.TabIndex;
-            char keyChar = e.KeyChar;
+            char keyChar = Char.ToUpper(e.KeyChar, CultureInfo.CreateSpecificCulture("en-US"));
 
             // Calculate objBoard.rgSquare[col,row] location from the tabindex.
             // TabIndex is [1..81] or [1..256]; the array is [0..8][0..8] or [0..15][0..15].
@@ -373,7 +374,7 @@ namespace SudokuForms
 
             //objLogBox.Log("KeyPress " + keyChar);
 
-            if ((keyChar >= '1' && keyChar <= '9') || (fSuper && keyChar >= 'a' && keyChar <= 'f'))
+            if ((keyChar >= '0' && keyChar <= '9') || (fSuper && keyChar >= 'A' && keyChar <= 'F'))
             {
                 //objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
                 objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, Color.DarkGreen, objBoard);
@@ -570,7 +571,7 @@ namespace SudokuForms
             CheckBox box = sender as CheckBox;
             foreach (Square objSq in objBoard.rgSquare)
             {
-                if (objSq.iWinner == 0)
+                if (objSq.iWinner == -1)
                 {
                     if (box.Checked)
                     {
@@ -590,11 +591,9 @@ namespace SudokuForms
             if (box.Checked) {
                 fSuper = true;
                 this.btnLoad.Text = "Load!";
-                cDimension = 16;
             } else {
                 fSuper = false;
                 this.btnLoad.Text = "Load";
-                cDimension = 9;
             }
         }
 
@@ -660,7 +659,7 @@ namespace SudokuForms
                 curCol = ((iTab - 1) % cDimension);  // Modulo (remainder)
                 curRow = ((iTab - 1) / cDimension);  // Divide
                 Square mySquare = objBoard.rgSquare[curCol, curRow];
-                if (mySquare.iWinner != 0)
+                if (mySquare.iWinner != -1)
                 {
                     curChar = mySquare.chWinner;
                     //objLogBox.Log("Select: tab " + iTab + ": [" + curCol + "," + curRow + "], Winner=" + curChar);

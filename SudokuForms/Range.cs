@@ -26,13 +26,13 @@ namespace SudokuForms
             switch (type)
             {
                 case Type.Row:
-                    for (r = 0; r <= 8; r++)
+                    for (r = 0; r <= objBoard.objGame.cDimension; r++)
                     {
                         rgSquare[r] = objBoard.rgSquare[r, i];
                     }
                     break;
                 case Type.Col:
-                    for (r = 0; r <= 8; r++)
+                    for (r = 0; r <= objBoard.objGame.cDimension; r++)
                     {
                         rgSquare[r] = objBoard.rgSquare[i, r];
                     }
