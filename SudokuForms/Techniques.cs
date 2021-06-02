@@ -1074,6 +1074,7 @@ namespace SudokuForms
         {
             // BUGBUG This routine needs work for SuperSudoku.
             // BUGBUG We need to check foursies, not threesies.
+            // BUGBUG We need to walk ch 0..F for Super, and 1..9 for Normal.
 
             bool ret = false;
 
@@ -1097,7 +1098,7 @@ namespace SudokuForms
 
             for (int s = 0; s < objBoard.objGame.cDimension; s++)
             {
-                for (char ch = '0'; ch < objBoard.objGame.cDimension; ch++)
+                for (char ch = '1'; ch <= '9'; ch++)
                 {
                     if (
                         ( mpsLineText[s].row[0].Contains(ch)) &&
@@ -1149,7 +1150,7 @@ namespace SudokuForms
                         ret |= FColLoser(objBoard, s, 2, ch, objLogBox);
                     }
                 }
-            }
+             }
             if (ret)
             {
                 objLogBox.Log("FLineFind");
