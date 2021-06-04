@@ -80,13 +80,7 @@ namespace SudokuForms
         // Reset this square to initial status.
         public void Reset()
         {
-            iWinner = -1;
-            chWinner = 'X';
-            fOriginal = false;
-            btn.BackColor = MyBackColor();
-            btn.ForeColor = Color.Black;
-            btn.Font = new Font("Microsoft Sans Serif", objGame.font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            btn.Text = objGame.fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 ";
+            CouldBes(objGame.szAll);
         }
 
         // Set this square to an 'intermediate' status, partly evaluated.

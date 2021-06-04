@@ -78,35 +78,6 @@ namespace SudokuForms
             int yPoint = 12;
             int yPointDelta = 30;
 
-            /*
-            // 
-            // Neighbor
-            // 
-            this.Neighbor = new RadioButton();
-            this.Neighbor.AutoSize = true;
-            this.Neighbor.Location = new Point(12, yPoint);
-            this.Neighbor.Name = "Neighbor";
-            this.Neighbor.Size = new Size(98, 24);
-            // This is the only button with TabStop set. Don't know why.
-            this.Neighbor.TabStop = true;
-            this.Neighbor.Text = "Neighbor";
-            this.Neighbor.UseVisualStyleBackColor = true;
-            this.Neighbor.CheckedChanged += new EventHandler(this.Neighbor_CheckedChanged);
-            yPoint += yPointDelta;
-            // 
-            // AllNeighbors
-            // 
-            this.AllNeighbors = new RadioButton();
-            this.AllNeighbors.AutoSize = true;
-            this.AllNeighbors.Location = new Point(12, yPoint);
-            this.AllNeighbors.Name = "AllNeighbors";
-            this.AllNeighbors.Size = new Size(98, 24);
-            this.AllNeighbors.Text = "AllNeighbors";
-            this.AllNeighbors.UseVisualStyleBackColor = true;
-            this.AllNeighbors.CheckedChanged += new EventHandler(this.AllNeighbors_CheckedChanged);
-            yPoint += yPointDelta;
-            */
-
             // 
             // RangeCheck
             // 
@@ -144,134 +115,14 @@ namespace SudokuForms
             this.SectorFind.CheckedChanged += new EventHandler(this.SectorFind_CheckedChanged);
             yPoint += yPointDelta;
 
-            /* ------------------------------------------------------------
-            // 
-            // SectorSweep
-            // 
-            this.SectorSweep = new RadioButton();
-            this.SectorSweep.AutoSize = true;
-            this.SectorSweep.Location = new Point(12, yPoint);
-            this.SectorSweep.Name = "SectorSweep";
-            this.SectorSweep.Size = new Size(115, 24);
-            this.SectorSweep.Text = "SectorSweep";
-            this.SectorSweep.UseVisualStyleBackColor = true;
-            this.SectorSweep.CheckedChanged += new EventHandler(this.SectorSweep_CheckedChanged);
-            yPoint += yPointDelta;
-            // 
-            // ColumnSweeps
-            // 
-            this.ColumnSweeps = new RadioButton();
-            this.ColumnSweeps.AutoSize = true;
-            this.ColumnSweeps.Location = new Point(12, yPoint);
-            this.ColumnSweeps.Name = "ColumnSweeps";
-            this.ColumnSweeps.Size = new Size(115, 24);
-            this.ColumnSweeps.Text = "ColumnSweeps";
-            this.ColumnSweeps.UseVisualStyleBackColor = true;
-            this.ColumnSweeps.CheckedChanged += new EventHandler(this.ColumnSweeps_CheckedChanged);
-            yPoint += yPointDelta;
-            // 
-            // RowSweeps
-            // 
-            this.RowSweeps = new RadioButton();
-            this.RowSweeps.AutoSize = true;
-            this.RowSweeps.Location = new Point(12, yPoint);
-            this.RowSweeps.Name = "RowSweeps";
-            this.RowSweeps.Size = new Size(115, 24);
-            this.RowSweeps.Text = "RowSweeps";
-            this.RowSweeps.UseVisualStyleBackColor = true;
-            this.RowSweeps.CheckedChanged += new EventHandler(this.RowSweeps_CheckedChanged);
-            yPoint += yPointDelta;
-            // 
-            // TwoPair
-            // 
-            this.TwoPair = new RadioButton();
-            this.TwoPair.AutoSize = true;
-            this.TwoPair.Location = new Point(12, yPoint);
-            this.TwoPair.Name = "TwoPair";
-            this.TwoPair.Size = new Size(115, 24);
-            //this.TwoPair.TabIndex = iTabIndex++;
-            //this.TwoPair.TabStop = true;
-            this.TwoPair.Text = "TwoPair";
-            this.TwoPair.UseVisualStyleBackColor = true;
-            this.TwoPair.CheckedChanged += new EventHandler(this.TwoPair_CheckedChanged);
-            yPoint += yPointDelta;
-            // 
-            // ThreesomeRows
-            // 
-            this.ThreesomeRows = new RadioButton();
-            this.ThreesomeRows.AutoSize = true;
-            this.ThreesomeRows.Location = new Point(12, yPoint);
-            this.ThreesomeRows.Name = "ThreesomeRows";
-            this.ThreesomeRows.Size = new Size(115, 24);
-            //this.ThreesomeRows.TabIndex = iTabIndex++;
-            //this.ThreesomeRows.TabStop = true;
-            this.ThreesomeRows.Text = "ThreesomeRows";
-            this.ThreesomeRows.UseVisualStyleBackColor = true;
-            this.ThreesomeRows.CheckedChanged += new EventHandler(this.ThreesomeRows_CheckedChanged);
-            yPoint += yPointDelta;
-            // 
-            // ThreesomeCols
-            // 
-            this.ThreesomeCols = new RadioButton();
-            this.ThreesomeCols.AutoSize = true;
-            this.ThreesomeCols.Location = new Point(12, yPoint);
-            this.ThreesomeCols.Name = "ThreesomeCols";
-            this.ThreesomeCols.Size = new Size(115, 24);
-            //this.ThreesomeCols.TabIndex = iTabIndex++;
-            //this.ThreesomeCols.TabStop = true;
-            this.ThreesomeCols.Text = "ThreesomeCols";
-            this.ThreesomeCols.UseVisualStyleBackColor = true;
-            this.ThreesomeCols.CheckedChanged += new EventHandler(this.ThreesomeCols_CheckedChanged);
-            yPoint += yPointDelta;
-            // 
-            // FoursomeRows
-            // 
-            this.FoursomeRows = new RadioButton();
-            this.FoursomeRows.AutoSize = true;
-            this.FoursomeRows.Location = new Point(12, yPoint);
-            this.FoursomeRows.Name = "FoursomeRows";
-            this.FoursomeRows.Size = new Size(115, 24);
-            //this.FoursomeRows.TabIndex = iTabIndex++;
-            //this.FoursomeRows.TabStop = true;
-            this.FoursomeRows.Text = "FoursomeRows";
-            this.FoursomeRows.UseVisualStyleBackColor = true;
-            this.FoursomeRows.CheckedChanged += new EventHandler(this.FoursomeRows_CheckedChanged);
-            yPoint += yPointDelta;
-            // 
-            // FoursomeCols
-            // 
-            this.FoursomeCols = new RadioButton();
-            this.FoursomeCols.AutoSize = true;
-            this.FoursomeCols.Location = new Point(12, yPoint);
-            this.FoursomeCols.Name = "FoursomeCols";
-            this.FoursomeCols.Size = new Size(115, 24);
-            //this.FoursomeCols.TabIndex = iTabIndex++;
-            //this.FoursomeCols.TabStop = true;
-            this.FoursomeCols.Text = "FoursomeCols";
-            this.FoursomeCols.UseVisualStyleBackColor = true;
-            this.FoursomeCols.CheckedChanged += new EventHandler(this.FoursomeCols_CheckedChanged);
-            yPoint += yPointDelta;
-
-            ------------------------------------------------------------ */
-
             // 
             // RadioPanel
             // 
             this.RadioPanel = new Panel();
             this.RadioPanel.SuspendLayout();
-            //this.RadioPanel.Controls.Add(this.Neighbor);
-            //this.RadioPanel.Controls.Add(this.AllNeighbors);
             this.RadioPanel.Controls.Add(this.RangeCheck);
             this.RadioPanel.Controls.Add(this.LineFind);
             this.RadioPanel.Controls.Add(this.SectorFind);
-            //this.RadioPanel.Controls.Add(this.SectorSweep);
-            //this.RadioPanel.Controls.Add(this.ColumnSweeps);
-            //this.RadioPanel.Controls.Add(this.RowSweeps);
-            //this.RadioPanel.Controls.Add(this.TwoPair);
-            //this.RadioPanel.Controls.Add(this.ThreesomeRows);
-            //this.RadioPanel.Controls.Add(this.ThreesomeCols);
-            //this.RadioPanel.Controls.Add(this.FoursomeRows);
-            //this.RadioPanel.Controls.Add(this.FoursomeCols);
             this.RadioPanel.BorderStyle = BorderStyle.FixedSingle;
             this.RadioPanel.Location = new Point(740+xDelta, 75);
             this.RadioPanel.Name = "RadioPanel";
@@ -330,7 +181,7 @@ namespace SudokuForms
             // 
             this.Super = new CheckBox();
             this.Super.AutoSize = true;
-            this.Super.Checked = true;
+            this.Super.Checked = fSuper;
             this.Super.Location = new Point(900+xDelta, 326);
             this.Super.Name = "Super";
             this.Super.Size = new Size(104, 24);
@@ -349,8 +200,8 @@ namespace SudokuForms
             // 
             // SudokuForms
             // 
-            this.AutoScaleDimensions = new SizeF(9F, 20F);
-            this.AutoScaleMode = AutoScaleMode.Font;
+            //this.AutoScaleDimensions = new SizeF(9F, 20F);
+            //this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(iBoardWidth, iBoardHeight);
 
             this.Name = szTitle;
@@ -466,26 +317,6 @@ namespace SudokuForms
             }
         }
 
-        /*
-        void Neighbor_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.Neighbor;
-            }
-        }
-
-        void AllNeighbors_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.AllNeighbors;
-            }
-        }
-        */
-
         void RangeCheck_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
@@ -513,82 +344,6 @@ namespace SudokuForms
             }
         }
 
-        /* -----------------------------------------------------------------
-
-        void SectorSweep_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.SectorSweep;
-            }
-        }
-
-        void ColumnSweeps_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.ColumnSweeps;
-            }
-        }
-
-        void RowSweeps_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.RowSweeps;
-            }
-        }
-
-        void TwoPair_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.TwoPair;
-            }
-        }
-
-        void ThreesomeRows_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.ThreesomeRows;
-            }
-        }
-
-        void ThreesomeCols_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.ThreesomeCols;
-            }
-        }
-
-        void FoursomeRows_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.FoursomeRows;
-            }
-        }
-
-        void FoursomeCols_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton radio = sender as RadioButton;
-            if (radio.Checked)
-            {
-                curTechnique = Technique.FoursomeCols;
-            }
-        }
-
-        ----------------------------------------------------------------- */
-
         void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;
@@ -611,14 +366,6 @@ namespace SudokuForms
         void Super_CheckedChanged(object sender, EventArgs e)
         {
             SuperToggle();
-            /*
-            CheckBox box = sender as CheckBox;
-            if (box.Checked) {
-                fSuper = true;
-            } else {
-                fSuper = false;
-            }
-            */
         }
 
         // This is the ButtonClick function for the Step button.
@@ -629,15 +376,6 @@ namespace SudokuForms
             {
                 case Technique.none:
                     break;
-                //case Technique.Neighbor:
-                //    if (curTab != -1)
-                //    {
-                //        Techniques.Neighbor(objBoard, curCol, curRow, curChar);
-                //    }
-                //    break;
-                //case Technique.AllNeighbors:
-                //    Techniques.AllNeighbors(objBoard, objLogBox);
-                //    break;
                 case Technique.RangeCheck:
                     Techniques.AllRanges(objBoard, objLogBox);
                     break;
@@ -647,30 +385,6 @@ namespace SudokuForms
                 case Technique.SectorFind:
                     Techniques.FSectorsFind(objBoard, objLogBox);
                     break;
-                //case Technique.SectorSweep:
-                //    Techniques.SectorSweep(objBoard, objLogBox);
-                //    break;
-                //case Technique.ColumnSweeps:
-                //    Techniques.ColumnSweeps(objBoard, objLogBox);
-                //    break;
-                //case Technique.RowSweeps:
-                //    Techniques.RowSweeps(objBoard, objLogBox);
-                //    break;
-                //case Technique.TwoPair:
-                //    Techniques.TwoPair(objBoard, objLogBox);
-                //    break;
-                //case Technique.ThreesomeRows:
-                //    Techniques.ThreesomeRows(objBoard, objLogBox);
-                //    break;
-                //case Technique.ThreesomeCols:
-                //    Techniques.ThreesomeCols(objBoard, objLogBox);
-                //    break;
-                //case Technique.FoursomeRows:
-                //    Techniques.FoursomeRows(objBoard, objLogBox);
-                //    break;
-                //case Technique.FoursomeCols:
-                //    Techniques.FoursomeCols(objBoard, objLogBox);
-                //    break;
             }
         }
 
@@ -717,19 +431,9 @@ namespace SudokuForms
         LogBox objLogBox;
         CheckBox CouldBe;
         CheckBox Super;
-        //RadioButton Neighbor;
-        //RadioButton AllNeighbors;
         RadioButton RangeCheck;
         RadioButton LineFind;
         RadioButton SectorFind;
-        //RadioButton SectorSweep;
-        //RadioButton ColumnSweeps;
-        //RadioButton RowSweeps;
-        //RadioButton TwoPair;
-        //RadioButton ThreesomeRows;
-        //RadioButton ThreesomeCols;
-        //RadioButton FoursomeRows;
-        //RadioButton FoursomeCols;
         Panel RadioPanel;
         Button btnLoad;
         Button btnSave;
