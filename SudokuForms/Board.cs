@@ -79,11 +79,22 @@ namespace SudokuForms
                 {
                     iTab++;
                     iSector = (fSuper ? mpTabSectorSuper[iTab - 1] : mpTabSector[iTab - 1]);
-                    rgSquare[x, y] = new Square(argGame, iTab, iSector, xPoint, yPoint, xSize, ySize, font, 
+                    rgSquare[x, y] = new Square(argGame, iTab, iSector, xPoint, yPoint, xSize, ySize, font,
                                                 fnKeyPress, fnKeyDown, fnClick);
                     xPoint += xDelta;
                 }
                 yPoint += yDelta;
+            }
+        }
+
+        public void Delete()
+        {
+            for (int y = 0; y < objGame.cDimension; y++)
+            {
+                for (int x = 0; x < objGame.cDimension; x++)
+                {
+                    rgSquare[x, y].Delete();
+                }
             }
         }
     }

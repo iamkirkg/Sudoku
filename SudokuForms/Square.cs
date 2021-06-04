@@ -51,6 +51,10 @@ namespace SudokuForms
             objGame.Controls.Add(btn);
         }
 
+        public void Delete() {
+            objGame.Controls.Remove(btn);
+        }
+
         // Alternate background colors for sectors.
         readonly Color[] mpSectorColor = {
             Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue,

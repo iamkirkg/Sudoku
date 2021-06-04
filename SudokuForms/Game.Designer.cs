@@ -45,6 +45,8 @@ namespace SudokuForms
             this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
             this.Controls.Add(this.btnReset);
+            //this.objLogBox.Log("Init; btnReset.Left  is set to " + this.btnReset.Left);
+
             // 
             // btnClear
             // 
@@ -358,6 +360,27 @@ namespace SudokuForms
             this.PerformLayout();
         }
 
+        private Point Relocate(Point p) {
+            p.X += xMove;
+            return p;
+        }
+
+        private void MoveButton(Button b) {
+            b.Location = Relocate(b.Location);
+        }
+
+        private void MoveButtons() {
+            MoveButton(this.btnReset);
+            MoveButton(this.btnClear);
+            MoveButton(this.btnStep);
+            MoveButton(this.btnLoad);
+            MoveButton(this.btnSave);
+            this.RadioPanel.Location = Relocate(this.RadioPanel.Location);
+            this.CouldBe.Location = Relocate(this.CouldBe.Location);
+            this.Super.Location = Relocate(this.Super.Location);
+            this.objLogBox.objBox.Location = Relocate(this.objLogBox.objBox.Location);
+         }
+
         // This is the KeyPress function for all 81-or-256 of our Squares.
         void sq_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -587,14 +610,15 @@ namespace SudokuForms
 
         void Super_CheckedChanged(object sender, EventArgs e)
         {
+            SuperToggle();
+            /*
             CheckBox box = sender as CheckBox;
             if (box.Checked) {
                 fSuper = true;
-                this.btnLoad.Text = "Load!";
             } else {
                 fSuper = false;
-                this.btnLoad.Text = "Load";
             }
+            */
         }
 
         // This is the ButtonClick function for the Step button.
