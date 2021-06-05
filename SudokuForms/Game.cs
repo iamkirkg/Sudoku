@@ -5,7 +5,7 @@ namespace SudokuForms
 {
     public partial class Game : Form
     {
-        private bool _fSuper = true;
+        private bool _fSuper = false;
         public bool fSuper
         {
             get { return _fSuper; }
@@ -15,7 +15,7 @@ namespace SudokuForms
             get { return _fSuper ? 16 : 9; }
         }
         public int xDelta { // how much to shift right
-            get { return _fSuper ? 130 : 000; }
+            get { return _fSuper ? 380 : 000; }
         }
         public int xMove { // how much to move
             get { return _fSuper ? 376 : -376; }
