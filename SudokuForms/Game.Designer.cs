@@ -41,7 +41,7 @@ namespace SudokuForms
             this.btnReset.ForeColor = Color.Black;
             this.btnReset.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.btnReset.Location = new Point(740+xDelta, 10);
-            this.btnReset.Size = new Size(100, 60);
+            this.btnReset.Size = new Size(80, 36);
             this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
             this.Controls.Add(this.btnReset);
@@ -55,8 +55,8 @@ namespace SudokuForms
             this.btnClear.BackColor = Color.LightGray;
             this.btnClear.ForeColor = Color.Black;
             this.btnClear.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.Location = new Point(846+xDelta, 10);
-            this.btnClear.Size = new Size(100, 60);
+            this.btnClear.Location = new Point(824+xDelta, 10);
+            this.btnClear.Size = new Size(80, 36);
             this.btnClear.TabIndex = iTabIndex++;
             this.btnClear.Text = "Clear";
             this.Controls.Add(this.btnClear);
@@ -66,8 +66,8 @@ namespace SudokuForms
             this.btnStep = new Button();
             this.btnStep.Click += Step_Click;
             this.btnStep.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new Point(910+xDelta, 100);
-            this.btnStep.Size = new Size(90, 60);
+            this.btnStep.Location = new Point(846+xDelta, 70);
+            this.btnStep.Size = new Size(80, 36);
             this.btnStep.TabIndex = iTabIndex++;
             this.btnStep.Text = "Step";
             this.Controls.Add(this.btnStep);
@@ -75,15 +75,15 @@ namespace SudokuForms
             // ------------------------------------------
             // All our radio buttons.
 
-            int yPoint = 12;
-            int yPointDelta = 30;
+            int yPoint = 8;
+            int yPointDelta = 20;
 
             // 
             // RangeCheck
             // 
             this.RangeCheck = new RadioButton();
             this.RangeCheck.AutoSize = true;
-            this.RangeCheck.Location = new Point(12, yPoint);
+            this.RangeCheck.Location = new Point(8, yPoint);
             this.RangeCheck.Name = "RangeCheck";
             this.RangeCheck.Size = new Size(98, 24);
             this.RangeCheck.Text = "RangeCheck";
@@ -95,9 +95,9 @@ namespace SudokuForms
             // 
             this.LineFind = new RadioButton();
             this.LineFind.AutoSize = true;
-            this.LineFind.Location = new Point(12, yPoint);
+            this.LineFind.Location = new Point(8, yPoint);
             this.LineFind.Name = "LineFind";
-            this.LineFind.Size = new Size(115, 24);
+            this.LineFind.Size = new Size(98, 24);
             this.LineFind.Text = "LineFind";
             this.LineFind.UseVisualStyleBackColor = true;
             this.LineFind.CheckedChanged += new EventHandler(this.LineFind_CheckedChanged);
@@ -107,9 +107,9 @@ namespace SudokuForms
             // 
             this.SectorFind = new RadioButton();
             this.SectorFind.AutoSize = true;
-            this.SectorFind.Location = new Point(12, yPoint);
+            this.SectorFind.Location = new Point(8, yPoint);
             this.SectorFind.Name = "SectorFind";
-            this.SectorFind.Size = new Size(115, 24);
+            this.SectorFind.Size = new Size(98, 24);
             this.SectorFind.Text = "SectorFind";
             this.SectorFind.UseVisualStyleBackColor = true;
             this.SectorFind.CheckedChanged += new EventHandler(this.SectorFind_CheckedChanged);
@@ -124,9 +124,9 @@ namespace SudokuForms
             this.RadioPanel.Controls.Add(this.LineFind);
             this.RadioPanel.Controls.Add(this.SectorFind);
             this.RadioPanel.BorderStyle = BorderStyle.FixedSingle;
-            this.RadioPanel.Location = new Point(740+xDelta, 75);
+            this.RadioPanel.Location = new Point(740+xDelta, 52);
             this.RadioPanel.Name = "RadioPanel";
-            this.RadioPanel.Size = new Size(160, 110);
+            this.RadioPanel.Size = new Size(100, 74);
             this.RadioPanel.TabIndex = iTabIndex++;
 
             this.Controls.Add(this.RadioPanel);
@@ -141,8 +141,8 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new Point(740+xDelta, 194);
-            this.btnLoad.Size = new Size(100, 60);
+            this.btnLoad.Location = new Point(740+xDelta, 130);
+            this.btnLoad.Size = new Size(80, 36);
             this.btnLoad.TabIndex = iTabIndex++;
             this.btnLoad.Text = "Load";
             this.Controls.Add(this.btnLoad);
@@ -155,8 +155,8 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new Point(740+xDelta, 260);
-            this.btnSave.Size = new Size(100, 60);
+            this.btnSave.Location = new Point(740+xDelta, 170);
+            this.btnSave.Size = new Size(80, 36);
             this.btnSave.TabIndex = iTabIndex++;
             this.btnSave.Text = "Save";
             this.Controls.Add(this.btnSave);
@@ -167,7 +167,7 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(740+xDelta, 326);
+            this.CouldBe.Location = new Point(740+xDelta, 210);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
             this.CouldBe.TabIndex = iTabIndex++;
@@ -182,7 +182,7 @@ namespace SudokuForms
             this.Super = new CheckBox();
             this.Super.AutoSize = true;
             this.Super.Checked = fSuper;
-            this.Super.Location = new Point(900+xDelta, 326);
+            this.Super.Location = new Point(826+xDelta, 210);
             this.Super.Name = "Super";
             this.Super.Size = new Size(104, 24);
             this.Super.TabIndex = iTabIndex++;
@@ -194,12 +194,14 @@ namespace SudokuForms
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(740+xDelta, 360, 350, 600, iTabIndex);
+            this.objLogBox = new LogBox(740+xDelta, 230, 350, 600, iTabIndex);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
             // SudokuForms
             // 
+            // I still don't get what these do.
+            // https://docs.microsoft.com/en-us/dotnet/desktop/winforms/automatic-scaling-in-windows-forms?view=netframeworkdesktop-4.8
             //this.AutoScaleDimensions = new SizeF(9F, 20F);
             //this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(iBoardWidth, iBoardHeight);
