@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Windows.Forms;
 
@@ -45,7 +46,6 @@ namespace SudokuForms
             this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
             this.Controls.Add(this.btnReset);
-            //this.objLogBox.Log("Init; btnReset.Left  is set to " + this.btnReset.Left);
 
             // 
             // btnClear
@@ -161,6 +161,20 @@ namespace SudokuForms
             this.btnSave.Text = "Save";
             this.Controls.Add(this.btnSave);
 
+            //
+            // btnPrint
+            //
+            this.btnPrint = new Button();
+            this.btnPrint.Click += Print_Click;
+            this.btnPrint.BackColor = Color.LightGray;
+            this.btnPrint.ForeColor = Color.Black;
+            this.btnPrint.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.Location = new Point(596 + xDelta, 150);
+            this.btnPrint.Size = new Size(80, 36);
+            this.btnPrint.TabIndex = iTabIndex++;
+            this.btnPrint.Text = "Print";
+            this.Controls.Add(this.btnPrint);
+
             // 
             // CouldBe
             // 
@@ -227,6 +241,7 @@ namespace SudokuForms
             MoveButton(this.btnClear);
             MoveButton(this.btnStep);
             MoveButton(this.btnLoad);
+            MoveButton(this.btnPrint);
             MoveButton(this.btnSave);
             this.RadioPanel.Location = Relocate(this.RadioPanel.Location);
             this.CouldBe.Location = Relocate(this.CouldBe.Location);
@@ -427,6 +442,36 @@ namespace SudokuForms
             f.LoadFile(this, objBoard);
         }
 
+        // This is the ButtonClick function for the Print button.
+        void Print_Click(object sender, EventArgs e)
+        {
+            PrintDialog printDialog = new PrintDialog();
+            PrintDocument printDocument = new PrintDocument();
+            printDialog.Document = printDocument;
+            printDocument.PrintPage += new PrintPageEventHandler(printDocument_PrintPage);
+            DialogResult result = printDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                CaptureScreen();
+                printDocument.Print();
+            }
+        }
+
+        Bitmap memoryImage;
+        private void CaptureScreen()
+        {
+            Graphics myGraphics = this.CreateGraphics();
+            Size s = this.Size;
+            memoryImage = new Bitmap(s.Width, s.Height, myGraphics);
+            Graphics memoryGraphics = Graphics.FromImage(memoryImage);
+            memoryGraphics.CopyFromScreen(this.Location.X, this.Location.Y, 0, 0, s);
+        }
+
+        private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            e.Graphics.DrawImage(memoryImage, 0, 0);
+        }
+
         Button btnReset;
         Button btnClear;
         Button btnStep;
@@ -438,6 +483,7 @@ namespace SudokuForms
         RadioButton SectorFind;
         Panel RadioPanel;
         Button btnLoad;
+        Button btnPrint;
         Button btnSave;
 
     }
