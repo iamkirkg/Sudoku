@@ -41,7 +41,7 @@ namespace SudokuForms
                 Location = new Point(xPoint, yPoint),
                 Size = new Size(xSize, ySize),
                 TabIndex = iTab,
-                Text = objGame.fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "
+                Text = objGame.szAll
             };
 
             btn.KeyPress += fnKeyPress;
@@ -140,7 +140,7 @@ namespace SudokuForms
             btn.BackColor = MyBackColor();
             btn.ForeColor = colorSquare;
             btn.Refresh();
-            Thread.Sleep(20);
+            Thread.Sleep(10);
             btn.Refresh();
             btn.BackColor = save;
         }
@@ -163,7 +163,7 @@ namespace SudokuForms
             Color save = btn.BackColor;
             btn.BackColor = MyLoserColor();
             btn.Refresh();
-            Thread.Sleep(20);
+            Thread.Sleep(10);
             btn.Text = szTextNew;
             btn.Refresh();
             btn.BackColor = save;
