@@ -31,8 +31,70 @@ namespace SudokuForms
             // REVIEW KirkG: This suspend/resume should go around our double-for-loops too.
             this.SuspendLayout();
 
-            int iTabIndex = 100;
+            // The Squares occupy TabIndex=[1..81] or [1..256].
+            int iTabIndex = 300;
 
+            // ------------------------------------------
+            // All our radio buttons.
+
+            int yPoint = 8;
+            int yPointDelta = 20;
+            //
+            // FlavorSudoku
+            //
+            this.FlavorSudoku = new RadioButton();
+            this.FlavorSudoku.AutoSize = true;
+            this.FlavorSudoku.Location = new Point(8, yPoint);
+            this.FlavorSudoku.Name = "FlavorSudoku";
+            this.FlavorSudoku.Size = new Size(98, 24);
+            this.FlavorSudoku.Text = "Sudoku";
+            this.FlavorSudoku.UseVisualStyleBackColor = true;
+            this.FlavorSudoku.CheckedChanged += new EventHandler(this.FlavorSudoku_CheckedChanged);
+            yPoint += yPointDelta;
+            //
+            // FlavorSuperSudoku
+            //
+            this.FlavorSuperSudoku = new RadioButton();
+            this.FlavorSuperSudoku.AutoSize = true;
+            this.FlavorSuperSudoku.Location = new Point(8, yPoint);
+            this.FlavorSuperSudoku.Name = "FlavorSuperSudoku";
+            this.FlavorSuperSudoku.Size = new Size(98, 24);
+            this.FlavorSuperSudoku.Text = "SuperSudoku";
+            this.FlavorSuperSudoku.UseVisualStyleBackColor = true;
+            this.FlavorSuperSudoku.CheckedChanged += new EventHandler(this.FlavorSuperSudoku_CheckedChanged);
+            yPoint += yPointDelta;
+            //
+            // FlavorHyperSudoku
+            //
+            this.FlavorHyperSudoku = new RadioButton();
+            this.FlavorHyperSudoku.AutoSize = true;
+            this.FlavorHyperSudoku.Location = new Point(8, yPoint);
+            this.FlavorHyperSudoku.Name = "FlavorHyperSudoku";
+            this.FlavorHyperSudoku.Size = new Size(98, 24);
+            this.FlavorHyperSudoku.Text = "HyperSudoku";
+            this.FlavorHyperSudoku.UseVisualStyleBackColor = true;
+            this.FlavorHyperSudoku.CheckedChanged += new EventHandler(this.FlavorHyperSudoku_CheckedChanged);
+            yPoint += yPointDelta;
+
+            //
+            // FlavorPanel
+            //
+            this.FlavorPanel = new Panel();
+            this.FlavorPanel.SuspendLayout();
+            this.FlavorPanel.Controls.Add(this.FlavorSudoku);
+            this.FlavorPanel.Controls.Add(this.FlavorSuperSudoku);
+            this.FlavorPanel.Controls.Add(this.FlavorHyperSudoku);
+            this.FlavorPanel.BorderStyle = BorderStyle.FixedSingle;
+            this.FlavorPanel.Location = new Point(490 + xDelta, 10);
+            this.FlavorPanel.Name = "FlavorPanel";
+            this.FlavorPanel.Size = new Size(110, 74);
+            this.FlavorPanel.TabIndex = iTabIndex++;
+
+            this.Controls.Add(this.FlavorPanel);
+            this.FlavorPanel.ResumeLayout(false);
+            this.FlavorPanel.PerformLayout();
+
+            // ------------------------------------------
             // 
             // btnReset
             // 
@@ -41,7 +103,7 @@ namespace SudokuForms
             this.btnReset.BackColor = Color.LightGray;
             this.btnReset.ForeColor = Color.Black;
             this.btnReset.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new Point(490+xDelta, 10);
+            this.btnReset.Location = new Point(490+xDelta, 88);
             this.btnReset.Size = new Size(80, 36);
             this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
@@ -55,7 +117,7 @@ namespace SudokuForms
             this.btnClear.BackColor = Color.LightGray;
             this.btnClear.ForeColor = Color.Black;
             this.btnClear.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.Location = new Point(574+xDelta, 10);
+            this.btnClear.Location = new Point(574+xDelta, 88);
             this.btnClear.Size = new Size(80, 36);
             this.btnClear.TabIndex = iTabIndex++;
             this.btnClear.Text = "Clear";
@@ -66,17 +128,15 @@ namespace SudokuForms
             this.btnStep = new Button();
             this.btnStep.Click += Step_Click;
             this.btnStep.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new Point(596+xDelta, 70);
+            this.btnStep.Location = new Point(596+xDelta, 148);
             this.btnStep.Size = new Size(80, 36);
             this.btnStep.TabIndex = iTabIndex++;
             this.btnStep.Text = "Step";
             this.Controls.Add(this.btnStep);
 
             // ------------------------------------------
-            // All our radio buttons.
 
-            int yPoint = 8;
-            int yPointDelta = 20;
+            yPoint = 8;
 
             // 
             // RangeCheck
@@ -116,22 +176,22 @@ namespace SudokuForms
             yPoint += yPointDelta;
 
             // 
-            // RadioPanel
+            // TechniquePanel
             // 
-            this.RadioPanel = new Panel();
-            this.RadioPanel.SuspendLayout();
-            this.RadioPanel.Controls.Add(this.RangeCheck);
-            this.RadioPanel.Controls.Add(this.LineFind);
-            this.RadioPanel.Controls.Add(this.SectorFind);
-            this.RadioPanel.BorderStyle = BorderStyle.FixedSingle;
-            this.RadioPanel.Location = new Point(490+xDelta, 52);
-            this.RadioPanel.Name = "RadioPanel";
-            this.RadioPanel.Size = new Size(100, 74);
-            this.RadioPanel.TabIndex = iTabIndex++;
+            this.TechniquePanel = new Panel();
+            this.TechniquePanel.SuspendLayout();
+            this.TechniquePanel.Controls.Add(this.RangeCheck);
+            this.TechniquePanel.Controls.Add(this.LineFind);
+            this.TechniquePanel.Controls.Add(this.SectorFind);
+            this.TechniquePanel.BorderStyle = BorderStyle.FixedSingle;
+            this.TechniquePanel.Location = new Point(490+xDelta, 130);
+            this.TechniquePanel.Name = "TechniquePanel";
+            this.TechniquePanel.Size = new Size(100, 74);
+            this.TechniquePanel.TabIndex = iTabIndex++;
 
-            this.Controls.Add(this.RadioPanel);
-            this.RadioPanel.ResumeLayout(false);
-            this.RadioPanel.PerformLayout();
+            this.Controls.Add(this.TechniquePanel);
+            this.TechniquePanel.ResumeLayout(false);
+            this.TechniquePanel.PerformLayout();
 
             // 
             // btnLoad
@@ -141,7 +201,7 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new Point(490+xDelta, 130);
+            this.btnLoad.Location = new Point(490+xDelta, 208);
             this.btnLoad.Size = new Size(80, 36);
             this.btnLoad.TabIndex = iTabIndex++;
             this.btnLoad.Text = "Load";
@@ -155,7 +215,7 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new Point(490+xDelta, 170);
+            this.btnSave.Location = new Point(490+xDelta, 248);
             this.btnSave.Size = new Size(80, 36);
             this.btnSave.TabIndex = iTabIndex++;
             this.btnSave.Text = "Save";
@@ -169,7 +229,7 @@ namespace SudokuForms
             this.btnPrint.BackColor = Color.LightGray;
             this.btnPrint.ForeColor = Color.Black;
             this.btnPrint.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new Point(596 + xDelta, 150);
+            this.btnPrint.Location = new Point(596 + xDelta, 228);
             this.btnPrint.Size = new Size(80, 36);
             this.btnPrint.TabIndex = iTabIndex++;
             this.btnPrint.Text = "Print";
@@ -181,7 +241,7 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(490+xDelta, 210);
+            this.CouldBe.Location = new Point(490+xDelta, 288);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
             this.CouldBe.TabIndex = iTabIndex++;
@@ -190,6 +250,7 @@ namespace SudokuForms
             this.CouldBe.CheckedChanged += new EventHandler(this.CouldBe_CheckedChanged);
             this.Controls.Add(this.CouldBe);
 
+            /*
             // 
             // Super
             // 
@@ -204,11 +265,12 @@ namespace SudokuForms
             this.Super.UseVisualStyleBackColor = true;
             this.Super.CheckedChanged += new EventHandler(this.Super_CheckedChanged);
             this.Controls.Add(this.Super);
+            */
 
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(490+xDelta, 230, 350, 600, iTabIndex);
+            this.objLogBox = new LogBox(490+xDelta, 308, 350, 500, iTabIndex);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
@@ -243,9 +305,9 @@ namespace SudokuForms
             MoveButton(this.btnLoad);
             MoveButton(this.btnPrint);
             MoveButton(this.btnSave);
-            this.RadioPanel.Location = Relocate(this.RadioPanel.Location);
+            this.TechniquePanel.Location = Relocate(this.TechniquePanel.Location);
             this.CouldBe.Location = Relocate(this.CouldBe.Location);
-            this.Super.Location = Relocate(this.Super.Location);
+            //this.Super.Location = Relocate(this.Super.Location);
             this.objLogBox.objBox.Location = Relocate(this.objLogBox.objBox.Location);
          }
 
@@ -312,6 +374,33 @@ namespace SudokuForms
             ClickSquare(btn.TabIndex);
         }
 
+        void FlavorSudoku_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curFlavor = Flavor.Sudoku;
+            }
+        }
+
+        void FlavorSuperSudoku_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curFlavor = Flavor.SuperSudoku;
+            }
+        }
+
+        void FlavorHyperSudoku_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curFlavor = Flavor.HyperSudoku;
+            }
+        }
+
         void Reset_Click(object sender, EventArgs e)
         {
             objLogBox.Log("------- RESET ------------------");
@@ -364,6 +453,8 @@ namespace SudokuForms
         void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;
+            fCouldBe = box.Checked;
+
             foreach (Square objSq in objBoard.rgSquare)
             {
                 if (objSq.iWinner == -1)
@@ -380,10 +471,12 @@ namespace SudokuForms
             }
         }
 
+        /*
         void Super_CheckedChanged(object sender, EventArgs e)
         {
             SuperToggle();
         }
+        */
 
         // This is the ButtonClick function for the Step button.
         void Step_Click(object sender, EventArgs e)
@@ -432,7 +525,7 @@ namespace SudokuForms
         void Save_Click(object sender, EventArgs e)
         {
             FileIO f = new FileIO();
-            f.SaveFile(objBoard);
+            f.SaveFile(this, objBoard);
         }
 
         // This is the ButtonClick function for the Load button.
@@ -472,16 +565,20 @@ namespace SudokuForms
             e.Graphics.DrawImage(memoryImage, 0, 0);
         }
 
+        RadioButton FlavorSudoku;
+        RadioButton FlavorSuperSudoku;
+        RadioButton FlavorHyperSudoku;
+        Panel FlavorPanel;
         Button btnReset;
         Button btnClear;
         Button btnStep;
         LogBox objLogBox;
         CheckBox CouldBe;
-        CheckBox Super;
+        //CheckBox Super;
         RadioButton RangeCheck;
         RadioButton LineFind;
         RadioButton SectorFind;
-        Panel RadioPanel;
+        Panel TechniquePanel;
         Button btnLoad;
         Button btnPrint;
         Button btnSave;

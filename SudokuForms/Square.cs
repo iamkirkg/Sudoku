@@ -3,13 +3,17 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
+// This is for Flavor flav. I don't understand it.
+using static SudokuForms.Game;
+
 namespace SudokuForms
 {
     public class Square
     {
         public Game objGame;
+        public int iBoard { get; } // index into the objBoard.rgSquare array.
         public int iWinner { get; set; } // When there's only one left.
-        public char chWinner { get; set; }
+        public char chWinner { get; set; } // When there's only one left.
         public bool fOriginal { get; set; } // Is this one of the starting squares?
         public int row { get; set; }    // What row we're in.
         public int col { get; set; }    // What column we're in.
@@ -26,6 +30,7 @@ namespace SudokuForms
                       )
         {
             objGame = argGame;
+            iBoard = iTab - 1;
             iWinner = -1;
             chWinner = 'X';
             fOriginal = false;
@@ -55,7 +60,7 @@ namespace SudokuForms
             objGame.Controls.Remove(btn);
         }
 
-        // Alternate background colors for sectors.
+        // Sudoku and SuperSudoku have one color per sector, alternating. So we map _sector_ to color.
         readonly Color[] mpSectorColor = {
             Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue,
             Color.FloralWhite, Color.AliceBlue,   Color.FloralWhite,
@@ -67,9 +72,30 @@ namespace SudokuForms
             Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue,   Color.FloralWhite,
             Color.FloralWhite, Color.AliceBlue,   Color.FloralWhite, Color.AliceBlue
         };
+
+        // HyperSudoku has three colors, with the inset sectors having the 3rd color, so we map _square_ to color.
+        readonly Color[] mpSquareColorHyper = {
+            Color.AliceBlue,   Color.AliceBlue,   Color.AliceBlue,   Color.FloralWhite, Color.FloralWhite, Color.FloralWhite, Color.AliceBlue,   Color.AliceBlue,   Color.AliceBlue,
+            Color.AliceBlue,   Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.FloralWhite, Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.AliceBlue,
+            Color.AliceBlue,   Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.FloralWhite, Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.AliceBlue,
+            Color.FloralWhite, Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.AliceBlue,   Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.FloralWhite,
+            Color.FloralWhite, Color.FloralWhite, Color.FloralWhite, Color.AliceBlue,   Color.AliceBlue,   Color.AliceBlue,   Color.FloralWhite, Color.FloralWhite, Color.FloralWhite,
+            Color.FloralWhite, Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.AliceBlue,   Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.FloralWhite,
+            Color.AliceBlue,   Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.FloralWhite, Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.AliceBlue,
+            Color.AliceBlue,   Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.FloralWhite, Color.MistyRose,   Color.MistyRose,   Color.MistyRose,   Color.AliceBlue,
+            Color.AliceBlue,   Color.AliceBlue,   Color.AliceBlue,   Color.FloralWhite, Color.FloralWhite, Color.FloralWhite, Color.AliceBlue,   Color.AliceBlue,   Color.AliceBlue
+        };
         public Color MyBackColor()
         {
-            return objGame.fSuper ? mpSectorColorSuper[sector] : mpSectorColor[sector];
+            switch (objGame.curFlavor)
+            {
+                case Flavor.Sudoku:
+                    return mpSectorColor[sector];
+                case Flavor.SuperSudoku:
+                    return mpSectorColorSuper[sector];
+                default: // case Flavor.HyperSudoku:
+                    return mpSquareColorHyper[iBoard];
+            }
         }
 
         public Color MyLoserColor()

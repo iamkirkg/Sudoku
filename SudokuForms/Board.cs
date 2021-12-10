@@ -71,7 +71,7 @@ namespace SudokuForms
 
             rgSquare = new Square[argGame.cDimension, argGame.cDimension];
 
-            int iTab = 0; // [1 ... 81] or [1..256]
+            int iTab = 0; // TabIndex [1..81] or [1..256]
             for (int y = 0; y < argGame.cDimension; y++)
             {
                 xPoint = xOrigin;

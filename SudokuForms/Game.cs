@@ -5,12 +5,28 @@ namespace SudokuForms
 {
     public partial class Game : Form
     {
+        public enum Flavor
+        {
+            Sudoku,         // 3x3x9
+            SuperSudoku,    // 4x4x16
+            HyperSudoku     // 3x3x(9+4)
+        }
+        public Flavor curFlavor = Flavor.HyperSudoku;
+
+        // Are we 3x3 or 4x4?
         private bool _fSuper = false;
         public bool fSuper
         {
-            get { return _fSuper; }
-            set { _fSuper = value; }
+            get { return curFlavor == Flavor.SuperSudoku; }
         }
+
+        // Are we currently showing possible answers?
+        private bool _fCouldBe = true;
+        public bool fCouldBe {
+            get { return _fCouldBe; }
+            set { _fCouldBe = value; }
+        }
+
         public int cDimension { // Are we 3x3 or 4x4?
             get { return _fSuper ? 16 : 9; }
         }
@@ -81,12 +97,11 @@ namespace SudokuForms
                                  objLogBox
                                  );
         }
+
+        /*
         public void SuperToggle()
         {
             objBoard.Delete();
-
-            // Toggle us!
-            fSuper = !fSuper;
 
             objBoard = new Board(this, fSuper,
                                  xOrigin, yOrigin, xSize, ySize, font,
@@ -96,5 +111,6 @@ namespace SudokuForms
 
             MoveButtons();
         }
+        */
     }
 }

@@ -4,6 +4,36 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 
+// This is for Flavor flav. I don't understand it.
+using static SudokuForms.Game;
+
+/*
+<Flavor>HyperSudoku</Flavor>
+<CouldBe>true</CouldBe>
+<Squares>
+	<Square>
+		<Row>0</Row>
+		<Column>0</Column>
+		<Sector>0</Sector>
+		<iWinner>-1</iWinner>
+		<chWinner>X</chWinner>
+		<fOriginal>False</fOriginal>
+		<Text>1 2 3 4 5 6 7 8 9 </Text>
+		<TabIndex>1</TabIndex>
+	</Square>
+	<Square>
+		<Row>3</Row>
+		<Column>0</Column>
+		<Sector>3</Sector>
+		<iWinner>5</iWinner>
+		<chWinner>5</chWinner>
+		<fOriginal>True</fOriginal>
+		<Text>5 </Text>
+		<TabIndex>28</TabIndex>
+	</Square>
+</Squares>
+*/
+
 namespace SudokuForms
 {
     class FileIO
@@ -26,7 +56,7 @@ namespace SudokuForms
             TabIndex
         }
 
-        public void SaveFile(Board objBoard)
+        public void SaveFile(Game objGame, Board objBoard)
         {
             SaveFileDialog objDlg = new SaveFileDialog
             {
@@ -41,7 +71,12 @@ namespace SudokuForms
             using (XmlWriter writer = XmlWriter.Create(objDlg.FileName))
             {
                 writer.WriteStartDocument();
+
                 writer.WriteStartElement("Squares");
+
+                Flavor flav = objGame.curFlavor;
+                writer.WriteElementString("Flavor", flav.ToString());
+                writer.WriteElementString("CouldBe", objGame.fCouldBe.ToString());
 
                 foreach (Square sq in objBoard.rgSquare)
                 {
@@ -56,10 +91,10 @@ namespace SudokuForms
                     writer.WriteElementString("Text", sq.btn.Text);
                     writer.WriteElementString("TabIndex", sq.btn.TabIndex.ToString());
 
-                    writer.WriteEndElement();
+                    writer.WriteEndElement();   // Square
                 }
 
-                writer.WriteEndElement();
+                writer.WriteEndElement();   // Squares
                 writer.WriteEndDocument();
             }
         }
@@ -101,6 +136,10 @@ namespace SudokuForms
                 {
                     szName = reader.Name;
                     szValue = reader.Value;
+
+                    if (szName == "Flavor") {
+                        objGame.curFlavor = (Flavor)int.Parse(szValue);
+                    }
 
                     switch (reader.NodeType)
                     {
