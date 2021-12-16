@@ -11,7 +11,7 @@ namespace SudokuForms
             SuperSudoku,    // 4x4x16
             HyperSudoku     // 3x3x(9+4)
         }
-        public Flavor curFlavor = Flavor.HyperSudoku;
+        public Flavor curFlavor = Flavor.Sudoku;
 
         // Are we 3x3 or 4x4?
         private bool _fSuper = false;

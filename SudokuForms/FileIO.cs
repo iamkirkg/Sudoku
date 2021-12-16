@@ -223,11 +223,11 @@ namespace SudokuForms
                                 {
                                     if (sq.fOriginal)
                                     {
-                                        sq.Winner(chWinner, sq.fOriginal, Color.DarkGreen, objBoard);
+                                        sq.Winner(chWinner, sq.fOriginal, objBoard);
                                     }
                                     else
                                     {
-                                        sq.Winner(chWinner, sq.fOriginal, Color.DarkBlue, objBoard);
+                                        sq.Winner(chWinner, sq.fOriginal, objBoard);
                                     }
                                 }
                             }

@@ -28,6 +28,20 @@ namespace SudokuForms
             6,6,6, 7,7,7, 8,8,8
         };
 
+        // HyperSudoku has four more sectors overlaid in the middle.
+        readonly private int[] mpTabHyperSector =
+        {
+            -1, -1,-1,-1, -1, -1,-1,-1, -1,
+            -1, 09,09,09, -1, 10,10,10, -1,
+            -1, 09,09,09, -1, 10,10,10, -1,
+            -1, 09,09,09, -1, 10,10,10, -1,
+            -1, -1,-1,-1, -1, -1,-1,-1, -1,
+            -1, 11,11,11, -1, 12,12,12, -1,
+            -1, 11,11,11, -1, 12,12,12, -1,
+            -1, 11,11,11, -1, 12,12,12, -1,
+            -1, -1,-1,-1, -1, -1,-1,-1, -1
+        };
+
         readonly private int[] mpTabSectorSuper =
         {
             00,00,00,00, 01,01,01,01, 02,02,02,02, 03,03,03,03,
@@ -68,6 +82,7 @@ namespace SudokuForms
             int xPoint;
             int yPoint = yOrigin;
             int iSector;
+            int iHyperSector = -1;
 
             rgSquare = new Square[argGame.cDimension, argGame.cDimension];
 
@@ -78,8 +93,13 @@ namespace SudokuForms
                 for (int x = 0; x < argGame.cDimension; x++)
                 {
                     iTab++;
-                    iSector = (fSuper ? mpTabSectorSuper[iTab - 1] : mpTabSector[iTab - 1]);
-                    rgSquare[x, y] = new Square(argGame, iTab, iSector, xPoint, yPoint, xSize, ySize, font,
+                    if (fSuper) {
+                        iSector = mpTabSectorSuper[iTab - 1];
+                    } else {
+                        iSector = mpTabSector[iTab - 1];
+                        iHyperSector = mpTabHyperSector[iTab - 1];
+                    }
+                    rgSquare[x, y] = new Square(argGame, iTab, iSector, iHyperSector, xPoint, yPoint, xSize, ySize, font,
                                                 fnKeyPress, fnKeyDown, fnClick);
                     xPoint += xDelta;
                 }

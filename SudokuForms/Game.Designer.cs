@@ -330,7 +330,7 @@ namespace SudokuForms
             if ((keyChar >= '0' && keyChar <= '9') || (fSuper && keyChar >= 'A' && keyChar <= 'F'))
             {
                 //objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
-                objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, Color.DarkGreen, objBoard);
+                objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard);
                 //Techniques.Neighbor(objBoard.rgSquare, curCol, curRow, keyChar);
             }
         }

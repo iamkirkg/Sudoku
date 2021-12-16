@@ -68,18 +68,24 @@ namespace SudokuForms
 
             for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
-                Range objRange = new Range(objBoard, Range.Type.Col, i);
+                Range objRange = new Range(objBoard, Range.Type.Row, i);
+                //objRange.SetRangeColor(true);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
+                //objRange.SetRangeColor(false);
             }
             for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
-                Range objRange = new Range(objBoard, Range.Type.Row, i);
+                Range objRange = new Range(objBoard, Range.Type.Col, i);
+                //objRange.SetRangeColor(true);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
+                //objRange.SetRangeColor(false);
             }
             for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Sec, i);
+                //objRange.SetRangeColor(true);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
+                //objRange.SetRangeColor(false);
             }
 
             if (ret)
@@ -117,6 +123,7 @@ namespace SudokuForms
         //
         // Consider this Range:
         //
+        //     sq0   sq1   sq2   sq3   sq4   sq5   sq6   sq7   sq8
         //   +=====+=====+=====+=====+=====+=====+=====+=====+=====+
         //   | 2 4 |     |     |     |     | 2 6 |     | 1 4 | 4 6 |
         //   |  6  | 2 4 |  9  | 1 7 |  5  |  8  |  3  | 7 8 |  8  |
@@ -126,22 +133,27 @@ namespace SudokuForms
         //
         // When we get to 291, binary 100100011 (low bit first, on the left 
         // Square), we combine 246+24+268+468 -> 2468. Four characters, four
-        // ON bits, four Squares: it's a Foursome. Call Loser(2), Loser(4), 
-        // Loser(6), Loser(8), and Square 7's 1478 becomes 17.
+        // ON bits, four Squares: it's a Foursome. On the five squares that
+        // _aren't_ in that Foursome (2-3-4-6-7), call Loser('2'), Loser('4'),
+        // Loser('6'), Loser('8'). That makes sq7's '1478' into '17'.
 
         public static bool RangeCheck(Board objBoard, Range objRange, LogBox objLogBox)
         {
             bool ret = false;
 
+            // all bitmasks: from 000000000 through 111111111
             for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.objGame.bitCount); bitmask++)
             {
                 int bitshift = bitmask;
                 int bitcount = 0;
                 string szTuple = "";
+                bool fHighlight = false; // This is a latch: have we yet highlighted this Range?
 
+                // Calculate bitcount, as the number of ON bits in the current bitmask.
+                // Calculate szTuple ('1478') of the Squares in the Range's bitmask.
                 for (int ibit = 0; ((ibit < objBoard.objGame.bitCount) && (bitshift != 0)); ibit++)
                 {
-                    // If the low bit is set, we want that Square.
+                    // If the low bit is set, we want the chars of that Square.
                     if ((bitshift % 2) == 1)
                     {
                         bitcount++;
@@ -155,27 +167,44 @@ namespace SudokuForms
                     }
                     bitshift = (bitshift / 2);
                 }
+
+                // Does this sub-Range match the number of ON bits in the bitmask?
                 if (szTuple.Length == bitcount)
                 {
                     // We have found an Nsome.
 
                     bool ret2 = false;
-                    bitshift = bitmask;
 
                     // For all the Squares of Range that _aren't_ in bitmask, 
                     //   call Loser for all the values of szTuple.
-                    for (int ibit = 0; ibit < objBoard.objGame.bitCount; ibit++)
-                    {
+                    bitshift = bitmask;
+                    for (int ibit = 0; ibit < objBoard.objGame.bitCount; ibit++) {
                         // If the low bit is NOT set, we want that Square.
-                        if ((bitshift % 2) == 0)
-                        {
-                            foreach (char ch in szTuple)
-                            {
+                        if ((bitshift % 2) == 0) {
+                            foreach (char ch in szTuple) {
+                                if (!fHighlight && objRange.rgSquare[ibit].FLoserTest(ch)) {
+                                    // We have found the first Square that's
+                                    // actually going to change. Highlight the Range.
+                                    int bitshiftHighlight = bitmask;
+                                    for (int ibitHighlight = 0; ibitHighlight < objBoard.objGame.bitCount; ibitHighlight++) {
+                                        // low bit means it's part of the NSome, otherwise part of the Range.
+                                        if ((bitshiftHighlight % 2) == 0) {
+                                            //objRange.rgSquare[ibitHighlight].SetBackColor(objRange.rgSquare[ibitHighlight].colorRange);
+                                        } else {
+                                            objRange.rgSquare[ibitHighlight].SetBackColor(objRange.rgSquare[ibitHighlight].colorNSome);
+                                        }
+                                        bitshiftHighlight = (bitshiftHighlight / 2);
+                                    }
+
+                                    fHighlight = true; // drop the latch. We only do this once per Range.
+                                }
                                 ret2 |= objRange.rgSquare[ibit].FLoser(ch, objBoard);
                             }
                         }
                         bitshift = (bitshift / 2);
                     }
+
+                    objRange.SetRangeColor(false);
 
                     //if (ret2)
                     //{
@@ -185,6 +214,12 @@ namespace SudokuForms
                     //}
                     ret |= ret2;
                 }
+            }
+
+            // For all the Squares of Range, reset the backcolor.
+            foreach (Square sq in objRange.rgSquare)
+            {
+                sq.SetBackColor(sq.MyBackColor());
             }
 
             // We ran this once, to get our code to paste into Range.cs.
