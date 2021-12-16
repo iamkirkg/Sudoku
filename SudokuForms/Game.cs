@@ -30,10 +30,10 @@ namespace SudokuForms
             get { return fSuper ? 16 : 9; }
         }
         public int xDelta { // how much to shift right
-            get { return fSuper ? 380 : 000; }
+            get { return 4; }
         }
         public int xMove { // how much to move
-            get { return fSuper ? 376 : -376; }
+            get { return 0; }
         }
         public string szTitle {
             get { return fSuper ? "SuperSudokirk" : "Sudokirk"; }
@@ -51,7 +51,7 @@ namespace SudokuForms
             get { return fSuper ? 7F : 12F; }
         }
         // Board origin
-        private int xOrigin = 2;
+        private int xOrigin = 2 + 300;
         private int yOrigin = 2;
         // Board size
         public int iBoardWidth {
@@ -109,7 +109,7 @@ namespace SudokuForms
                                  objLogBox
                                  );
 
-            MoveButtons();
+            //MoveButtons();
         }
     }
 }

@@ -85,7 +85,7 @@ namespace SudokuForms
             this.FlavorPanel.Controls.Add(this.FlavorSuperSudoku);
             this.FlavorPanel.Controls.Add(this.FlavorHyperSudoku);
             this.FlavorPanel.BorderStyle = BorderStyle.FixedSingle;
-            this.FlavorPanel.Location = new Point(490 + xDelta, 10);
+            this.FlavorPanel.Location = new Point(490 + xDelta - 490, 10);
             this.FlavorPanel.Name = "FlavorPanel";
             this.FlavorPanel.Size = new Size(110, 74);
             this.FlavorPanel.TabIndex = iTabIndex++;
@@ -103,7 +103,7 @@ namespace SudokuForms
             this.btnReset.BackColor = Color.LightGray;
             this.btnReset.ForeColor = Color.Black;
             this.btnReset.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new Point(490+xDelta, 88);
+            this.btnReset.Location = new Point(490+xDelta - 490, 88);
             this.btnReset.Size = new Size(80, 36);
             this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
@@ -117,7 +117,7 @@ namespace SudokuForms
             this.btnClear.BackColor = Color.LightGray;
             this.btnClear.ForeColor = Color.Black;
             this.btnClear.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.Location = new Point(574+xDelta, 88);
+            this.btnClear.Location = new Point(574+xDelta - 490, 88);
             this.btnClear.Size = new Size(80, 36);
             this.btnClear.TabIndex = iTabIndex++;
             this.btnClear.Text = "Clear";
@@ -128,7 +128,7 @@ namespace SudokuForms
             this.btnStep = new Button();
             this.btnStep.Click += Step_Click;
             this.btnStep.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new Point(596+xDelta, 148);
+            this.btnStep.Location = new Point(596+xDelta - 490, 148);
             this.btnStep.Size = new Size(80, 36);
             this.btnStep.TabIndex = iTabIndex++;
             this.btnStep.Text = "Step";
@@ -184,7 +184,7 @@ namespace SudokuForms
             this.TechniquePanel.Controls.Add(this.LineFind);
             this.TechniquePanel.Controls.Add(this.SectorFind);
             this.TechniquePanel.BorderStyle = BorderStyle.FixedSingle;
-            this.TechniquePanel.Location = new Point(490+xDelta, 130);
+            this.TechniquePanel.Location = new Point(490+xDelta - 490, 130);
             this.TechniquePanel.Name = "TechniquePanel";
             this.TechniquePanel.Size = new Size(100, 74);
             this.TechniquePanel.TabIndex = iTabIndex++;
@@ -201,7 +201,7 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new Point(490+xDelta, 208);
+            this.btnLoad.Location = new Point(490+xDelta - 490, 208);
             this.btnLoad.Size = new Size(80, 36);
             this.btnLoad.TabIndex = iTabIndex++;
             this.btnLoad.Text = "Load";
@@ -215,7 +215,7 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new Point(490+xDelta, 248);
+            this.btnSave.Location = new Point(490+xDelta - 490, 248);
             this.btnSave.Size = new Size(80, 36);
             this.btnSave.TabIndex = iTabIndex++;
             this.btnSave.Text = "Save";
@@ -229,7 +229,7 @@ namespace SudokuForms
             this.btnPrint.BackColor = Color.LightGray;
             this.btnPrint.ForeColor = Color.Black;
             this.btnPrint.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new Point(596 + xDelta, 228);
+            this.btnPrint.Location = new Point(596 + xDelta - 490, 228);
             this.btnPrint.Size = new Size(80, 36);
             this.btnPrint.TabIndex = iTabIndex++;
             this.btnPrint.Text = "Print";
@@ -241,7 +241,7 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(490+xDelta, 288);
+            this.CouldBe.Location = new Point(490+xDelta - 490, 288);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
             this.CouldBe.TabIndex = iTabIndex++;
@@ -257,7 +257,7 @@ namespace SudokuForms
             this.Super = new CheckBox();
             this.Super.AutoSize = true;
             this.Super.Checked = fSuper;
-            this.Super.Location = new Point(576+xDelta, 210);
+            this.Super.Location = new Point(576+xDelta - 490, 210);
             this.Super.Name = "Super";
             this.Super.Size = new Size(104, 24);
             this.Super.TabIndex = iTabIndex++;
@@ -270,7 +270,7 @@ namespace SudokuForms
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(490+xDelta, 308, 350, 500, iTabIndex);
+            this.objLogBox = new LogBox(490+xDelta - 490, 308, 294, 340, iTabIndex);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
@@ -289,6 +289,7 @@ namespace SudokuForms
             this.PerformLayout();
         }
 
+        /*
         private Point Relocate(Point p) {
             p.X += xMove;
             return p;
@@ -310,6 +311,7 @@ namespace SudokuForms
             //this.Super.Location = Relocate(this.Super.Location);
             this.objLogBox.objBox.Location = Relocate(this.objLogBox.objBox.Location);
          }
+        */
 
         // This is the KeyPress function for all 81-or-256 of our Squares.
         void sq_KeyPress(object sender, KeyPressEventArgs e)
