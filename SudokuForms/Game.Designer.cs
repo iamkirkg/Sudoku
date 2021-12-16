@@ -379,7 +379,7 @@ namespace SudokuForms
             RadioButton radio = sender as RadioButton;
             if (radio.Checked)
             {
-                curFlavor = Flavor.Sudoku;
+                BoardReset(Flavor.Sudoku);
             }
         }
 
@@ -388,7 +388,7 @@ namespace SudokuForms
             RadioButton radio = sender as RadioButton;
             if (radio.Checked)
             {
-                curFlavor = Flavor.SuperSudoku;
+                BoardReset(Flavor.SuperSudoku);
             }
         }
 
@@ -397,7 +397,7 @@ namespace SudokuForms
             RadioButton radio = sender as RadioButton;
             if (radio.Checked)
             {
-                curFlavor = Flavor.HyperSudoku;
+                BoardReset(Flavor.HyperSudoku);
             }
         }
 

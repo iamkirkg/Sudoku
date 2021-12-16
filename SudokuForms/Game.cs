@@ -14,7 +14,6 @@ namespace SudokuForms
         public Flavor curFlavor = Flavor.Sudoku;
 
         // Are we 3x3 or 4x4?
-        private bool _fSuper = false;
         public bool fSuper
         {
             get { return curFlavor == Flavor.SuperSudoku; }
@@ -28,46 +27,46 @@ namespace SudokuForms
         }
 
         public int cDimension { // Are we 3x3 or 4x4?
-            get { return _fSuper ? 16 : 9; }
+            get { return fSuper ? 16 : 9; }
         }
         public int xDelta { // how much to shift right
-            get { return _fSuper ? 380 : 000; }
+            get { return fSuper ? 380 : 000; }
         }
         public int xMove { // how much to move
-            get { return _fSuper ? 376 : -376; }
+            get { return fSuper ? 376 : -376; }
         }
         public string szTitle {
-            get { return _fSuper ? "SuperSudokirk" : "Sudokirk"; }
+            get { return fSuper ? "SuperSudokirk" : "Sudokirk"; }
         }
         public Single emSizeWinner {
-            get { return _fSuper ? 36F : 40F; }
+            get { return fSuper ? 36F : 40F; }
         }
         public int bitCount {
-            get { return _fSuper ? 16 : 9; }
+            get { return fSuper ? 16 : 9; }
         }
         public string szAll {
-            get { return _fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "; }
+            get { return fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "; }
         }
         public float font {
-            get { return _fSuper ? 7F : 12F; }
+            get { return fSuper ? 7F : 12F; }
         }
         // Board origin
         private int xOrigin = 2;
         private int yOrigin = 2;
         // Board size
         public int iBoardWidth {
-            get { return _fSuper ? 1226 : 1100; }
+            get { return fSuper ? 1226 : 1100; }
         }
         public int iBoardHeight
         {
-            get { return _fSuper ? 996 : 900; }
+            get { return fSuper ? 996 : 900; }
         }
         // Square size
         private int xSize {
-            get { return _fSuper ? 52 : 52; }
+            get { return fSuper ? 52 : 52; }
         }
         private int ySize {
-            get { return _fSuper ? 60 : 68; }
+            get { return fSuper ? 60 : 68; }
         }
 
         public enum Technique
@@ -98,10 +97,11 @@ namespace SudokuForms
                                  );
         }
 
-        /*
-        public void SuperToggle()
+        public void BoardReset(Flavor objFlavor)
         {
             objBoard.Delete();
+
+            curFlavor = objFlavor;
 
             objBoard = new Board(this, fSuper,
                                  xOrigin, yOrigin, xSize, ySize, font,
@@ -111,6 +111,5 @@ namespace SudokuForms
 
             MoveButtons();
         }
-        */
     }
 }

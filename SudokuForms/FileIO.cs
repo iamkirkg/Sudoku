@@ -8,9 +8,15 @@ using System.Xml;
 using static SudokuForms.Game;
 
 /*
-<Flavor>HyperSudoku</Flavor>
-<CouldBe>true</CouldBe>
+
+Old files have <iWinner>0</iWinner>, instead of -1. 
+  Can we reliably detect this, adjust at load time?
+Old files (even old SuperSudoku) don't have <Flavor>
+Old files don't have <CouldBe>
+
 <Squares>
+    <Flavor>HyperSudoku</Flavor>
+    <CouldBe>true</CouldBe>
 	<Square>
 		<Row>0</Row>
 		<Column>0</Column>
@@ -138,7 +144,17 @@ namespace SudokuForms
                     szValue = reader.Value;
 
                     if (szName == "Flavor") {
-                        objGame.curFlavor = (Flavor)int.Parse(szValue);
+                        switch (szValue) {
+                            case "Sudoku":
+                                objGame.curFlavor = Flavor.Sudoku;
+                                break;
+                            case "SuperSudoku":
+                                objGame.curFlavor = Flavor.SuperSudoku;
+                                break;
+                            case "HyperSudoku":
+                                objGame.curFlavor = Flavor.HyperSudoku;
+                                break;
+                        }
                     }
 
                     switch (reader.NodeType)
@@ -189,7 +205,12 @@ namespace SudokuForms
                                     Sector = int.Parse(szValue);
                                     break;
                                 case Field.iWinner:
-                                    iWinner = int.Parse(szValue);
+                                    int i = int.Parse(szValue);
+                                    // Try to handle our old files. 
+                                    if ((i == 0) && (objGame.curFlavor == Flavor.Sudoku)) {
+                                        i = -1;
+                                    }
+                                    iWinner = i;
                                     break;
                                 case Field.chWinner:
                                     chWinner = szValue[0];
@@ -198,6 +219,10 @@ namespace SudokuForms
                                     fOriginal = szValue.Equals("True");
                                     break;
                                 case Field.Text:
+                                    // Try to handle our old files.
+                                    if (szValue.Contains("A")) {
+                                        objGame.curFlavor = Flavor.SuperSudoku;
+                                    }
                                     Text = szValue;
                                     break;
                                 case Field.TabIndex:
