@@ -44,6 +44,10 @@ namespace SudokuForms
                         {
                             rgSquare[r++] = sq;
                         }
+                        if (sq.hypersector == i)
+                        {
+                            rgSquare[r++] = sq;
+                        }
                     }
                     break;
             }

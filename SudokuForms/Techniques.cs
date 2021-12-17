@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
 
+// This is for Flavor flav. I don't understand it.
+using static SudokuForms.Game;
+
 namespace SudokuForms
 {
     // This class holds the functions used to solve the puzzle.
@@ -17,23 +20,25 @@ namespace SudokuForms
             for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Row, i);
-                //objRange.SetRangeColor(true);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
-                //objRange.SetRangeColor(false);
             }
             for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Col, i);
-                //objRange.SetRangeColor(true);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
-                //objRange.SetRangeColor(false);
             }
             for (int i = 0; i < objBoard.objGame.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Sec, i);
-                //objRange.SetRangeColor(true);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
-                //objRange.SetRangeColor(false);
+            }
+            if (objBoard.objGame.curFlavor == Flavor.HyperSudoku)
+            {
+                for (int i = 09; i < 13; i++)
+                {
+                    Range objRange = new Range(objBoard, Range.Type.Sec, i);
+                    ret |= RangeCheck(objBoard, objRange, objLogBox);
+                }
             }
 
             if (ret)
