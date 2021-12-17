@@ -52,14 +52,14 @@ namespace SudokuForms
         }
         // Board origin
         private int xOrigin = 2 + 300;
-        private int yOrigin = 2;
+        private int yOrigin = 4;
         // Board size
         public int iBoardWidth {
-            get { return fSuper ? 1226 : 1100; }
+            get { return fSuper ? 1168 : 790; }
         }
         public int iBoardHeight
         {
-            get { return fSuper ? 996 : 900; }
+            get { return fSuper ? 996 : 640; }
         }
         // Square size
         private int xSize {
@@ -102,6 +102,8 @@ namespace SudokuForms
             objBoard.Delete();
 
             curFlavor = objFlavor;
+
+            this.ClientSize = new System.Drawing.Size(iBoardWidth, iBoardHeight);
 
             objBoard = new Board(this, fSuper,
                                  xOrigin, yOrigin, xSize, ySize, font,

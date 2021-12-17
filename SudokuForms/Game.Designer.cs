@@ -270,7 +270,7 @@ namespace SudokuForms
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(490+xDelta - 490, 308, 294, 340, iTabIndex);
+            this.objLogBox = new LogBox(490+xDelta - 490, 308, 294, 330, iTabIndex);
             this.Controls.Add(this.objLogBox.objBox);
 
             // 
