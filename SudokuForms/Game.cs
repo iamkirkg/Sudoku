@@ -103,6 +103,7 @@ namespace SudokuForms
         public Game()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
             objBoard = new Board(this, fSuper,
                                  xOrigin, yOrigin, xSize, ySize, font, 
