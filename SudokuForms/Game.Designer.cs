@@ -250,23 +250,6 @@ namespace SudokuForms
             this.CouldBe.CheckedChanged += new EventHandler(this.CouldBe_CheckedChanged);
             this.Controls.Add(this.CouldBe);
 
-            /*
-            // 
-            // Super
-            // 
-            this.Super = new CheckBox();
-            this.Super.AutoSize = true;
-            this.Super.Checked = fSuper;
-            this.Super.Location = new Point(576+xDelta - 490, 210);
-            this.Super.Name = "Super";
-            this.Super.Size = new Size(104, 24);
-            this.Super.TabIndex = iTabIndex++;
-            this.Super.Text = "SuperSudoku";
-            this.Super.UseVisualStyleBackColor = true;
-            this.Super.CheckedChanged += new EventHandler(this.Super_CheckedChanged);
-            this.Controls.Add(this.Super);
-            */
-
             //
             // LogBox
             //
@@ -288,30 +271,6 @@ namespace SudokuForms
             this.ResumeLayout(false);
             this.PerformLayout();
         }
-
-        /*
-        private Point Relocate(Point p) {
-            p.X += xMove;
-            return p;
-        }
-
-        private void MoveButton(Button b) {
-            b.Location = Relocate(b.Location);
-        }
-
-        private void MoveButtons() {
-            MoveButton(this.btnReset);
-            MoveButton(this.btnClear);
-            MoveButton(this.btnStep);
-            MoveButton(this.btnLoad);
-            MoveButton(this.btnPrint);
-            MoveButton(this.btnSave);
-            this.TechniquePanel.Location = Relocate(this.TechniquePanel.Location);
-            this.CouldBe.Location = Relocate(this.CouldBe.Location);
-            //this.Super.Location = Relocate(this.Super.Location);
-            this.objLogBox.objBox.Location = Relocate(this.objLogBox.objBox.Location);
-         }
-        */
 
         // This is the KeyPress function for all 81-or-256 of our Squares.
         void sq_KeyPress(object sender, KeyPressEventArgs e)
@@ -472,13 +431,6 @@ namespace SudokuForms
                 }
             }
         }
-
-        /*
-        void Super_CheckedChanged(object sender, EventArgs e)
-        {
-            SuperToggle();
-        }
-        */
 
         // This is the ButtonClick function for the Step button.
         void Step_Click(object sender, EventArgs e)
