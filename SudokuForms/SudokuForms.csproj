@@ -50,6 +50,7 @@
     <Compile Include="FileIO.cs" />
     <Compile Include="LogBox.cs" />
     <Compile Include="Range.cs" />
+    <Compile Include="SortBitmask.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="Game.cs">
       <SubType>Form</SubType>
