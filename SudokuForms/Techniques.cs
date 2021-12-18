@@ -3,6 +3,7 @@ using System.Linq;
 
 // This is for Flavor flav. I don't understand it.
 using static SudokuForms.Game;
+using static SudokuForms.SortBitmask;
 
 namespace SudokuForms
 {
@@ -27,18 +28,10 @@ namespace SudokuForms
                 Range objRange = new Range(objBoard, Range.Type.Col, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i < objBoard.objGame.cDimension; i++)
+            for (int i = 0; i < objBoard.objGame.cSector; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Sec, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
-            }
-            if (objBoard.objGame.curFlavor == Flavor.HyperSudoku)
-            {
-                for (int i = 09; i < 13; i++)
-                {
-                    Range objRange = new Range(objBoard, Range.Type.Sec, i);
-                    ret |= RangeCheck(objBoard, objRange, objLogBox);
-                }
             }
 
             if (ret)
@@ -50,7 +43,7 @@ namespace SudokuForms
 
         // Examine a Range of the board.
         //
-        // Note that objBoard.objGame.bitCount is 9 for normal Sudoku, 16 for SuperSudoku.
+        // Note that objBoard.objGame.bitCount is 9 for Sudoku and HyperSudoku, 16 for SuperSudoku.
         //
         // There are nine(16) Squares in a Range. We want to examine all 512 (2^9)
         // or 65536 (2^16)
@@ -89,13 +82,24 @@ namespace SudokuForms
         // ON bits, four Squares: it's a Foursome. On the five squares that
         // _aren't_ in that Foursome (2-3-4-6-7), call Loser('2'), Loser('4'),
         // Loser('6'), Loser('8'). That makes sq7's '1478' into '17'.
+        //
+        // We used to iterate through the bitmasks, 000000000 to 111111111. But 
+        // that had us finding long Nsomes (like 6char), when shorter Nsomes
+        // (like 2char) would have triggered too. Shorter is what the brain sees
+        // first, which we want to replicate.  So iterate the bitmasks, first the
+        // 1bit, then 2bit, 3bit, on up.
 
         public static bool RangeCheck(Board objBoard, Range objRange, LogBox objLogBox)
         {
             bool ret = false;
+            string szLog = "Range " + objRange.type + objRange.i; // "Col7" or "Sec5"
 
             // all bitmasks: from 000000000 through 111111111
-            for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.objGame.bitCount); bitmask++)
+
+            // This one works for Sudoku, HyperSudoku, and SuperSudoku.
+            //for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.objGame.bitCount); bitmask++)
+            // This one works for Sudoku and HyperSudoku, not SuperSudoku.
+            foreach (int bitmask in rgBitmask)
             {
                 int bitshift = bitmask;
                 int bitcount = 0;
@@ -139,6 +143,7 @@ namespace SudokuForms
                                     // We have found the first Square that's
                                     // actually going to change. Highlight the Range.
                                     int bitshiftHighlight = bitmask;
+                                    if (bitcount >= 4) { ret2 = ret2; } // just for breakpoints.
                                     for (int ibitHighlight = 0; ibitHighlight < objBoard.objGame.bitCount; ibitHighlight++) {
                                         // low bit means it's part of the NSome, otherwise part of the Range.
                                         if ((bitshiftHighlight % 2) == 0) {
@@ -159,14 +164,16 @@ namespace SudokuForms
 
                     objRange.SetRangeColor(false);
 
-                    //if (ret2)
-                    //{
-                    //    objLogBox.Log("RangeCheck " + objRange.type + objRange.i + " " +
-                    //                  bitcount.ToString() + "some " + 
-                    //                  szTuple + " " + Convert.ToString(bitmask, 2) + " " );
-                    //}
+                    if (ret2)
+                    {
+                        szLog += " '" + szTuple + "'";
+                    }
                     ret |= ret2;
                 }
+            }
+
+            if (ret) {
+                objLogBox.Log(szLog);
             }
 
             // For all the Squares of Range, reset the backcolor.
@@ -174,9 +181,6 @@ namespace SudokuForms
             {
                 sq.SetBackColor(sq.MyBackColor());
             }
-
-            // We ran this once, to get our code to paste into Range.cs.
-            //objRange.GenerateMapping(objBoard.objLogBox);
 
             return ret;
         }

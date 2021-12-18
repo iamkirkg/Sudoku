@@ -29,6 +29,20 @@ namespace SudokuForms
         public int cDimension { // Are we 3x3 or 4x4?
             get { return fSuper ? 16 : 9; }
         }
+        public int cSector {
+            get {
+                switch (curFlavor) {
+                    case Flavor.Sudoku:
+                        return 9;
+                    case Flavor.SuperSudoku:
+                        return 16;
+                    case Flavor.HyperSudoku: // 9 + 4
+                        return 13;
+                    default:
+                        return -1;
+                }
+            }
+        }
         public int xDelta { // how much to shift right
             get { return 4; }
         }
