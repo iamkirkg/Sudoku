@@ -12,6 +12,7 @@ namespace SudokuForms
             objBox.Location = new System.Drawing.Point(xPoint, yPoint);
             objBox.Multiline = true;
             objBox.Name = "LogBox";
+            objBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             objBox.Size = new System.Drawing.Size(xSize, ySize);
             objBox.TabIndex = iTab;
             objBox.Text = "Sudokirk";
