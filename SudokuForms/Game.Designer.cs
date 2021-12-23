@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Globalization;
@@ -89,6 +90,19 @@ namespace SudokuForms
             this.FlavorPanel.Name = "FlavorPanel";
             this.FlavorPanel.Size = new Size(110, 74);
             this.FlavorPanel.TabIndex = iTabIndex++;
+
+            switch (curFlavor)
+            {
+                case Flavor.Sudoku:
+                    this.FlavorSudoku.Checked = true;
+                    break;
+                case Flavor.SuperSudoku:
+                    this.FlavorSuperSudoku.Checked = true;
+                    break;
+                case Flavor.HyperSudoku:
+                    this.FlavorHyperSudoku.Checked = true;
+                    break;
+            }
 
             this.Controls.Add(this.FlavorPanel);
             this.FlavorPanel.ResumeLayout(false);
@@ -189,6 +203,9 @@ namespace SudokuForms
             this.TechniquePanel.Size = new Size(100, 74);
             this.TechniquePanel.TabIndex = iTabIndex++;
 
+            // Our default button.
+            this.RangeCheck.Checked = true;
+
             this.Controls.Add(this.TechniquePanel);
             this.TechniquePanel.ResumeLayout(false);
             this.TechniquePanel.PerformLayout();
@@ -253,8 +270,9 @@ namespace SudokuForms
             //
             // LogBox
             //
-            this.objLogBox = new LogBox(490+xDelta - 490, 308, 294, 330, iTabIndex);
-            this.Controls.Add(this.objLogBox.objBox);
+            // BUGBUG: Add an fSuper test, grow this box downward.
+            objLogBox = new LogBox(490+xDelta - 490, 308, 294, 330, iTabIndex);
+            this.Controls.Add(objLogBox.objBox);
 
             // 
             // SudokuForms
@@ -338,6 +356,7 @@ namespace SudokuForms
         void FlavorSudoku_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
+            Debug.WriteLine("FlavorSudoku_CheckedChanged(" + radio.Checked.ToString() + ")");
             if (radio.Checked)
             {
                 BoardReset(Flavor.Sudoku);
@@ -347,6 +366,7 @@ namespace SudokuForms
         void FlavorSuperSudoku_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
+            Debug.WriteLine("FlavorSuperSudoku_CheckedChanged(" + radio.Checked.ToString() + ")");
             if (radio.Checked)
             {
                 BoardReset(Flavor.SuperSudoku);
@@ -356,6 +376,7 @@ namespace SudokuForms
         void FlavorHyperSudoku_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
+            Debug.WriteLine("FlavorHyperSudoku_CheckedChanged(" + radio.Checked.ToString() + ")");
             if (radio.Checked)
             {
                 BoardReset(Flavor.HyperSudoku);
@@ -479,14 +500,14 @@ namespace SudokuForms
         void Save_Click(object sender, EventArgs e)
         {
             FileIO f = new FileIO();
-            f.SaveFile(this, objBoard);
+            f.SaveFile(this);
         }
 
         // This is the ButtonClick function for the Load button.
         void Load_Click(object sender, EventArgs e)
         {
             FileIO f = new FileIO();
-            f.LoadFile(this, objBoard);
+            f.LoadFile(this);
         }
 
         // This is the ButtonClick function for the Print button.
@@ -526,9 +547,8 @@ namespace SudokuForms
         Button btnReset;
         Button btnClear;
         Button btnStep;
-        LogBox objLogBox;
+        public LogBox objLogBox;
         CheckBox CouldBe;
-        //CheckBox Super;
         RadioButton RangeCheck;
         RadioButton LineFind;
         RadioButton SectorFind;

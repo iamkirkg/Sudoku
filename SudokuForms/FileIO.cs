@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -9,8 +7,9 @@ using static SudokuForms.Game;
 
 /*
 
-Old files have <iWinner>0</iWinner>, instead of -1. 
+Old files have <iWinner>0</iWinner>, instead of -1.
   Can we reliably detect this, adjust at load time?
+Old files have <chWinner>0<chWinner>, instead of X.
 Old files (even old SuperSudoku) don't have <Flavor>
 Old files don't have <CouldBe>
 
@@ -51,6 +50,7 @@ namespace SudokuForms
         private enum Field
         {
             none,
+            Flavor,
             Square,
             Row,
             Column,
@@ -62,7 +62,7 @@ namespace SudokuForms
             TabIndex
         }
 
-        public void SaveFile(Game objGame, Board objBoard)
+        public void SaveFile(Game objGame)
         {
             SaveFileDialog objDlg = new SaveFileDialog
             {
@@ -84,7 +84,7 @@ namespace SudokuForms
                 writer.WriteElementString("Flavor", flav.ToString());
                 writer.WriteElementString("CouldBe", objGame.fCouldBe.ToString());
 
-                foreach (Square sq in objBoard.rgSquare)
+                foreach (Square sq in objGame.objBoard.rgSquare)
                 {
                     writer.WriteStartElement("Square");
 
@@ -105,13 +105,14 @@ namespace SudokuForms
             }
         }
 
-        public void LoadFile(Game objGame, Board objBoard)
+        public void LoadFile(Game objGame)
         {
             string szName;
             string szValue;
 
             Field state = Field.none;
 
+            Flavor flav = Flavor.Sudoku;
             Square sq;
             int Row = -1;
             int Column = -1;
@@ -132,36 +133,29 @@ namespace SudokuForms
                 return;
             }
 
-            objBoard.objLogBox.Log("LOAD: " + objDlg.FileName);
+            objGame.objLogBox.Log("LOAD: " + objDlg.FileName);
 
             XmlReaderSettings settings = new XmlReaderSettings();
             using (XmlReader reader = XmlReader.Create(objDlg.FileName, settings))
             {
                 objGame.Text = "SudoKirk: " + objDlg.FileName;
+                Debug.WriteLine("Load: " + objDlg.FileName);
                 while (reader.Read())
                 {
                     szName = reader.Name;
                     szValue = reader.Value;
 
-                    if (szName == "Flavor") {
-                        switch (szValue) {
-                            case "Sudoku":
-                                objGame.curFlavor = Flavor.Sudoku;
-                                break;
-                            case "SuperSudoku":
-                                objGame.curFlavor = Flavor.SuperSudoku;
-                                break;
-                            case "HyperSudoku":
-                                objGame.curFlavor = Flavor.HyperSudoku;
-                                break;
-                        }
-                    }
+                    //Debug.WriteLine("Load: " + reader.NodeType + " : " + szName + " : " + szValue);
 
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element:
+                            //Debug.WriteLine("  Element: " + szName);
                             switch (szName)
                             {
+                                case "Flavor":
+                                    state = Field.Flavor;
+                                    break;
                                 case "Square":
                                     state = Field.Square;
                                     break;
@@ -193,8 +187,23 @@ namespace SudokuForms
                             break;
 
                         case XmlNodeType.Text:
+                            //Debug.WriteLine("  Text: " + szValue);
                             switch (state)
                             {
+                                case Field.Flavor:
+                                    switch (szValue) {
+                                        case "Sudoku":
+                                            flav = Flavor.Sudoku;
+                                            break;
+                                        case "SuperSudoku":
+                                            flav = Flavor.SuperSudoku;
+                                            break;
+                                        case "HyperSudoku":
+                                            flav = Flavor.HyperSudoku;
+                                            break;
+                                    }
+                                    objGame.BoardReset(flav);
+                                    break;
                                 case Field.Row:
                                     Row = int.Parse(szValue);
                                     break;
@@ -207,22 +216,28 @@ namespace SudokuForms
                                 case Field.iWinner:
                                     int i = int.Parse(szValue);
                                     // Try to handle our old files. 
-                                    if ((i == 0) && (objGame.curFlavor == Flavor.Sudoku)) {
+                                    if ((i == 0) && (objGame.curFlavor != Flavor.SuperSudoku)) {
                                         i = -1;
                                     }
                                     iWinner = i;
                                     break;
                                 case Field.chWinner:
-                                    chWinner = szValue[0];
+                                    char ch = szValue[0];
+                                    // Try to handle our old files. 
+                                    if ((ch == '0') && (objGame.curFlavor != Flavor.SuperSudoku))
+                                    {
+                                        ch = 'X';
+                                    }
+                                    chWinner = ch;
                                     break;
                                 case Field.fOriginal:
                                     fOriginal = szValue.Equals("True");
                                     break;
                                 case Field.Text:
                                     // Try to handle our old files.
-                                    if (szValue.Contains("A")) {
-                                        objGame.curFlavor = Flavor.SuperSudoku;
-                                    }
+                                    //if (szValue.Contains("A")) {
+                                    //    objGame.curFlavor = Flavor.SuperSudoku;
+                                    //}
                                     Text = szValue;
                                     break;
                                 case Field.TabIndex:
@@ -232,9 +247,10 @@ namespace SudokuForms
                             break;
 
                         case XmlNodeType.EndElement:
+                            //Debug.WriteLine("  EndElement: " + szName);
                             if (szName == "Square")
                             {
-                                sq = objBoard.rgSquare[Column, Row];
+                                sq = objGame.objBoard.rgSquare[Column, Row];
                                 sq.sector = Sector;
                                 sq.iWinner = iWinner;
                                 sq.chWinner = chWinner;
@@ -248,11 +264,11 @@ namespace SudokuForms
                                 {
                                     if (sq.fOriginal)
                                     {
-                                        sq.Winner(chWinner, sq.fOriginal, objBoard);
+                                        sq.Winner(chWinner, sq.fOriginal, objGame.objBoard);
                                     }
                                     else
                                     {
-                                        sq.Winner(chWinner, sq.fOriginal, objBoard);
+                                        sq.Winner(chWinner, sq.fOriginal, objGame.objBoard);
                                     }
                                 }
                             }

@@ -92,14 +92,15 @@ namespace SudokuForms
         public static bool RangeCheck(Board objBoard, Range objRange, LogBox objLogBox)
         {
             bool ret = false;
-            string szLog = "Range " + objRange.type + objRange.i; // "Col7" or "Sec5"
+            string szLog = "Range " + objRange.type + objRange.i.ToString("X"); // "Col7" or "SecD"
 
-            // all bitmasks: from 000000000 through 111111111
+            // all bitmasks: from 000000000 through 111111111 (or 1111111111111111)
 
             // This one works for Sudoku, HyperSudoku, and SuperSudoku.
-            //for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.objGame.bitCount); bitmask++)
+            for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.objGame.bitCount); bitmask++)
             // This one works for Sudoku and HyperSudoku, not SuperSudoku.
-            foreach (int bitmask in rgBitmask)
+            // This one, it seems, isn't any faster.  Waste of effort?
+            //foreach (int bitmask in rgBitmask)
             {
                 int bitshift = bitmask;
                 int bitcount = 0;
@@ -143,7 +144,7 @@ namespace SudokuForms
                                     // We have found the first Square that's
                                     // actually going to change. Highlight the Range.
                                     int bitshiftHighlight = bitmask;
-                                    if (bitcount >= 4) { ret2 = ret2; } // just for breakpoints.
+                                    //if (bitcount >= 4) { ret2 = ret2; } // just for breakpoints.
                                     for (int ibitHighlight = 0; ibitHighlight < objBoard.objGame.bitCount; ibitHighlight++) {
                                         // low bit means it's part of the NSome, otherwise part of the Range.
                                         if ((bitshiftHighlight % 2) == 0) {

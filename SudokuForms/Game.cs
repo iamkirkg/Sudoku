@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace SudokuForms
@@ -11,11 +12,12 @@ namespace SudokuForms
             SuperSudoku,    // 4x4x16
             HyperSudoku     // 3x3x(9+4)
         }
+        // This is the default, when we first start the app.
+        // We could save/restore in a regkey.
         public Flavor curFlavor = Flavor.Sudoku;
 
         // Are we 3x3 or 4x4?
-        public bool fSuper
-        {
+        public bool fSuper {
             get { return curFlavor == Flavor.SuperSudoku; }
         }
 
@@ -43,9 +45,12 @@ namespace SudokuForms
                 }
             }
         }
+
+        // BUGBUG Get rid of this.
         public int xDelta { // how much to shift right
             get { return 4; }
         }
+        // BUGBUG Get rid of this.
         public int xMove { // how much to move
             get { return 0; }
         }
@@ -98,35 +103,58 @@ namespace SudokuForms
         public int curRow = -1;
         public char curChar;
 
-        Board objBoard;
+        public Board objBoard;
 
         public Game()
         {
+            Debug.WriteLine("Game(new)");
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
+            /*
             objBoard = new Board(this, fSuper,
                                  xOrigin, yOrigin, xSize, ySize, font, 
                                  sq_KeyPress, sq_KeyDown, sq_Click,
                                  objLogBox
                                  );
+            */
+            Debug.WriteLine("Game(new).end");
+        }
+
+        public void SetFlavor(Flavor flav)
+        {
+            Debug.WriteLine("SetFlavor: " + curFlavor.ToString() + " to " + flav.ToString());
+
+            curFlavor = flav;
+            switch (flav)
+            {
+                case Flavor.Sudoku:
+                    FlavorSudoku.Checked = true;
+                    break;
+                case Flavor.SuperSudoku:
+                    FlavorSuperSudoku.Checked = true;
+                    break;
+                case Flavor.HyperSudoku:
+                    FlavorHyperSudoku.Checked = true;
+                    break;
+            }
         }
 
         public void BoardReset(Flavor objFlavor)
         {
-            objBoard.Delete();
+            Debug.WriteLine("BoardReset(" + objFlavor.ToString() + ")");
 
-            curFlavor = objFlavor;
+            if (objBoard != null) { objBoard.Delete(); }
+
+            SetFlavor(objFlavor);
 
             this.ClientSize = new System.Drawing.Size(iBoardWidth, iBoardHeight);
 
             objBoard = new Board(this, fSuper,
                                  xOrigin, yOrigin, xSize, ySize, font,
-                                 sq_KeyPress, sq_KeyDown, sq_Click,
-                                 objLogBox
+                                 sq_KeyPress, sq_KeyDown, sq_Click
                                  );
-
-            //MoveButtons();
+            Debug.WriteLine("BoardReset(end)");
         }
     }
 }

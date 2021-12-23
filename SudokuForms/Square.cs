@@ -149,7 +149,7 @@ namespace SudokuForms
             } else if (chValue >= 'A' && chValue <= 'F') {
                 iWinner = chValue - 'A' + 10;
             } else {
-                objBoard.objLogBox.Log("Error: bogus 'Winner' char of " + chValue);
+                objGame.objLogBox.Log("Error: bogus 'Winner' char of " + chValue);
             }
 
             chWinner = chValue;
@@ -168,7 +168,7 @@ namespace SudokuForms
                     (sq.btn.TabIndex != btn.TabIndex) &&
                     ((sq.row == row) || (sq.col == col) || (sq.sector == sector))
                    ) {
-                    objBoard.objLogBox.Log("Error: r" + sq.row + "c" + sq.col + ":r" + row + "c" + col + ":" + chValue);
+                    objGame.objLogBox.Log("Error: r" + sq.row + "c" + sq.col + ":r" + row + "c" + col + ":" + chValue);
                     colorFore = colorError;
                 }
             }

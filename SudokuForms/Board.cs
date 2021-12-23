@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace SudokuForms
@@ -8,7 +9,6 @@ namespace SudokuForms
         public Square[,] rgSquare;
 
         public Game objGame;
-        public LogBox objLogBox;
 
         // map TabIndex to Sector. There's probably an arithmetic way to
         // do this (index, 27, 9, 3, modulo, remainders?) but I can't 
@@ -70,12 +70,10 @@ namespace SudokuForms
                      int xOrigin, int yOrigin, int xSize, int ySize, float font,
                      KeyPressEventHandler fnKeyPress,
                      KeyEventHandler fnKeyDown,
-                     EventHandler fnClick,
-                     LogBox argLogBox
+                     EventHandler fnClick
                     )
         {
             objGame = argGame;
-            objLogBox = argLogBox;
 
             int xDelta = xSize + 2;
             int yDelta = ySize + 2;
@@ -83,6 +81,8 @@ namespace SudokuForms
             int yPoint = yOrigin;
             int iSector;
             int iHyperSector = -1;
+
+            Debug.WriteLine("Board(" + argGame.cDimension + ") new");
 
             rgSquare = new Square[argGame.cDimension, argGame.cDimension];
 
@@ -109,6 +109,8 @@ namespace SudokuForms
 
         public void Delete()
         {
+            Debug.WriteLine("Board(" + objGame.cDimension + ") delete");
+
             for (int y = 0; y < objGame.cDimension; y++)
             {
                 for (int x = 0; x < objGame.cDimension; x++)

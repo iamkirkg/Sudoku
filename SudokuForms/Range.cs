@@ -53,7 +53,8 @@ namespace SudokuForms
             }
         }
 
-    public void SetRangeColor(bool fRange)
+        // BUGBUG: Lose fRange; it's only ever called w/false.
+        public void SetRangeColor(bool fRange)
         {
             foreach (Square sq in rgSquare) {
                 if (fRange) {
