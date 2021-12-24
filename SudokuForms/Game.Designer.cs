@@ -86,7 +86,7 @@ namespace SudokuForms
             this.FlavorPanel.Controls.Add(this.FlavorSuperSudoku);
             this.FlavorPanel.Controls.Add(this.FlavorHyperSudoku);
             this.FlavorPanel.BorderStyle = BorderStyle.FixedSingle;
-            this.FlavorPanel.Location = new Point(490 + xDelta - 490, 10);
+            this.FlavorPanel.Location = new Point(4, 10);
             this.FlavorPanel.Name = "FlavorPanel";
             this.FlavorPanel.Size = new Size(110, 74);
             this.FlavorPanel.TabIndex = iTabIndex++;
@@ -117,7 +117,7 @@ namespace SudokuForms
             this.btnReset.BackColor = Color.LightGray;
             this.btnReset.ForeColor = Color.Black;
             this.btnReset.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new Point(490+xDelta - 490, 88);
+            this.btnReset.Location = new Point(4, 88);
             this.btnReset.Size = new Size(80, 36);
             this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
@@ -131,7 +131,7 @@ namespace SudokuForms
             this.btnClear.BackColor = Color.LightGray;
             this.btnClear.ForeColor = Color.Black;
             this.btnClear.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.Location = new Point(574+xDelta - 490, 88);
+            this.btnClear.Location = new Point(88, 88);
             this.btnClear.Size = new Size(80, 36);
             this.btnClear.TabIndex = iTabIndex++;
             this.btnClear.Text = "Clear";
@@ -142,7 +142,7 @@ namespace SudokuForms
             this.btnStep = new Button();
             this.btnStep.Click += Step_Click;
             this.btnStep.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new Point(596+xDelta - 490, 148);
+            this.btnStep.Location = new Point(110, 148);
             this.btnStep.Size = new Size(80, 36);
             this.btnStep.TabIndex = iTabIndex++;
             this.btnStep.Text = "Step";
@@ -198,7 +198,7 @@ namespace SudokuForms
             this.TechniquePanel.Controls.Add(this.LineFind);
             this.TechniquePanel.Controls.Add(this.SectorFind);
             this.TechniquePanel.BorderStyle = BorderStyle.FixedSingle;
-            this.TechniquePanel.Location = new Point(490+xDelta - 490, 130);
+            this.TechniquePanel.Location = new Point(4, 130);
             this.TechniquePanel.Name = "TechniquePanel";
             this.TechniquePanel.Size = new Size(100, 74);
             this.TechniquePanel.TabIndex = iTabIndex++;
@@ -218,7 +218,7 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new Point(490+xDelta - 490, 208);
+            this.btnLoad.Location = new Point(4, 208);
             this.btnLoad.Size = new Size(80, 36);
             this.btnLoad.TabIndex = iTabIndex++;
             this.btnLoad.Text = "Load";
@@ -232,7 +232,7 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new Point(490+xDelta - 490, 248);
+            this.btnSave.Location = new Point(4, 248);
             this.btnSave.Size = new Size(80, 36);
             this.btnSave.TabIndex = iTabIndex++;
             this.btnSave.Text = "Save";
@@ -246,7 +246,7 @@ namespace SudokuForms
             this.btnPrint.BackColor = Color.LightGray;
             this.btnPrint.ForeColor = Color.Black;
             this.btnPrint.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new Point(596 + xDelta - 490, 228);
+            this.btnPrint.Location = new Point(110, 228);
             this.btnPrint.Size = new Size(80, 36);
             this.btnPrint.TabIndex = iTabIndex++;
             this.btnPrint.Text = "Print";
@@ -258,7 +258,7 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(490+xDelta - 490, 288);
+            this.CouldBe.Location = new Point(4, 288);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
             this.CouldBe.TabIndex = iTabIndex++;
@@ -271,7 +271,7 @@ namespace SudokuForms
             // LogBox
             //
             // BUGBUG: Add an fSuper test, grow this box downward.
-            objLogBox = new LogBox(490+xDelta - 490, 308, 294, 330, iTabIndex);
+            objLogBox = new LogBox(4, 308, 294, fSuper ? 430 : 330, iTabIndex);
             this.Controls.Add(objLogBox.objBox);
 
             // 

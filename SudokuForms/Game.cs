@@ -46,14 +46,6 @@ namespace SudokuForms
             }
         }
 
-        // BUGBUG Get rid of this.
-        public int xDelta { // how much to shift right
-            get { return 4; }
-        }
-        // BUGBUG Get rid of this.
-        public int xMove { // how much to move
-            get { return 0; }
-        }
         public string szTitle {
             get { return fSuper ? "SuperSudokirk" : "Sudokirk"; }
         }
@@ -76,8 +68,7 @@ namespace SudokuForms
         public int iBoardWidth {
             get { return fSuper ? 1168 : 790; }
         }
-        public int iBoardHeight
-        {
+        public int iBoardHeight {
             get { return fSuper ? 996 : 640; }
         }
         // Square size

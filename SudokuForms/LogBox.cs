@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace SudokuForms
 {
     public class LogBox
     {
-        public System.Windows.Forms.TextBox objBox { get; set; }
+        public TextBox objBox { get; set; }
 
         public LogBox(int xPoint, int yPoint, int xSize, int ySize, int iTab)
         {
