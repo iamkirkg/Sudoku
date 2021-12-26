@@ -2,6 +2,9 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
+// This is for Flavor flav. I don't understand it.
+using static SudokuForms.Game;
+
 namespace SudokuForms
 {
     public class Board
@@ -93,11 +96,20 @@ namespace SudokuForms
                 for (int x = 0; x < argGame.cDimension; x++)
                 {
                     iTab++;
-                    if (fSuper) {
-                        iSector = mpTabSectorSuper[iTab - 1];
-                    } else {
-                        iSector = mpTabSector[iTab - 1];
-                        iHyperSector = mpTabHyperSector[iTab - 1];
+                    switch (objGame.curFlavor)
+                    {
+                        case Flavor.Sudoku:
+                            iSector = mpTabSector[iTab - 1];
+                            iHyperSector = -1;
+                            break;
+                        case Flavor.SuperSudoku:
+                            iSector = mpTabSectorSuper[iTab - 1];
+                            iHyperSector = -1;
+                            break;
+                        default: // case Flavor.HyperSudoku:
+                            iSector = mpTabSector[iTab - 1];
+                            iHyperSector = mpTabHyperSector[iTab - 1];
+                            break;
                     }
                     rgSquare[x, y] = new Square(argGame, iTab, iSector, iHyperSector, xPoint, yPoint, xSize, ySize, font,
                                                 fnKeyPress, fnKeyDown, fnClick);

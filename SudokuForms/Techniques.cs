@@ -238,8 +238,8 @@ namespace SudokuForms
 
             // REVIEW KirkG: surely this isn't right, doing 'new' both in the
             // decl and the initialization loop.  Am I leaking memory?
-            LineText[] mpsLineText = new LineText[objBoard.objGame.cDimension];
-            for (int s = 0; s < objBoard.objGame.cDimension; s++)
+            LineText[] mpsLineText = new LineText[objBoard.objGame.cSector];
+            for (int s = 0; s < objBoard.objGame.cSector; s++)
             {
                 mpsLineText[s] = new LineText();
             }
@@ -249,12 +249,16 @@ namespace SudokuForms
             {
                 mpsLineText[sq.sector].row[sq.row % 3] += sq.btn.Text.Replace(" ", string.Empty);
                 mpsLineText[sq.sector].col[sq.col % 3] += sq.btn.Text.Replace(" ", string.Empty);
+                if (sq.hypersector != -1) {
+                    mpsLineText[sq.hypersector].row[sq.row % 3] += sq.btn.Text.Replace(" ", string.Empty);
+                    mpsLineText[sq.hypersector].col[sq.col % 3] += sq.btn.Text.Replace(" ", string.Empty);
+                }
             }
 
-            // Within a sector, find a value that is present in just one row, 
-            // or just one column.
+            // Within a sector (or hypersector), find a value that is present
+            // in just one row, or just one column.
 
-            for (int s = 0; s < objBoard.objGame.cDimension; s++)
+            for (int s = 0; s < objBoard.objGame.cSector; s++)
             {
                 for (char ch = '1'; ch <= '9'; ch++)
                 {
@@ -333,6 +337,9 @@ namespace SudokuForms
             // BUGBUG Whatever this crazy row-mapping calculation, SuperSize it.
             // BUGBUG Just change the 3s to 4s?
 
+            // BUGBUG No way this is right for Hyper.  This mapping from sector
+            // to row isn't going to work.
+
             // For squares in the same row, but not the same sector, ch is a Loser.
             // The trick is, the row value is 0-1-2, relative to the sector. We have
             // to map it to row [0-8] of the board.
@@ -348,10 +355,38 @@ namespace SudokuForms
             // 7   2     6        6 + rs
             // 8   2     6        6 + rs
 
+            // If there's actually a square that changes (a real Loser), then:
+            //   - Set the bg of all the matching squares IN the sector.
+            //   - Call FLoser on all the matching squares NOT IN the sector.
+            //   - Reset the entire row.
+
             bool ret = false;
             int row = ((s / 3) * 3) + rs;
             Square sq;
 
+            // Do we have any actual Losers?
+            for (int x = 0; x < objBoard.objGame.cDimension; x++)
+            {
+                sq = objBoard.rgSquare[x, row];
+                if (sq.sector != s)
+                {
+                    ret |= sq.FLoserTest(ch);
+                }
+            }
+            if (!ret) { return false; }
+
+            // Highlight the squares in the sector, in the row, that have our character.
+            // They're the reason we're doing this.
+            for (int x = 0; x < objBoard.objGame.cDimension; x++)
+            {
+                sq = objBoard.rgSquare[x, row];
+                if ((sq.sector == s) && (sq.btn.Text.Contains(ch)))
+                {
+                    sq.SetBackColor(sq.colorNSome);
+                }
+            }
+
+            // Update the squares in the row, not in the sector, that are Losers.
             for (int x = 0; x < objBoard.objGame.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
@@ -359,6 +394,14 @@ namespace SudokuForms
                 {
                     ret |= sq.FLoser(ch, objBoard);
                 }
+            }
+
+            // Reset the colors for the row.
+            for (int x = 0; x < objBoard.objGame.cDimension; x++)
+            {
+                sq = objBoard.rgSquare[x, row];
+                sq.btn.BackColor = sq.MyBackColor();
+                sq.btn.Refresh();
             }
 
             if (ret)
@@ -390,6 +433,29 @@ namespace SudokuForms
             int col = ((s % 3) * 3) + cs;
             Square sq;
 
+            // Do we have any actual Losers?
+            for (int y = 0; y < objBoard.objGame.cDimension; y++)
+            {
+                sq = objBoard.rgSquare[col, y];
+                if (sq.sector != s)
+                {
+                    ret |= sq.FLoserTest(ch);
+                }
+            }
+            if (!ret) { return false; }
+
+            // Highlight the squares in the sector, in the col, that have our char.
+            // They're the reason we're doing this.
+            for (int y = 0; y < objBoard.objGame.cDimension; y++)
+            {
+                sq = objBoard.rgSquare[col, y];
+                if ((sq.sector == s) && (sq.btn.Text.Contains(ch)))
+                {
+                    sq.SetBackColor(sq.colorNSome);
+                }
+            }
+
+            // Update the squares in the col, not in the sector, that are Losers.
             for (int y = 0; y < objBoard.objGame.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
@@ -397,6 +463,14 @@ namespace SudokuForms
                 {
                     ret |= sq.FLoser(ch, objBoard);
                 }
+            }
+
+            // Reset the colors for the row.
+            for (int y = 0; y < objBoard.objGame.cDimension; y++)
+            {
+                sq = objBoard.rgSquare[col, y];
+                sq.btn.BackColor = sq.MyBackColor();
+                sq.btn.Refresh();
             }
 
             if (ret)

@@ -76,6 +76,7 @@ namespace SudokuForms
 
             using (XmlWriter writer = XmlWriter.Create(objDlg.FileName))
             {
+                objGame.Text = "SudoKirk: " + objDlg.FileName;
                 writer.WriteStartDocument();
 
                 writer.WriteStartElement("Squares");

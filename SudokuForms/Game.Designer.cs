@@ -306,11 +306,16 @@ namespace SudokuForms
 
             //objLogBox.Log("KeyPress " + keyChar);
 
-            if ((keyChar >= '0' && keyChar <= '9') || (fSuper && keyChar >= 'A' && keyChar <= 'F'))
-            {
-                //objLogBox.Log("Set: tab " + iTab + ": [" + curCol + "," + curRow + "] key = " + keyChar);
-                objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard);
-                //Techniques.Neighbor(objBoard.rgSquare, curCol, curRow, keyChar);
+            if (fSuper) {
+                if ((keyChar >= '0' && keyChar <= '9') || (keyChar >= 'A' && keyChar <= 'F'))
+                {
+                    objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard);
+                }
+            } else {
+                if (keyChar >= '1' && keyChar <= '9')
+                {
+                    objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard);
+                }
             }
         }
 
