@@ -57,11 +57,11 @@ namespace SudokuForms
         public void SetRangeColor(bool fRange)
         {
             foreach (Square sq in rgSquare) {
-                if (fRange) {
-                    sq.btn.BackColor = sq.colorRange;
-                } else {
+                //if (fRange) {
+                //    sq.btn.BackColor = sq.colorRange;
+                //} else {
                     sq.btn.BackColor = sq.MyBackColor();
-                }
+                //}
                 sq.btn.Refresh();
             }
         }

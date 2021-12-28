@@ -13,9 +13,7 @@ namespace SudokuForms
 
         public Game objGame;
 
-        // map TabIndex to Sector. There's probably an arithmetic way to
-        // do this (index, 27, 9, 3, modulo, remainders?) but I can't 
-        // see it, and it'd probably be a pain to document or maintain.
+        // map TabIndex to Sector.
         readonly private int[] mpTabSector =
         {
             0,0,0, 1,1,1, 2,2,2,
@@ -96,7 +94,7 @@ namespace SudokuForms
                 for (int x = 0; x < argGame.cDimension; x++)
                 {
                     iTab++;
-                    switch (objGame.curFlavor)
+                    switch (argGame.curFlavor)
                     {
                         case Flavor.Sudoku:
                             iSector = mpTabSector[iTab - 1];

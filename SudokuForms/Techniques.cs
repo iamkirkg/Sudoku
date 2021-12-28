@@ -178,10 +178,10 @@ namespace SudokuForms
             }
 
             // For all the Squares of Range, reset the backcolor.
-            foreach (Square sq in objRange.rgSquare)
-            {
-                sq.SetBackColor(sq.MyBackColor());
-            }
+            //foreach (Square sq in objRange.rgSquare)
+            //{
+            //    sq.SetBackColor(sq.MyBackColor());
+            //}
 
             return ret;
         }
@@ -189,6 +189,11 @@ namespace SudokuForms
         // ==================================================================
 
         /*
+
+        Each sector (in mpsLineText) has a LineText object, containing 
+        six strings:
+            Three for the sector's rows: the string is the text of the entire row
+            Three for the sector's cols: the string is the text of the entire col
 
         Below is our sector 's'.
         Note we ignore squares with iWinner: those that are done.
@@ -217,6 +222,7 @@ namespace SudokuForms
 
         */
 
+
         public class LineText
         {
             public LineText()
@@ -227,6 +233,31 @@ namespace SudokuForms
             public string[] row { get; set; }
             public string[] col { get; set; }
         }
+
+        private static int[] mpTabHyperSR =
+        {
+            -1, -1,-1,-1, -1, -1,-1,-1, -1,
+            -1, 00,00,00, -1, 00,00,00, -1,
+            -1, 01,01,01, -1, 01,01,01, -1,
+            -1, 02,02,02, -1, 02,02,02, -1,
+            -1, -1,-1,-1, -1, -1,-1,-1, -1,
+            -1, 00,00,00, -1, 00,00,00, -1,
+            -1, 01,01,01, -1, 01,01,01, -1,
+            -1, 02,02,02, -1, 02,02,02, -1,
+            -1, -1,-1,-1, -1, -1,-1,-1, -1
+        };
+        private static int[] mpTabHyperSC =
+        {
+            -1, -1,-1,-1, -1, -1,-1,-1, -1,
+            -1, 00,01,02, -1, 00,01,02, -1,
+            -1, 00,01,02, -1, 00,01,02, -1,
+            -1, 00,01,02, -1, 00,01,02, -1,
+            -1, -1,-1,-1, -1, -1,-1,-1, -1,
+            -1, 00,01,02, -1, 00,01,02, -1,
+            -1, 00,01,02, -1, 00,01,02, -1,
+            -1, 00,01,02, -1, 00,01,02, -1,
+            -1, -1,-1,-1, -1, -1,-1,-1, -1
+        };
 
         public static bool FLineFind(Board objBoard, LogBox objLogBox)
         {
@@ -250,8 +281,8 @@ namespace SudokuForms
                 mpsLineText[sq.sector].row[sq.row % 3] += sq.btn.Text.Replace(" ", string.Empty);
                 mpsLineText[sq.sector].col[sq.col % 3] += sq.btn.Text.Replace(" ", string.Empty);
                 if (sq.hypersector != -1) {
-                    mpsLineText[sq.hypersector].row[sq.row % 3] += sq.btn.Text.Replace(" ", string.Empty);
-                    mpsLineText[sq.hypersector].col[sq.col % 3] += sq.btn.Text.Replace(" ", string.Empty);
+                    mpsLineText[sq.hypersector].row[mpTabHyperSR[sq.iBoard]] += sq.btn.Text.Replace(" ", string.Empty);
+                    mpsLineText[sq.hypersector].col[mpTabHyperSC[sq.iBoard]] += sq.btn.Text.Replace(" ", string.Empty);
                 }
             }
 
@@ -263,7 +294,7 @@ namespace SudokuForms
                 for (char ch = '1'; ch <= '9'; ch++)
                 {
                     if (
-                        ( mpsLineText[s].row[0].Contains(ch)) &&
+                        (mpsLineText[s].row[0].Contains(ch)) &&
                         (!mpsLineText[s].row[1].Contains(ch)) &&
                         (!mpsLineText[s].row[2].Contains(ch))
                         )
@@ -272,7 +303,7 @@ namespace SudokuForms
                     }
                     if (
                         (!mpsLineText[s].row[0].Contains(ch)) &&
-                        ( mpsLineText[s].row[1].Contains(ch)) &&
+                        (mpsLineText[s].row[1].Contains(ch)) &&
                         (!mpsLineText[s].row[2].Contains(ch))
                         )
                     {
@@ -281,14 +312,14 @@ namespace SudokuForms
                     if (
                         (!mpsLineText[s].row[0].Contains(ch)) &&
                         (!mpsLineText[s].row[1].Contains(ch)) &&
-                        ( mpsLineText[s].row[2].Contains(ch))
+                        (mpsLineText[s].row[2].Contains(ch))
                         )
                     {
                         ret |= FRowLoser(objBoard, s, 2, ch, objLogBox);
                     }
 
                     if (
-                        ( mpsLineText[s].col[0].Contains(ch)) &&
+                        (mpsLineText[s].col[0].Contains(ch)) &&
                         (!mpsLineText[s].col[1].Contains(ch)) &&
                         (!mpsLineText[s].col[2].Contains(ch))
                         )
@@ -297,7 +328,7 @@ namespace SudokuForms
                     }
                     if (
                         (!mpsLineText[s].col[0].Contains(ch)) &&
-                        ( mpsLineText[s].col[1].Contains(ch)) &&
+                        (mpsLineText[s].col[1].Contains(ch)) &&
                         (!mpsLineText[s].col[2].Contains(ch))
                         )
                     {
@@ -306,13 +337,13 @@ namespace SudokuForms
                     if (
                         (!mpsLineText[s].col[0].Contains(ch)) &&
                         (!mpsLineText[s].col[1].Contains(ch)) &&
-                        ( mpsLineText[s].col[2].Contains(ch))
+                        (mpsLineText[s].col[2].Contains(ch))
                         )
                     {
                         ret |= FColLoser(objBoard, s, 2, ch, objLogBox);
                     }
                 }
-             }
+            }
             if (ret)
             {
                 objLogBox.Log("FLineFind");
@@ -331,29 +362,47 @@ namespace SudokuForms
         //  6 6 6 7 7 7 8 8 8
         //  6 6 6 7 7 7 8 8 8
 
+        // Map Sector + Row-Sector to actual Row.
+        private static int[,] mpsrs2r = {
+                { 0,1,2 },  // Sector 0 maps to Rows 0,1,2
+                { 0,1,2 },  // Sector 1
+                { 0,1,2 },  // Sector 2
+                { 3,4,5 },  // Sector 3 maps to Rows 3,4,5
+                { 3,4,5 },  // Sector 4
+                { 3,4,5 },  // Sector 5
+                { 6,7,8 },  // Sector 6 maps to Rows 6,7,8
+                { 6,7,8 },  // Sector 7
+                { 6,7,8 },  // Sector 8
+                { 1,2,3 },  // HypSec 9 maps to Rows 1,2,3
+                { 1,2,3 },  // HypSec A
+                { 5,6,7 },  // HypSec B maps to Rows 5,6,7
+                { 5,6,7 }   // HypSec C
+            };
+
+        // Map Sector + Col-Sector to actual Column,
+        private static int[,] mpscs2c = {
+                { 0,1,2 },  // Sector 0 maps to Cols 0,1,2
+                { 3,4,5 },  // Sector 1              3,4,5
+                { 6,7,8 },  // Sector 2              6,7,8
+                { 0,1,2 },  // Sector 3 maps to Cols 0,1,2
+                { 3,4,5 },  // Sector 4              3,4,5
+                { 6,7,8 },  // Sector 5              6,7,8
+                { 0,1,2 },  // Sector 6 maps to Cols 0,1,2
+                { 3,4,5 },  // Sector 7              3,4,5
+                { 6,7,8 },  // Sector 8              6,7,8
+                { 1,2,3 },  // HypSec 9 maps to Cols 1,2,3
+                { 5,6,7 },  // HypSec A              5,6,7
+                { 1,2,3 },  // HypSec B maps to Cols 1,2,3
+                { 5,6,7 }   // HypSec C              5,6,7
+            };
+
         private static bool FRowLoser(Board objBoard, int s, int rs, char ch, LogBox objLogBox)
         {
             // BUGBUG This routine needs work for SuperSudoku.
-            // BUGBUG Whatever this crazy row-mapping calculation, SuperSize it.
-            // BUGBUG Just change the 3s to 4s?
-
-            // BUGBUG No way this is right for Hyper.  This mapping from sector
-            // to row isn't going to work.
 
             // For squares in the same row, but not the same sector, ch is a Loser.
             // The trick is, the row value is 0-1-2, relative to the sector. We have
             // to map it to row [0-8] of the board.
-            //
-            // s  s/3 (s/3)*3 ((s/3)*3)+row
-            // 0   0     0        0 + rs
-            // 1   0     0        0 + rs
-            // 2   0     0        0 + rs
-            // 3   1     3        3 + rs
-            // 4   1     3        3 + rs
-            // 5   1     3        3 + rs
-            // 6   2     6        6 + rs
-            // 7   2     6        6 + rs
-            // 8   2     6        6 + rs
 
             // If there's actually a square that changes (a real Loser), then:
             //   - Set the bg of all the matching squares IN the sector.
@@ -361,14 +410,17 @@ namespace SudokuForms
             //   - Reset the entire row.
 
             bool ret = false;
-            int row = ((s / 3) * 3) + rs;
+            string szLog = "LineFind Sec" + s + " Row" + rs + " '" + ch + "'"; // "Sec3 Row0 '2'"
+
+            //int row = ((s / 3) * 3) + rs;
+            int row = mpsrs2r[s, rs];
             Square sq;
 
             // Do we have any actual Losers?
             for (int x = 0; x < objBoard.objGame.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
-                if (sq.sector != s)
+                if ((sq.sector != s) && (sq.hypersector != s))
                 {
                     ret |= sq.FLoserTest(ch);
                 }
@@ -380,7 +432,7 @@ namespace SudokuForms
             for (int x = 0; x < objBoard.objGame.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
-                if ((sq.sector == s) && (sq.btn.Text.Contains(ch)))
+                if (((sq.sector == s) || (sq.hypersector == s)) && (sq.btn.Text.Contains(ch)))
                 {
                     sq.SetBackColor(sq.colorNSome);
                 }
@@ -390,7 +442,7 @@ namespace SudokuForms
             for (int x = 0; x < objBoard.objGame.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
-                if (sq.sector != s)
+                if ((sq.sector != s) && (sq.hypersector != s))
                 {
                     ret |= sq.FLoser(ch, objBoard);
                 }
@@ -406,7 +458,7 @@ namespace SudokuForms
 
             if (ret)
             {
-                //objLogBox.Log("LineFind: in sector " + s + ", only row " + row + " has char " + ch);
+                objLogBox.Log(szLog);
             }
 
             return ret;
@@ -417,27 +469,19 @@ namespace SudokuForms
             // For squares in the same column, but not the same sector, ch is a Loser.
             // The trick is, the col value is 0-1-2, relative to the sector. We have
             // to map it to col [0-8] of the board.
-            //
-            // s  s%3 (s%3)*3 ((s%3)*3)+col
-            // 0   0     0       0 + cs
-            // 1   1     3       3 + cs
-            // 2   2     6       6 + cs
-            // 3   0     0       0 + cs
-            // 4   1     3       3 + cs
-            // 5   2     6       6 + cs
-            // 6   0     0       0 + cs
-            // 7   1     3       3 + cs
-            // 8   2     6       6 + cs
 
             bool ret = false;
-            int col = ((s % 3) * 3) + cs;
+            string szLog = "LineFind Sec" + s + " Col" + cs + " '" + ch + "'"; // "SecB Col2 '4'"
+
+            //int col = ((s % 3) * 3) + cs;
+            int col = mpscs2c[s, cs];
             Square sq;
 
             // Do we have any actual Losers?
             for (int y = 0; y < objBoard.objGame.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
-                if (sq.sector != s)
+                if ((sq.sector != s) && (sq.hypersector != s))
                 {
                     ret |= sq.FLoserTest(ch);
                 }
@@ -449,7 +493,7 @@ namespace SudokuForms
             for (int y = 0; y < objBoard.objGame.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
-                if ((sq.sector == s) && (sq.btn.Text.Contains(ch)))
+                if (((sq.sector == s) || (sq.hypersector == s)) && (sq.btn.Text.Contains(ch)))
                 {
                     sq.SetBackColor(sq.colorNSome);
                 }
@@ -459,7 +503,7 @@ namespace SudokuForms
             for (int y = 0; y < objBoard.objGame.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
-                if (sq.sector != s)
+                if ((sq.sector != s) && (sq.hypersector != s))
                 {
                     ret |= sq.FLoser(ch, objBoard);
                 }
@@ -475,7 +519,7 @@ namespace SudokuForms
 
             if (ret)
             {
-                //objLogBox.Log("LineFind: in sector " + s + ", only col " + col + " has char " + ch);
+                objLogBox.Log(szLog);
             }
 
             return ret;
