@@ -138,6 +138,7 @@ namespace SudokuForms
                 int bitshift = bitmask;
                 int bitcount = 0;
                 string szTuple = "";
+                bool fWinner = false; // This is a latch: are any of our squares Winners?
                 bool fHighlight = false; // This is a latch: have we yet highlighted this Range?
 
                 // Calculate bitcount, as the number of ON bits in the current bitmask.
@@ -150,6 +151,10 @@ namespace SudokuForms
                         bitcount++;
                         foreach (char ch in objRange.rgSquare[ibit].btn.Text)
                         {
+                            if (objRange.rgSquare[ibit].iWinner != -1)
+                            {
+                                fWinner = true; // There is at least one single-char square in our tuple.
+                            }
                             if (!szTuple.Contains(ch) && ch != ' ')
                             {
                                 szTuple += ch;
@@ -159,8 +164,12 @@ namespace SudokuForms
                     bitshift = (bitshift / 2);
                 }
 
-                // Does this sub-Range match the number of ON bits in the bitmask?
-                if (szTuple.Length == bitcount)
+                if (
+                    // 1. Does this sub-Range match the number of ON bits in the bitmask?
+                    (szTuple.Length == bitcount) &&
+                    // 2. Apply our above speed-hack: continue if length=1 or no winners found.
+                    (bitcount == 1 || !fWinner)
+                   )
                 {
                     // We have found an Nsome.
 
