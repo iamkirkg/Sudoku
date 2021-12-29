@@ -82,12 +82,45 @@ namespace SudokuForms
         // ON bits, four Squares: it's a Foursome. On the five squares that
         // _aren't_ in that Foursome (2-3-4-6-7), call Loser('2'), Loser('4'),
         // Loser('6'), Loser('8'). That makes sq7's '1478' into '17'.
+
+        // -----------------------------------------------------------------
         //
-        // We used to iterate through the bitmasks, 000000000 to 111111111. But 
-        // that had us finding long Nsomes (like 6char), when shorter Nsomes
-        // (like 2char) would have triggered too. Shorter is what the brain sees
-        // first, which we want to replicate.  So iterate the bitmasks, first the
-        // 1bit, then 2bit, 3bit, on up.
+        // We are implementing a speed hack. Checking every bitmask for an Nsome,
+        // especially in a near-finished board, and especially in SuperSudoku,
+        // takes _forever_. It's likely some horrible O(n^5).
+        //
+        // Consider this nearly-finished row:
+        //    [14] [14] [3] [6] [7] [8] [2] [5] [9]
+        // The only Nsome your brain would care about is '14', which (still) 
+        // produces nothing.  But the full bitmask sweep will match on 143, 146,
+        // 147, ... 149, and then 1436, 1437, ... 1439, all the way out to 
+        // the 8some 14367825. All are Nsomes, none produces any change.
+        //
+        // Every finished row is even more absurd:
+        //    [1] [4] [3] [6] [7] [8] [2] [5] [9]
+        // Here, _every_ bitmask produces an Nsome, and yet we (of course) get
+        // no change. The mask 000000111 produces '259', a 3some, so we call
+        // Loser(2) Loser(5) Loser(9), but of course nothing changes.
+        //
+        // The speed hack is as follows:
+        //   If the bitmask is of length 1, use it.
+        //     [8] - call Loser(8) on the rest of the row
+        //   Else if the bitmask has any 'Winner' squares (length 1), skip it.
+        //     [14] [14] [3] - letting [3] through (above rule) will do the same.
+        //     [1] [123] [123] - let [1] through, shrink this to [23] [23].
+        //   Otherwise, go for it:
+        //     [14] [14] - call Loser(1) and Loser(4) elsewhere on the row.
+        //     [12] [123] [13] - call Loser(1,2,3) elsewhere on the row.
+        // -----------------------------------------------------------------
+
+        // This is an alternate method, via SortBitmask.cs.  We are not currently 
+        // using it, if for no other reason than SuperSudoku. The (generated) 
+        // rgBitmask array of ints swells from (2^9) 512 ints to (2^16) 64K!
+        //   We used to iterate through the bitmasks, 000000000 to 111111111. But 
+        //   that had us finding long Nsomes (like 6char), when shorter Nsomes
+        //   (like 2char) would have triggered too. Shorter is what the brain sees
+        //   first, which we want to replicate.  So iterate the bitmasks, first the
+        //   1bit, then 2bit, 3bit, on up.
 
         public static bool RangeCheck(Board objBoard, Range objRange, LogBox objLogBox)
         {
@@ -227,8 +260,9 @@ namespace SudokuForms
         {
             public LineText()
             {
-                row = new string[] { "", "", "" };
-                col = new string[] { "", "", "" };
+                // For Sudoku+Hyper, we need three; for Super we need four.
+                row = new string[] { "", "", "", "" };
+                col = new string[] { "", "", "", "" };
             }
             public string[] row { get; set; }
             public string[] col { get; set; }
@@ -278,8 +312,13 @@ namespace SudokuForms
             // Walk the board, concatenating all our Text strings into our array.
             foreach (Square sq in objBoard.rgSquare)
             {
-                mpsLineText[sq.sector].row[sq.row % 3] += sq.btn.Text.Replace(" ", string.Empty);
-                mpsLineText[sq.sector].col[sq.col % 3] += sq.btn.Text.Replace(" ", string.Empty);
+                if (objBoard.objGame.fSuper) {
+                    mpsLineText[sq.sector].row[sq.row % 4] += sq.btn.Text.Replace(" ", string.Empty);
+                    mpsLineText[sq.sector].col[sq.col % 4] += sq.btn.Text.Replace(" ", string.Empty);
+                } else {
+                    mpsLineText[sq.sector].row[sq.row % 3] += sq.btn.Text.Replace(" ", string.Empty);
+                    mpsLineText[sq.sector].col[sq.col % 3] += sq.btn.Text.Replace(" ", string.Empty);
+                }
                 if (sq.hypersector != -1) {
                     mpsLineText[sq.hypersector].row[mpTabHyperSR[sq.iBoard]] += sq.btn.Text.Replace(" ", string.Empty);
                     mpsLineText[sq.hypersector].col[mpTabHyperSC[sq.iBoard]] += sq.btn.Text.Replace(" ", string.Empty);
@@ -289,6 +328,22 @@ namespace SudokuForms
             // Within a sector (or hypersector), find a value that is present
             // in just one row, or just one column.
 
+            if (objBoard.objGame.fSuper) {
+                ret = SectorTestSuper(objBoard, objLogBox, mpsLineText);
+            }  else {
+                ret = SectorTest(objBoard, objLogBox, mpsLineText);
+            }
+
+            if (ret)
+            {
+                objLogBox.Log("FLineFind");
+            }
+            return ret;
+        }
+
+        private static bool SectorTest (Board objBoard, LogBox objLogBox, LineText[] mpsLineText)
+        {
+            bool ret = false;
             for (int s = 0; s < objBoard.objGame.cSector; s++)
             {
                 for (char ch = '1'; ch <= '9'; ch++)
@@ -344,9 +399,92 @@ namespace SudokuForms
                     }
                 }
             }
-            if (ret)
+            return ret;
+        }
+
+        static char[] chSuper = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+
+        private static bool SectorTestSuper (Board objBoard, LogBox objLogBox, LineText[] mpsLineText)
+        {
+            bool ret = false;
+            for (int s = 0; s < objBoard.objGame.cSector; s++)
             {
-                objLogBox.Log("FLineFind");
+                foreach (char ch in chSuper)
+                {
+                    if (
+                        ( mpsLineText[s].row[0].Contains(ch)) &&
+                        (!mpsLineText[s].row[1].Contains(ch)) &&
+                        (!mpsLineText[s].row[2].Contains(ch)) &&
+                        (!mpsLineText[s].row[3].Contains(ch))
+                    )
+                    {
+                        ret |= FRowLoser(objBoard, s, 0, ch, objLogBox);
+                    }
+                    if (
+                        (!mpsLineText[s].row[0].Contains(ch)) &&
+                        ( mpsLineText[s].row[1].Contains(ch)) &&
+                        (!mpsLineText[s].row[2].Contains(ch)) &&
+                        (!mpsLineText[s].row[3].Contains(ch))
+                    )
+                    {
+                        ret |= FRowLoser(objBoard, s, 1, ch, objLogBox);
+                    }
+                    if (
+                        (!mpsLineText[s].row[0].Contains(ch)) &&
+                        (!mpsLineText[s].row[1].Contains(ch)) &&
+                        ( mpsLineText[s].row[2].Contains(ch)) &&
+                        (!mpsLineText[s].row[3].Contains(ch))
+                    )
+                    {
+                        ret |= FRowLoser(objBoard, s, 2, ch, objLogBox);
+                    }
+                    if (
+                        (!mpsLineText[s].row[0].Contains(ch)) &&
+                        (!mpsLineText[s].row[1].Contains(ch)) &&
+                        (!mpsLineText[s].row[2].Contains(ch)) &&
+                        ( mpsLineText[s].row[3].Contains(ch))
+                    )
+                    {
+                        ret |= FRowLoser(objBoard, s, 3, ch, objLogBox);
+                    }
+                    // --------------------
+                    if (
+                        ( mpsLineText[s].col[0].Contains(ch)) &&
+                        (!mpsLineText[s].col[1].Contains(ch)) &&
+                        (!mpsLineText[s].col[2].Contains(ch)) &&
+                        (!mpsLineText[s].col[3].Contains(ch))
+                    )
+                    {
+                        ret |= FColLoser(objBoard, s, 0, ch, objLogBox);
+                    }
+                    if (
+                        (!mpsLineText[s].col[0].Contains(ch)) &&
+                        ( mpsLineText[s].col[1].Contains(ch)) &&
+                        (!mpsLineText[s].col[2].Contains(ch)) &&
+                        (!mpsLineText[s].col[3].Contains(ch))
+                    )
+                    {
+                        ret |= FColLoser(objBoard, s, 1, ch, objLogBox);
+                    }
+                    if (
+                        (!mpsLineText[s].col[0].Contains(ch)) &&
+                        (!mpsLineText[s].col[1].Contains(ch)) &&
+                        ( mpsLineText[s].col[2].Contains(ch)) &&
+                        (!mpsLineText[s].col[3].Contains(ch))
+                    )
+                    {
+                        ret |= FColLoser(objBoard, s, 2, ch, objLogBox);
+                    }
+                    if (
+                        (!mpsLineText[s].col[0].Contains(ch)) &&
+                        (!mpsLineText[s].col[1].Contains(ch)) &&
+                        (!mpsLineText[s].col[2].Contains(ch)) &&
+                        ( mpsLineText[s].col[3].Contains(ch))
+                    )
+                    {
+                        ret |= FColLoser(objBoard, s, 3, ch, objLogBox);
+                    }
+                }
             }
             return ret;
         }
@@ -396,10 +534,48 @@ namespace SudokuForms
                 { 5,6,7 }   // HypSec C              5,6,7
             };
 
+        // Map Sector + Row-Sector to actual Row.
+        private static int[,] mpsrs2rSuper = {
+                {   0,  1,  2,  3 },  // Sector 0 maps to Rows 0,1,2,3
+                {   0,  1,  2,  3 },  // Sector 1
+                {   0,  1,  2,  3 },  // Sector 2
+                {   0,  1,  2,  3 },  // Sector 3
+                {   4,  5,  6,  7 },  // Sector 4 maps to Rows 4,5,6,7
+                {   4,  5,  6,  7 },  // Sector 5
+                {   4,  5,  6,  7 },  // Sector 6
+                {   4,  5,  6,  7 },  // Sector 7
+                {   8,  9,0xA,0xB },  // Sector 8 maps to Rows 8,9,A,B
+                {   8,  9,0xA,0xB },  // Sector 9
+                {   8,  9,0xA,0xB },  // Sector A
+                {   8,  9,0xA,0xB },  // Sector B
+                { 0xC,0xD,0xE,0xF },  // Sector C maps to Rows C,D,E,F
+                { 0xC,0xD,0xE,0xF },  // Sector D
+                { 0xC,0xD,0xE,0xF },  // Sector E
+                { 0xC,0xD,0xE,0xF }   // Sector F
+            };
+
+        // Map Sector + Col-Sector to actual Column,
+        private static int[,] mpscs2cSuper = {
+                {   0,  1,  2,  3 },  // Sector 0 maps to Cols 0,1,2,3
+                {   4,  5,  6,  7 },  // Sector 1              4,5,6,7
+                {   8,  9,0xA,0xB },  // Sector 2              8,9,A,B
+                { 0xC,0xD,0xE,0xF },  // Sector 3              C,D,E,F
+                {   0,  1,  2,  3 },  // Sector 4
+                {   4,  5,  6,  7 },  // Sector 5
+                {   8,  9,0xA,0xB },  // Sector 6
+                { 0xC,0xD,0xE,0xF },  // Sector 7
+                {   0,  1,  2,  3 },  // Sector 8
+                {   4,  5,  6,  7 },  // Sector 9
+                {   8,  9,0xA,0xB },  // Sector A
+                { 0xC,0xD,0xE,0xF },  // Sector B
+                {   0,  1,  2,  3 },  // Sector C
+                {   4,  5,  6,  7 },  // Sector D
+                {   8,  9,0xA,0xB },  // Sector E
+                { 0xC,0xD,0xE,0xF }   // Sector F
+            };
+
         private static bool FRowLoser(Board objBoard, int s, int rs, char ch, LogBox objLogBox)
         {
-            // BUGBUG This routine needs work for SuperSudoku.
-
             // For squares in the same row, but not the same sector, ch is a Loser.
             // The trick is, the row value is 0-1-2, relative to the sector. We have
             // to map it to row [0-8] of the board.
@@ -410,11 +586,12 @@ namespace SudokuForms
             //   - Reset the entire row.
 
             bool ret = false;
-            string szLog = "LineFind Sec" + s + " Row" + rs + " '" + ch + "'"; // "Sec3 Row0 '2'"
-
-            //int row = ((s / 3) * 3) + rs;
-            int row = mpsrs2r[s, rs];
             Square sq;
+            int row;
+
+            string szLog = "LineFind Sec" + s.ToString("X") + " Row" + rs + " '" + ch + "'"; // "Sec3 Row0 '2'"
+
+            if (objBoard.objGame.fSuper) { row = mpsrs2rSuper[s, rs]; } else { row = mpsrs2r[s, rs]; }
 
             // Do we have any actual Losers?
             for (int x = 0; x < objBoard.objGame.cDimension; x++)
@@ -466,16 +643,13 @@ namespace SudokuForms
 
         private static bool FColLoser(Board objBoard, int s, int cs, char ch, LogBox objLogBox)
         {
-            // For squares in the same column, but not the same sector, ch is a Loser.
-            // The trick is, the col value is 0-1-2, relative to the sector. We have
-            // to map it to col [0-8] of the board.
-
             bool ret = false;
-            string szLog = "LineFind Sec" + s + " Col" + cs + " '" + ch + "'"; // "SecB Col2 '4'"
-
-            //int col = ((s % 3) * 3) + cs;
-            int col = mpscs2c[s, cs];
             Square sq;
+            int col;
+
+            string szLog = "LineFind Sec" + s.ToString("X") + " Col" + cs + " '" + ch + "'"; // "SecB Col2 '4'"
+
+            if (objBoard.objGame.fSuper) { col = mpscs2cSuper[s, cs]; } else { col = mpscs2c[s, cs]; }
 
             // Do we have any actual Losers?
             for (int y = 0; y < objBoard.objGame.cDimension; y++)
