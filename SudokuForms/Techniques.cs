@@ -128,7 +128,6 @@ namespace SudokuForms
             string szLog = "Range " + objRange.type + objRange.i.ToString("X"); // "Col7" or "SecD"
 
             // all bitmasks: from 000000000 through 111111111 (or 1111111111111111)
-
             // This one works for Sudoku, HyperSudoku, and SuperSudoku.
             for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.objGame.bitCount); bitmask++)
             // This one works for Sudoku and HyperSudoku, not SuperSudoku.
@@ -186,12 +185,9 @@ namespace SudokuForms
                                     // We have found the first Square that's
                                     // actually going to change. Highlight the Range.
                                     int bitshiftHighlight = bitmask;
-                                    //if (bitcount >= 4) { ret2 = ret2; } // just for breakpoints.
                                     for (int ibitHighlight = 0; ibitHighlight < objBoard.objGame.bitCount; ibitHighlight++) {
                                         // low bit means it's part of the NSome, otherwise part of the Range.
-                                        if ((bitshiftHighlight % 2) == 0) {
-                                            //objRange.rgSquare[ibitHighlight].SetBackColor(objRange.rgSquare[ibitHighlight].colorRange);
-                                        } else {
+                                        if ((bitshiftHighlight % 2) != 0) {
                                             objRange.rgSquare[ibitHighlight].SetBackColor(objRange.rgSquare[ibitHighlight].colorNSome);
                                         }
                                         bitshiftHighlight = (bitshiftHighlight / 2);
@@ -218,12 +214,6 @@ namespace SudokuForms
             if (ret) {
                 objLogBox.Log(szLog);
             }
-
-            // For all the Squares of Range, reset the backcolor.
-            //foreach (Square sq in objRange.rgSquare)
-            //{
-            //    sq.SetBackColor(sq.MyBackColor());
-            //}
 
             return ret;
         }
@@ -304,11 +294,7 @@ namespace SudokuForms
 
         public static bool FLineFind(Board objBoard, LogBox objLogBox)
         {
-            // BUGBUG This routine needs work for SuperSudoku.
-            // BUGBUG We need to check foursies, not threesies.
-            // BUGBUG We need to walk ch 0..F for Super, and 1..9 for Normal.
-
-            bool ret = false;
+            bool ret;
 
             // REVIEW KirkG: surely this isn't right, doing 'new' both in the
             // decl and the initialization loop.  Am I leaking memory?
@@ -350,12 +336,14 @@ namespace SudokuForms
             return ret;
         }
 
+        static char[] rgchSudoku = {'1','2','3','4','5','6','7','8','9'};
+
         private static bool SectorTest (Board objBoard, LogBox objLogBox, LineText[] mpsLineText)
         {
             bool ret = false;
             for (int s = 0; s < objBoard.objGame.cSector; s++)
             {
-                for (char ch = '1'; ch <= '9'; ch++)
+                foreach (char ch in rgchSudoku)
                 {
                     if (
                         (mpsLineText[s].row[0].Contains(ch)) &&
@@ -411,14 +399,14 @@ namespace SudokuForms
             return ret;
         }
 
-        static char[] chSuper = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+        static char[] rgchSuper = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
 
         private static bool SectorTestSuper (Board objBoard, LogBox objLogBox, LineText[] mpsLineText)
         {
             bool ret = false;
             for (int s = 0; s < objBoard.objGame.cSector; s++)
             {
-                foreach (char ch in chSuper)
+                foreach (char ch in rgchSuper)
                 {
                     if (
                         ( mpsLineText[s].row[0].Contains(ch)) &&
@@ -713,7 +701,7 @@ namespace SudokuForms
         // This is the flipside version of FLineFind, above.
         //
         // For each row and column
-        //   For ch 1 through 9
+        //   For ch 1..9 or 0..F
         //     If ch is found in only one sector of the row|column
         //       Call FLoser(ch) on the squares of the sector, not in our row|column.
 
@@ -737,33 +725,30 @@ namespace SudokuForms
 
         public static bool FSectorFind(Board objBoard, Range objRange, LogBox objLogBox)
         {
-            // BUGBUG: needs work for SuperSudoku.
-
-            bool ret = false;
-            bool ret2;
-
-            // What sector(s) we've seen for each charater, across all the squares of
+            // What sector(s) we've seen for each character, across all the squares of
             // this range.
-            //   -1 : no sectors
-            //   0 .. 9 : the only sector seen by that char
+            //   -1 : no sectors - init value, will get reset (we see all chars).
+            //   0..9 or 0..F : the only sector seen by that char
             //   -2 : multiple sectors
 
+            char[] rgch;
+            if (objBoard.objGame.fSuper) { rgch = rgchSuper; } else { rgch = rgchSudoku; }
+
             int[] mpchs = new int[objBoard.objGame.cDimension];
-            foreach (int ichs in mpchs) { mpchs[ichs] = -1;  }
+            for (int ich = 0; ich < objBoard.objGame.cDimension; ich++) { mpchs[ich] = -1;  }
 
             foreach (Square sq in objRange.rgSquare)
             {
-                for (char ch = '1'; ch <= '9'; ch++)
+                for (int ich = 0; ich < objBoard.objGame.cDimension; ich++)
                 {
-                    int ich = ch - '1';
-                    if (sq.btn.Text.Contains(ch))
+                    if (sq.btn.Text.Contains(rgch[ich]))
                     {
                         switch (mpchs[ich])
                         {
                             case -1:
                                 mpchs[ich] = sq.sector;
                                 break;
-                            // 0 .. 9
+                            // 0..8 or 0..F
                             default:
                                 if (mpchs[ich] != sq.sector)
                                 {
@@ -777,67 +762,74 @@ namespace SudokuForms
                 }
             }
 
-            /*
             String szLog = "FSectorFind ";
-            if (objRange.type == Range.Type.Col)
-            {
-                szLog += "col" + objRange.i + ":";
+            if (objRange.type == Range.Type.Col) {
+                szLog += "col" + objRange.i.ToString("X") + ":";
+            } else {
+                szLog += "row" + objRange.i.ToString("X") + ":";
             }
-            else
+            for (int ich = 0; ich < objBoard.objGame.cDimension; ich++)
             {
-                szLog += "row" + objRange.i + ":";
+                if (mpchs[ich] == -2) {
+                    szLog += " X";
+                } else {
+                    szLog += " " + mpchs[ich].ToString("X");
+                }
             }
-            for (int ich = 0; ich <= 8; ich++)
-            {
-                szLog += " " + mpchs[ich];
-            }
-            objLogBox.Log(szLog);
-            */
+            //objLogBox.Log(szLog);
+
+            bool ret = false;
 
             for (int ich = 0; ich < objBoard.objGame.cDimension; ich++)
             {
-                // BUGBUG Fix for SuperSudoku.
-                char ch = (char)(ich + '1');
+                char ch = rgch[ich];
                 int sec = mpchs[ich];
 
-                foreach (Square sq in objBoard.rgSquare)
+                if (sec >= 0) // ignore when sec = -1 or -2
                 {
-                    if (sq.sector == sec)
+                    foreach (Square sq in objBoard.rgSquare)
                     {
-                        // The value ch was found (in our row|column) _only_ in
-                        // this sector. If this square is not in the row|column
-                        // of our Range, then ch is a Loser.
-                        switch (objRange.type)
+                        if (sq.sector == sec)
                         {
-                            case Range.Type.Row:
-                                if (sq.row != objRange.i)
-                                {
-                                    ret2 = sq.FLoser(ch, objBoard);
-                                    if (ret2)
+                            // The value ch was found (in our row|column) _only_ in
+                            // this sector. If this square is not in the row|column
+                            // of our Range, then ch is a Loser.
+
+                            // BUGBUG: These objLogBox entries aren't very good.  They show
+                            // the square getting reset, but not the square(s) causing it.
+
+                            switch (objRange.type)
+                            {
+                                case Range.Type.Row:
+                                    if (sq.row != objRange.i)
                                     {
-                                        objLogBox.Log("FSectorFind row s" + sec + " r" + sq.row + " c" + sq.col + " ch" + ch);
-                                        ret = ret2;
+                                        if (sq.FLoser(ch, objBoard))
+                                        {
+                                            objLogBox.Log("FSectorFind row s" + sec.ToString("X") + " r" + sq.row.ToString("X") + " c" + sq.col.ToString("X") + " '" + ch + "'");
+                                            ret = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case Range.Type.Col:
-                                if (sq.col != objRange.i)
-                                {
-                                    ret2 = sq.FLoser(ch, objBoard);
-                                    if (ret2)
+                                    break;
+                                case Range.Type.Col:
+                                    if (sq.col != objRange.i)
                                     {
-                                        objLogBox.Log("FSectorFind col s" + sec + " r" + sq.row + " c" + sq.col + " ch" + ch);
-                                        ret = ret2;
+                                        if (sq.FLoser(ch, objBoard))
+                                        {
+                                            objLogBox.Log("FSectorFind col s" + sec.ToString("X") + " r" + sq.row.ToString("X") + " c" + sq.col.ToString("X") + " '" + ch + "'");
+                                            ret = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case Range.Type.Sec:
-                                // This shouldn't happen.
-                                break;
+                                    break;
+                                case Range.Type.Sec:
+                                    // This shouldn't happen.
+                                    break;
+                            }
                         }
                     }
                 }
             }
+
+            objRange.SetRangeColor(false);
 
             return ret;
         }
