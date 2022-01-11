@@ -257,20 +257,10 @@ namespace SudokuForms
                                 sq.chWinner = chWinner;
                                 sq.fOriginal = fOriginal;
                                 sq.btn.Text = Text;
-                                if (iWinner == -1)
-                                {
+                                if (iWinner == -1) {
                                     sq.CouldBes(Text);
-                                }
-                                else
-                                {
-                                    if (sq.fOriginal)
-                                    {
-                                        sq.Winner(chWinner, sq.fOriginal, objGame.objBoard);
-                                    }
-                                    else
-                                    {
-                                        sq.Winner(chWinner, sq.fOriginal, objGame.objBoard);
-                                    }
+                                } else {
+                                    sq.Winner(chWinner, sq.fOriginal, objGame.objBoard);
                                 }
                             }
                             break;
