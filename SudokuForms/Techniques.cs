@@ -201,7 +201,7 @@ namespace SudokuForms
                         bitshift = (bitshift / 2);
                     }
 
-                    objRange.SetRangeColor(false);
+                    objRange.ResetRangeColor();
 
                     if (ret2)
                     {
@@ -829,7 +829,7 @@ namespace SudokuForms
                 }
             }
 
-            objRange.SetRangeColor(false);
+            objRange.ResetRangeColor();
 
             return ret;
         }
