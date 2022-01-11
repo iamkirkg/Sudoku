@@ -173,7 +173,7 @@ namespace SudokuForms
                 }
             }
 
-            btn.Font = new Font("Microsoft Sans Serif", objBoard.objGame.emSizeWinner, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Font = new Font("Microsoft Sans Serif", objGame.emSizeWinner, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = chValue.ToString() + " ";
             btn.ForeColor = colorFore;
             SetBackColor(MyBackColor());
