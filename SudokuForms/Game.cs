@@ -131,13 +131,13 @@ namespace SudokuForms
             }
         }
 
-        public void BoardReset(Flavor objFlavor)
+        public void BoardReset(Flavor flav)
         {
-            Debug.WriteLine("BoardReset(" + objFlavor.ToString() + ")");
+            Debug.WriteLine("BoardReset(" + flav.ToString() + ")");
 
             if (objBoard != null) { objBoard.Delete(); }
 
-            SetFlavor(objFlavor);
+            SetFlavor(flav);
 
             this.ClientSize = new System.Drawing.Size(iBoardWidth, iBoardHeight);
 
