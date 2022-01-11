@@ -16,52 +16,47 @@ namespace SudokuForms
             Sec
         }
 
-    public Range(Board objBoard, Type argType, int argI)
-        {
-            rgSquare = new Square[objBoard.objGame.cDimension];
-            type = argType;
-            i = argI;
-
-            int r = 0;
-            switch (type)
+        public Range(Board objBoard, Type argType, int argI)
             {
-                case Type.Row:
-                    for (r = 0; r < objBoard.objGame.cDimension; r++)
-                    {
-                        rgSquare[r] = objBoard.rgSquare[r, i];
-                    }
-                    break;
-                case Type.Col:
-                    for (r = 0; r < objBoard.objGame.cDimension; r++)
-                    {
-                        rgSquare[r] = objBoard.rgSquare[i, r];
-                    }
-                    break;
-                case Type.Sec:
-                    foreach (Square sq in objBoard.rgSquare)
-                    {
-                        if (sq.sector == i)
-                        {
-                            rgSquare[r++] = sq;
-                        }
-                        if (sq.hypersector == i)
-                        {
-                            rgSquare[r++] = sq;
-                        }
-                    }
-                    break;
-            }
-        }
+                rgSquare = new Square[objBoard.objGame.cDimension];
+                type = argType;
+                i = argI;
 
-        // BUGBUG: Lose fRange; it's only ever called w/false.
-        public void SetRangeColor(bool fRange)
+                int r = 0;
+                switch (type)
+                {
+                    case Type.Row:
+                        for (r = 0; r < objBoard.objGame.cDimension; r++)
+                        {
+                            rgSquare[r] = objBoard.rgSquare[r, i];
+                        }
+                        break;
+                    case Type.Col:
+                        for (r = 0; r < objBoard.objGame.cDimension; r++)
+                        {
+                            rgSquare[r] = objBoard.rgSquare[i, r];
+                        }
+                        break;
+                    case Type.Sec:
+                        foreach (Square sq in objBoard.rgSquare)
+                        {
+                            if (sq.sector == i)
+                            {
+                                rgSquare[r++] = sq;
+                            }
+                            if (sq.hypersector == i)
+                            {
+                                rgSquare[r++] = sq;
+                            }
+                        }
+                        break;
+                }
+            }
+
+        public void ResetRangeColor()
         {
             foreach (Square sq in rgSquare) {
-                //if (fRange) {
-                //    sq.btn.BackColor = sq.colorRange;
-                //} else {
-                    sq.btn.BackColor = sq.MyBackColor();
-                //}
+                sq.btn.BackColor = sq.MyBackColor();
                 sq.btn.Refresh();
             }
         }
