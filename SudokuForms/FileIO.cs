@@ -232,6 +232,9 @@ namespace SudokuForms
                                     chWinner = ch;
                                     break;
                                 case Field.fOriginal:
+                                    // Our old xml files don't have this.
+                                    // Hard to interpret, as with iWinner and chWinner.
+                                    // These files have all blue characters, no green.
                                     fOriginal = szValue.Equals("True");
                                     break;
                                 case Field.Text:

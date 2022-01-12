@@ -35,7 +35,7 @@ namespace SudokuForms
         // Constructor
         public Square(Game argGame,
                       int iTab, int iSector, int iHyperSector,
-                      int xPoint, int yPoint, int xSize, int ySize, float font, 
+                      Point objPoint, Size objSize, float font, 
                       KeyPressEventHandler fnKeyPress,
                       KeyEventHandler fnKeyDown,
                       EventHandler fnClick
@@ -56,8 +56,8 @@ namespace SudokuForms
                 BackColor = MyBackColor(),
                 ForeColor = Color.Black,
                 Font = new Font("Microsoft Sans Serif", font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                Location = new Point(xPoint, yPoint),
-                Size = new Size(xSize, ySize),
+                Location = objPoint,
+                Size = objSize,
                 TabIndex = iTab,
                 Text = objGame.szAll
             };

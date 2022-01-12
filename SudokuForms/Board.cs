@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
 // This is for Flavor flav. I don't understand it.
@@ -9,7 +10,6 @@ namespace SudokuForms
 {
     public class Board
     {
-        public Game objGame;
         public Flavor boardFlav;
         public Square[,] rgSquare;
 
@@ -137,8 +137,7 @@ namespace SudokuForms
                      EventHandler fnClick
                     )
         {
-            objGame = argGame;
-            this.boardFlav = flav;
+            boardFlav = flav;
 
             int xDelta = xSize + 2;
             int yDelta = ySize + 2;
@@ -160,7 +159,7 @@ namespace SudokuForms
                 for (int x = 0; x < cDimension; x++)
                 {
                     iTab++;
-                    switch (this.boardFlav)
+                    switch (boardFlav)
                     {
                         case Flavor.Sudoku:
                             iSector = mpTabSector[iTab - 1];
@@ -175,7 +174,8 @@ namespace SudokuForms
                             iHyperSector = mpTabHyperSector[iTab - 1];
                             break;
                     }
-                    rgSquare[x, y] = new Square(argGame, iTab, iSector, iHyperSector, xPoint, yPoint, xSize, ySize, font,
+                    rgSquare[x, y] = new Square(argGame, iTab, iSector, iHyperSector, 
+                                                new Point(xPoint, yPoint), new Size(xSize, ySize), font,
                                                 fnKeyPress, fnKeyDown, fnClick);
                     xPoint += xDelta;
                 }
