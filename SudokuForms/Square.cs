@@ -11,6 +11,8 @@ namespace SudokuForms
     public class Square
     {
         public Game objGame;
+        // How long do we pause, to see the progress.
+        private int msecSleep = 50;
         public int iBoard { get; } // index into the objBoard.rgSquare array.
         public int iWinner { get; set; } // When there's only one left.
         public char chWinner { get; set; } // When there's only one left.
@@ -106,7 +108,7 @@ namespace SudokuForms
         public void SetBackColor(Color c) {
             btn.BackColor = c;
             btn.Refresh();
-            Thread.Sleep(100);
+            Thread.Sleep(msecSleep);
         }
 
         public Color MyBackColor()
@@ -208,7 +210,7 @@ namespace SudokuForms
             SetBackColor(colorLoser); // show yellow with old text for a moment
             btn.Text = szTextNew;
             btn.Refresh();
-            Thread.Sleep(100);  // show yellow with new text for a moment
+            Thread.Sleep(msecSleep);  // show yellow with new text for a moment
 
             // If we've but one char left, it's a Winner!
             string sz = btn.Text.Replace(" ", string.Empty);
