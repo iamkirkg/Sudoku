@@ -91,6 +91,8 @@ namespace SudokuForms
             this.FlavorPanel.Size = new Size(110, 74);
             this.FlavorPanel.TabIndex = iTabIndex++;
 
+            this.FlavorSudoku.Checked = true;
+            /*
             switch (curFlavor)
             {
                 case Flavor.Sudoku:
@@ -103,6 +105,7 @@ namespace SudokuForms
                     this.FlavorHyperSudoku.Checked = true;
                     break;
             }
+            */
 
             this.Controls.Add(this.FlavorPanel);
             this.FlavorPanel.ResumeLayout(false);
@@ -270,8 +273,8 @@ namespace SudokuForms
             //
             // LogBox
             //
-            // BUGBUG: Add an fSuper test, grow this box downward.
-            objLogBox = new LogBox(4, 308, 294, fSuper ? 430 : 330, iTabIndex);
+            // BUGBUG: Add an objBoard.objBoard.fSuper test, grow this box downward.
+            objLogBox = new LogBox(4, 308, 294, objBoard.fSuper ? 430 : 330, iTabIndex);
             this.Controls.Add(objLogBox.objBox);
 
             // 
@@ -281,7 +284,9 @@ namespace SudokuForms
             // https://docs.microsoft.com/en-us/dotnet/desktop/winforms/automatic-scaling-in-windows-forms?view=netframeworkdesktop-4.8
             //this.AutoScaleDimensions = new SizeF(9F, 20F);
             //this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(iBoardWidth, iBoardHeight);
+            
+            // I don't think we need this, as it's done in BoardReset.
+            //this.ClientSize = new Size(iBoardWidth, iBoardHeight);
 
             this.Name = szTitle;
             this.Text = szTitle;
@@ -300,13 +305,13 @@ namespace SudokuForms
             // Calculate objBoard.rgSquare[col,row] location from the tabindex.
             // TabIndex is [1..81] or [1..256]; the array is [0..8][0..8] or [0..15][0..15].
             curTab = iTab;
-            curCol = ((iTab - 1) % cDimension);  // Modulo (remainder)
-            curRow = ((iTab - 1) / cDimension);  // Divide
+            curCol = ((iTab - 1) % objBoard.cDimension);  // Modulo (remainder)
+            curRow = ((iTab - 1) / objBoard.cDimension);  // Divide
             curChar = keyChar;
 
             //objLogBox.Log("KeyPress " + keyChar);
 
-            if (fSuper) {
+            if (objBoard.fSuper) {
                 if ((keyChar >= '0' && keyChar <= '9') || (keyChar >= 'A' && keyChar <= 'F'))
                 {
                     objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard);
@@ -329,8 +334,8 @@ namespace SudokuForms
             // Calculate objBoard.rgSquare[col,row] location from the tabindex.
             // TabIndex is [1..81] or [1..256]; the array is [0..8][0..8] or [0..15][0..15].
             curTab = iTab;
-            curCol = ((iTab - 1) % cDimension);  // Modulo (remainder)
-            curRow = ((iTab - 1) / cDimension);  // Divide
+            curCol = ((iTab - 1) % objBoard.cDimension);  // Modulo (remainder)
+            curRow = ((iTab - 1) / objBoard.cDimension);  // Divide
 
             //objLogBox.Log("KeyDown " + keyCode.ToString());
 
@@ -446,7 +451,7 @@ namespace SudokuForms
             {
                 if (objSq.iWinner == -1)
                 {
-                    if (box.Checked)
+                    if (fCouldBe)
                     {
                         objSq.btn.ForeColor = Color.Black;
                     }
@@ -484,8 +489,8 @@ namespace SudokuForms
                 // Calculate objBoard.rgSquare[col,row] location from the tabindex.
                 // TabIndex is [1..81] or [1..256]; the array is [0..8][0..8] or [0..15][0..15].
                 curTab = iTab;
-                curCol = ((iTab - 1) % cDimension);  // Modulo (remainder)
-                curRow = ((iTab - 1) / cDimension);  // Divide
+                curCol = ((iTab - 1) % objBoard.cDimension);  // Modulo (remainder)
+                curRow = ((iTab - 1) / objBoard.cDimension);  // Divide
                 Square mySquare = objBoard.rgSquare[curCol, curRow];
                 if (mySquare.iWinner != -1)
                 {

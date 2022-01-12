@@ -111,7 +111,7 @@ namespace SudokuForms
 
         public Color MyBackColor()
         {
-            switch (objGame.curFlavor)
+            switch (objGame.gameFlav)
             {
                 case Flavor.Sudoku:
                     return mpSectorColor[sector];
@@ -136,7 +136,7 @@ namespace SudokuForms
             fOriginal = false;
             btn.BackColor = MyBackColor();
             btn.ForeColor = Color.Black;
-            btn.Font = new Font("Microsoft Sans Serif", objGame.font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Font = new Font("Microsoft Sans Serif", objGame.objBoard.font, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = argText;
         }
 
@@ -173,7 +173,7 @@ namespace SudokuForms
                 }
             }
 
-            btn.Font = new Font("Microsoft Sans Serif", objGame.emSizeWinner, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            btn.Font = new Font("Microsoft Sans Serif", objGame.objBoard.emSizeWinner, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             btn.Text = chValue.ToString() + " ";
             btn.ForeColor = colorFore;
             SetBackColor(MyBackColor());

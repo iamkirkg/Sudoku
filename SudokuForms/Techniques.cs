@@ -18,17 +18,17 @@ namespace SudokuForms
         {
             bool ret = false;
 
-            for (int i = 0; i < objBoard.objGame.cDimension; i++)
+            for (int i = 0; i < objBoard.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Row, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i < objBoard.objGame.cDimension; i++)
+            for (int i = 0; i < objBoard.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Col, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i < objBoard.objGame.cSector; i++)
+            for (int i = 0; i < objBoard.cSector; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Sec, i);
                 ret |= RangeCheck(objBoard, objRange, objLogBox);
@@ -43,7 +43,7 @@ namespace SudokuForms
 
         // Examine a Range of the board.
         //
-        // Note that objBoard.objGame.bitCount is 9 for Sudoku and HyperSudoku, 16 for SuperSudoku.
+        // Note that objBoard.bitCount is 9 for Sudoku and HyperSudoku, 16 for SuperSudoku.
         //
         // There are nine(16) Squares in a Range. We want to examine all 512 (2^9)
         // or 65536 (2^16)
@@ -122,14 +122,14 @@ namespace SudokuForms
         //   first, which we want to replicate.  So iterate the bitmasks, first the
         //   1bit, then 2bit, 3bit, on up.
 
-        public static bool RangeCheck(Board objBoard, Range objRange, LogBox objLogBox)
+        private static bool RangeCheck(Board objBoard, Range objRange, LogBox objLogBox)
         {
             bool ret = false;
             string szLog = "Range " + objRange.type + objRange.i.ToString("X"); // "Col7" or "SecD"
 
             // all bitmasks: from 000000000 through 111111111 (or 1111111111111111)
             // This one works for Sudoku, HyperSudoku, and SuperSudoku.
-            for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.objGame.bitCount); bitmask++)
+            for (int bitmask = 0; bitmask < Math.Pow(2, objBoard.bitCount); bitmask++)
             // This one works for Sudoku and HyperSudoku, not SuperSudoku.
             // This one, it seems, isn't any faster.  Waste of effort?
             //foreach (int bitmask in rgBitmask)
@@ -142,7 +142,7 @@ namespace SudokuForms
 
                 // Calculate bitcount, as the number of ON bits in the current bitmask.
                 // Calculate szTuple ('1478') of the Squares in the Range's bitmask.
-                for (int ibit = 0; ((ibit < objBoard.objGame.bitCount) && (bitshift != 0)); ibit++)
+                for (int ibit = 0; ((ibit < objBoard.bitCount) && (bitshift != 0)); ibit++)
                 {
                     // If the low bit is set, we want the chars of that Square.
                     if ((bitshift % 2) == 1)
@@ -177,7 +177,7 @@ namespace SudokuForms
                     // For all the Squares of Range that _aren't_ in bitmask, 
                     //   call Loser for all the values of szTuple.
                     bitshift = bitmask;
-                    for (int ibit = 0; ibit < objBoard.objGame.bitCount; ibit++) {
+                    for (int ibit = 0; ibit < objBoard.bitCount; ibit++) {
                         // If the low bit is NOT set, we want that Square.
                         if ((bitshift % 2) == 0) {
                             foreach (char ch in szTuple) {
@@ -185,7 +185,7 @@ namespace SudokuForms
                                     // We have found the first Square that's
                                     // actually going to change. Highlight the Range.
                                     int bitshiftHighlight = bitmask;
-                                    for (int ibitHighlight = 0; ibitHighlight < objBoard.objGame.bitCount; ibitHighlight++) {
+                                    for (int ibitHighlight = 0; ibitHighlight < objBoard.bitCount; ibitHighlight++) {
                                         // low bit means it's part of the NSome, otherwise part of the Range.
                                         if ((bitshiftHighlight % 2) != 0) {
                                             objRange.rgSquare[ibitHighlight].SetBackColor(objRange.rgSquare[ibitHighlight].colorNSome);
@@ -298,8 +298,8 @@ namespace SudokuForms
 
             // REVIEW KirkG: surely this isn't right, doing 'new' both in the
             // decl and the initialization loop.  Am I leaking memory?
-            LineText[] mpsLineText = new LineText[objBoard.objGame.cSector];
-            for (int s = 0; s < objBoard.objGame.cSector; s++)
+            LineText[] mpsLineText = new LineText[objBoard.cSector];
+            for (int s = 0; s < objBoard.cSector; s++)
             {
                 mpsLineText[s] = new LineText();
             }
@@ -307,7 +307,7 @@ namespace SudokuForms
             // Walk the board, concatenating all our Text strings into our array.
             foreach (Square sq in objBoard.rgSquare)
             {
-                if (objBoard.objGame.fSuper) {
+                if (objBoard.fSuper) {
                     mpsLineText[sq.sector].row[sq.row % 4] += sq.btn.Text.Replace(" ", string.Empty);
                     mpsLineText[sq.sector].col[sq.col % 4] += sq.btn.Text.Replace(" ", string.Empty);
                 } else {
@@ -323,7 +323,7 @@ namespace SudokuForms
             // Within a sector (or hypersector), find a value that is present
             // in just one row, or just one column.
 
-            if (objBoard.objGame.fSuper) {
+            if (objBoard.fSuper) {
                 ret = SectorTestSuper(objBoard, objLogBox, mpsLineText);
             }  else {
                 ret = SectorTest(objBoard, objLogBox, mpsLineText);
@@ -336,12 +336,12 @@ namespace SudokuForms
             return ret;
         }
 
-        static char[] rgchSudoku = {'1','2','3','4','5','6','7','8','9'};
+        private static char[] rgchSudoku = {'1','2','3','4','5','6','7','8','9'};
 
         private static bool SectorTest (Board objBoard, LogBox objLogBox, LineText[] mpsLineText)
         {
             bool ret = false;
-            for (int s = 0; s < objBoard.objGame.cSector; s++)
+            for (int s = 0; s < objBoard.cSector; s++)
             {
                 foreach (char ch in rgchSudoku)
                 {
@@ -399,12 +399,12 @@ namespace SudokuForms
             return ret;
         }
 
-        static char[] rgchSuper = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+        private static char[] rgchSuper = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
 
         private static bool SectorTestSuper (Board objBoard, LogBox objLogBox, LineText[] mpsLineText)
         {
             bool ret = false;
-            for (int s = 0; s < objBoard.objGame.cSector; s++)
+            for (int s = 0; s < objBoard.cSector; s++)
             {
                 foreach (char ch in rgchSuper)
                 {
@@ -588,10 +588,10 @@ namespace SudokuForms
 
             string szLog = "LineFind Sec" + s.ToString("X") + " Row" + rs + " '" + ch + "'"; // "Sec3 Row0 '2'"
 
-            if (objBoard.objGame.fSuper) { row = mpsrs2rSuper[s, rs]; } else { row = mpsrs2r[s, rs]; }
+            if (objBoard.fSuper) { row = mpsrs2rSuper[s, rs]; } else { row = mpsrs2r[s, rs]; }
 
             // Do we have any actual Losers?
-            for (int x = 0; x < objBoard.objGame.cDimension; x++)
+            for (int x = 0; x < objBoard.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
                 if ((sq.sector != s) && (sq.hypersector != s))
@@ -603,7 +603,7 @@ namespace SudokuForms
 
             // Highlight the squares in the sector, in the row, that have our character.
             // They're the reason we're doing this.
-            for (int x = 0; x < objBoard.objGame.cDimension; x++)
+            for (int x = 0; x < objBoard.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
                 if (((sq.sector == s) || (sq.hypersector == s)) && (sq.btn.Text.Contains(ch)))
@@ -613,7 +613,7 @@ namespace SudokuForms
             }
 
             // Update the squares in the row, not in the sector, that are Losers.
-            for (int x = 0; x < objBoard.objGame.cDimension; x++)
+            for (int x = 0; x < objBoard.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
                 if ((sq.sector != s) && (sq.hypersector != s))
@@ -623,7 +623,7 @@ namespace SudokuForms
             }
 
             // Reset the colors for the row.
-            for (int x = 0; x < objBoard.objGame.cDimension; x++)
+            for (int x = 0; x < objBoard.cDimension; x++)
             {
                 sq = objBoard.rgSquare[x, row];
                 sq.btn.BackColor = sq.MyBackColor();
@@ -646,10 +646,10 @@ namespace SudokuForms
 
             string szLog = "LineFind Sec" + s.ToString("X") + " Col" + cs + " '" + ch + "'"; // "SecB Col2 '4'"
 
-            if (objBoard.objGame.fSuper) { col = mpscs2cSuper[s, cs]; } else { col = mpscs2c[s, cs]; }
+            if (objBoard.fSuper) { col = mpscs2cSuper[s, cs]; } else { col = mpscs2c[s, cs]; }
 
             // Do we have any actual Losers?
-            for (int y = 0; y < objBoard.objGame.cDimension; y++)
+            for (int y = 0; y < objBoard.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
                 if ((sq.sector != s) && (sq.hypersector != s))
@@ -661,7 +661,7 @@ namespace SudokuForms
 
             // Highlight the squares in the sector, in the col, that have our char.
             // They're the reason we're doing this.
-            for (int y = 0; y < objBoard.objGame.cDimension; y++)
+            for (int y = 0; y < objBoard.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
                 if (((sq.sector == s) || (sq.hypersector == s)) && (sq.btn.Text.Contains(ch)))
@@ -671,7 +671,7 @@ namespace SudokuForms
             }
 
             // Update the squares in the col, not in the sector, that are Losers.
-            for (int y = 0; y < objBoard.objGame.cDimension; y++)
+            for (int y = 0; y < objBoard.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
                 if ((sq.sector != s) && (sq.hypersector != s))
@@ -681,7 +681,7 @@ namespace SudokuForms
             }
 
             // Reset the colors for the row.
-            for (int y = 0; y < objBoard.objGame.cDimension; y++)
+            for (int y = 0; y < objBoard.cDimension; y++)
             {
                 sq = objBoard.rgSquare[col, y];
                 sq.btn.BackColor = sq.MyBackColor();
@@ -709,12 +709,12 @@ namespace SudokuForms
         {
             bool ret = false;
 
-            for (int i = 0; i < objBoard.objGame.cDimension; i++)
+            for (int i = 0; i < objBoard.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Col, i);
                 ret |= FSectorFind(objBoard, objRange, objLogBox);
             }
-            for (int i = 0; i < objBoard.objGame.cDimension; i++)
+            for (int i = 0; i < objBoard.cDimension; i++)
             {
                 Range objRange = new Range(objBoard, Range.Type.Row, i);
                 ret |= FSectorFind(objBoard, objRange, objLogBox);
@@ -732,14 +732,14 @@ namespace SudokuForms
             //   -2 : multiple sectors
 
             char[] rgch;
-            if (objBoard.objGame.fSuper) { rgch = rgchSuper; } else { rgch = rgchSudoku; }
+            if (objBoard.fSuper) { rgch = rgchSuper; } else { rgch = rgchSudoku; }
 
-            int[] mpchs = new int[objBoard.objGame.cDimension];
-            for (int ich = 0; ich < objBoard.objGame.cDimension; ich++) { mpchs[ich] = -1;  }
+            int[] mpchs = new int[objBoard.cDimension];
+            for (int ich = 0; ich < objBoard.cDimension; ich++) { mpchs[ich] = -1;  }
 
             foreach (Square sq in objRange.rgSquare)
             {
-                for (int ich = 0; ich < objBoard.objGame.cDimension; ich++)
+                for (int ich = 0; ich < objBoard.cDimension; ich++)
                 {
                     if (sq.btn.Text.Contains(rgch[ich]))
                     {
@@ -768,7 +768,7 @@ namespace SudokuForms
             } else {
                 szLog += "row" + objRange.i.ToString("X") + ":";
             }
-            for (int ich = 0; ich < objBoard.objGame.cDimension; ich++)
+            for (int ich = 0; ich < objBoard.cDimension; ich++)
             {
                 if (mpchs[ich] == -2) {
                     szLog += " X";
@@ -780,7 +780,7 @@ namespace SudokuForms
 
             bool ret = false;
 
-            for (int ich = 0; ich < objBoard.objGame.cDimension; ich++)
+            for (int ich = 0; ich < objBoard.cDimension; ich++)
             {
                 char ch = rgch[ich];
                 int sec = mpchs[ich];

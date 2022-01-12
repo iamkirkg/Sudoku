@@ -81,7 +81,7 @@ namespace SudokuForms
 
                 writer.WriteStartElement("Squares");
 
-                Flavor flav = objGame.curFlavor;
+                Flavor flav = objGame.objBoard.boardFlav;
                 writer.WriteElementString("Flavor", flav.ToString());
                 writer.WriteElementString("CouldBe", objGame.fCouldBe.ToString());
 
@@ -217,7 +217,7 @@ namespace SudokuForms
                                 case Field.iWinner:
                                     int i = int.Parse(szValue);
                                     // Try to handle our old files. 
-                                    if ((i == 0) && (objGame.curFlavor != Flavor.SuperSudoku)) {
+                                    if ((i == 0) && (flav != Flavor.SuperSudoku)) {
                                         i = -1;
                                     }
                                     iWinner = i;
@@ -225,7 +225,7 @@ namespace SudokuForms
                                 case Field.chWinner:
                                     char ch = szValue[0];
                                     // Try to handle our old files. 
-                                    if ((ch == '0') && (objGame.curFlavor != Flavor.SuperSudoku))
+                                    if ((ch == '0') && (flav != Flavor.SuperSudoku))
                                     {
                                         ch = 'X';
                                     }

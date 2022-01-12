@@ -9,9 +9,74 @@ namespace SudokuForms
 {
     public class Board
     {
+        public Game objGame;
+        public Flavor boardFlav;
         public Square[,] rgSquare;
 
-        public Game objGame;
+        public bool fSuper
+        { // Are we 3x3 or 4x4?
+            get { return boardFlav == Flavor.SuperSudoku; }
+        }
+
+        // Board origin
+        private int xOrigin = 302;
+        private int yOrigin = 4;
+
+        // Board size
+        private int iBoardWidth
+        {
+            get { return fSuper ? 1168 : 790; }
+        }
+        private int iBoardHeight
+        {
+            get { return fSuper ? 996 : 640; }
+        }
+
+        // Square size
+        private int xSize
+        {
+            get { return fSuper ? 52 : 52; }
+        }
+        private int ySize
+        {
+            get { return fSuper ? 60 : 68; }
+        }
+
+        public int cDimension
+        { // Are we 3x3 or 4x4?
+            get { return fSuper ? 16 : 9; }
+        }
+        public int bitCount
+        {
+            get { return fSuper ? 16 : 9; }
+        }
+
+        public Single emSizeWinner
+        {
+            get { return fSuper ? 36F : 40F; }
+        }
+        public float font
+        {
+            get { return fSuper ? 7F : 12F; }
+        }
+
+        public int cSector
+        {
+            get
+            {
+                switch (boardFlav)
+                {
+                    case Flavor.Sudoku:
+                        return 9;
+                    case Flavor.SuperSudoku:
+                        return 16;
+                    case Flavor.HyperSudoku: // 9 + 4
+                        return 13;
+                    default:
+                        return -1;
+                }
+            }
+        }
 
         // map TabIndex to Sector.
         readonly private int[] mpTabSector =
@@ -66,35 +131,36 @@ namespace SudokuForms
             12,12,12,12, 13,13,13,13, 14,14,14,14, 15,15,15,15
         };
 
-        public Board(Game argGame,
-                     bool fSuper,
-                     int xOrigin, int yOrigin, int xSize, int ySize, float font,
+        public Board(Game argGame, Flavor flav,
                      KeyPressEventHandler fnKeyPress,
                      KeyEventHandler fnKeyDown,
                      EventHandler fnClick
                     )
         {
             objGame = argGame;
+            this.boardFlav = flav;
 
             int xDelta = xSize + 2;
             int yDelta = ySize + 2;
             int xPoint;
             int yPoint = yOrigin;
             int iSector;
-            int iHyperSector = -1;
+            int iHyperSector;
 
-            Debug.WriteLine("Board(" + argGame.cDimension + ") new");
+            Debug.WriteLine("Board(" + cDimension + ") new");
 
-            rgSquare = new Square[argGame.cDimension, argGame.cDimension];
+            argGame.ClientSize = new System.Drawing.Size(iBoardWidth, iBoardHeight);
+
+            rgSquare = new Square[cDimension, cDimension];
 
             int iTab = 0; // TabIndex [1..81] or [1..256]
-            for (int y = 0; y < argGame.cDimension; y++)
+            for (int y = 0; y < cDimension; y++)
             {
                 xPoint = xOrigin;
-                for (int x = 0; x < argGame.cDimension; x++)
+                for (int x = 0; x < cDimension; x++)
                 {
                     iTab++;
-                    switch (argGame.curFlavor)
+                    switch (this.boardFlav)
                     {
                         case Flavor.Sudoku:
                             iSector = mpTabSector[iTab - 1];
@@ -119,11 +185,11 @@ namespace SudokuForms
 
         public void Delete()
         {
-            Debug.WriteLine("Board(" + objGame.cDimension + ") delete");
+            Debug.WriteLine("Board(" + cDimension + ") delete");
 
-            for (int y = 0; y < objGame.cDimension; y++)
+            for (int y = 0; y < cDimension; y++)
             {
-                for (int x = 0; x < objGame.cDimension; x++)
+                for (int x = 0; x < cDimension; x++)
                 {
                     rgSquare[x, y].Delete();
                 }

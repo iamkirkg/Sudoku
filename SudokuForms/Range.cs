@@ -18,7 +18,7 @@ namespace SudokuForms
 
         public Range(Board objBoard, Type argType, int argI)
             {
-                rgSquare = new Square[objBoard.objGame.cDimension];
+                rgSquare = new Square[objBoard.cDimension];
                 type = argType;
                 i = argI;
 
@@ -26,13 +26,13 @@ namespace SudokuForms
                 switch (type)
                 {
                     case Type.Row:
-                        for (r = 0; r < objBoard.objGame.cDimension; r++)
+                        for (r = 0; r < objBoard.cDimension; r++)
                         {
                             rgSquare[r] = objBoard.rgSquare[r, i];
                         }
                         break;
                     case Type.Col:
-                        for (r = 0; r < objBoard.objGame.cDimension; r++)
+                        for (r = 0; r < objBoard.cDimension; r++)
                         {
                             rgSquare[r] = objBoard.rgSquare[i, r];
                         }

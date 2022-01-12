@@ -12,71 +12,45 @@ namespace SudokuForms
             SuperSudoku,    // 4x4x16
             HyperSudoku     // 3x3x(9+4)
         }
-        // This is the default, when we first start the app.
-        // We could save/restore in a regkey.
-        public Flavor curFlavor = Flavor.Sudoku;
+        public Flavor gameFlav;
+ 
+        private bool fSuper
+        { // Are we 3x3 or 4x4?
+            get { return gameFlav == Flavor.SuperSudoku; }
+        }
+        public int cDimension
+        { // Are we 3x3 or 4x4?
+            get { return fSuper ? 16 : 9; }
+        }
 
-        // Are we 3x3 or 4x4?
-        public bool fSuper {
-            get { return curFlavor == Flavor.SuperSudoku; }
+        public string szAll
+        {
+            get { return fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "; }
         }
 
         // Are we currently showing possible answers?
         private bool _fCouldBe = true;
-        public bool fCouldBe {
+        public bool fCouldBe
+        {
             get { return _fCouldBe; }
             set { _fCouldBe = value; }
         }
 
-        public int cDimension { // Are we 3x3 or 4x4?
-            get { return fSuper ? 16 : 9; }
-        }
-        public int cSector {
-            get {
-                switch (curFlavor) {
+        public string szTitle {
+            get
+            {
+                switch (gameFlav)
+                {
                     case Flavor.Sudoku:
-                        return 9;
+                        return "Sudokirk";
                     case Flavor.SuperSudoku:
-                        return 16;
-                    case Flavor.HyperSudoku: // 9 + 4
-                        return 13;
+                        return "SuperSudokirk";
+                    case Flavor.HyperSudoku:
+                        return "HyperSudokirk";
                     default:
-                        return -1;
+                        return "error";
                 }
             }
-        }
-
-        public string szTitle {
-            get { return fSuper ? "SuperSudokirk" : "Sudokirk"; }
-        }
-        public Single emSizeWinner {
-            get { return fSuper ? 36F : 40F; }
-        }
-        public int bitCount {
-            get { return fSuper ? 16 : 9; }
-        }
-        public string szAll {
-            get { return fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "; }
-        }
-        public float font {
-            get { return fSuper ? 7F : 12F; }
-        }
-        // Board origin
-        private int xOrigin = 2 + 300;
-        private int yOrigin = 4;
-        // Board size
-        public int iBoardWidth {
-            get { return fSuper ? 1168 : 790; }
-        }
-        public int iBoardHeight {
-            get { return fSuper ? 996 : 640; }
-        }
-        // Square size
-        private int xSize {
-            get { return fSuper ? 52 : 52; }
-        }
-        private int ySize {
-            get { return fSuper ? 60 : 68; }
         }
 
         public enum Technique
@@ -103,10 +77,8 @@ namespace SudokuForms
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
             /*
-            objBoard = new Board(this, fSuper,
-                                 xOrigin, yOrigin, xSize, ySize, font, 
-                                 sq_KeyPress, sq_KeyDown, sq_Click,
-                                 objLogBox
+            objBoard = new Board(this, flav,
+                                 sq_KeyPress, sq_KeyDown, sq_Click
                                  );
             */
             Debug.WriteLine("Game(new).end");
@@ -114,9 +86,9 @@ namespace SudokuForms
 
         public void SetFlavor(Flavor flav)
         {
-            Debug.WriteLine("SetFlavor: " + curFlavor.ToString() + " to " + flav.ToString());
+            Debug.WriteLine("SetFlavor: set to " + flav.ToString());
 
-            curFlavor = flav;
+            gameFlav = flav;
             switch (flav)
             {
                 case Flavor.Sudoku:
@@ -139,10 +111,7 @@ namespace SudokuForms
 
             SetFlavor(flav);
 
-            this.ClientSize = new System.Drawing.Size(iBoardWidth, iBoardHeight);
-
-            objBoard = new Board(this, fSuper,
-                                 xOrigin, yOrigin, xSize, ySize, font,
+            objBoard = new Board(this, flav,
                                  sq_KeyPress, sq_KeyDown, sq_Click
                                  );
             Debug.WriteLine("BoardReset(end)");
