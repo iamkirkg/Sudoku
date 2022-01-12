@@ -10,7 +10,7 @@ namespace SudokuForms
 {
     public class Board
     {
-        public Flavor boardFlav;
+        private Flavor boardFlav;
         public Square[,] rgSquare;
 
         public bool fSuper

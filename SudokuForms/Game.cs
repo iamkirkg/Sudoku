@@ -6,6 +6,14 @@ namespace SudokuForms
 {
     public partial class Game : Form
     {
+        // I am frustrated that we have two fields duplicated:
+        //    Game.cs
+        //      public Flavor gameFlav
+        //      private bool fSuper
+        //    Board.cs
+        //      private Flavor boardFlav
+        //      public bool fSuper
+
         public enum Flavor
         {
             Sudoku,         // 3x3x9
@@ -22,7 +30,6 @@ namespace SudokuForms
         { // Are we 3x3 or 4x4?
             get { return fSuper ? 16 : 9; }
         }
-
         public string szAll
         {
             get { return fSuper ? "0 1 2 3 4 5 6 7 8 9 A B C D E F " : "1 2 3 4 5 6 7 8 9 "; }

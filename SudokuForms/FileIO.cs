@@ -81,7 +81,7 @@ namespace SudokuForms
 
                 writer.WriteStartElement("Squares");
 
-                Flavor flav = objGame.objBoard.boardFlav;
+                Flavor flav = objGame.gameFlav;
                 writer.WriteElementString("Flavor", flav.ToString());
                 writer.WriteElementString("CouldBe", objGame.fCouldBe.ToString());
 
