@@ -869,7 +869,7 @@ namespace SudokuForms
                             //   '0'..'9' --> 0x30..0x39 --> 0..9 : subtract '0'
                             //   'A'..'F' --> 0x65..0x70 --> A..F : subtract 'A', add 10
                             if (ch <= '9') {
-                                ich = ch - '1';
+                                ich = ch - '0';
                             } else {
                                 ich = ch - 'A' + 10;
                             }
@@ -906,6 +906,8 @@ namespace SudokuForms
                     int i1jj;   // The two locations of j within row|col i1
                     int i2jj;   // The two locations of j within row|col i2
 
+                    string szj = (objBoard.fSuper ? (j).ToString("X") : (j+1).ToString("X"));
+
                     // Row:
                     if (mpicchRow[i1,j] == 2)
                     {
@@ -919,15 +921,16 @@ namespace SudokuForms
                                 // Rows i1 and i2 have two 'j' characters.  Are they in the same columns?
                                 i1jj = FindChsRow(objBoard, i1, j);
                                 i2jj = FindChsRow(objBoard, i2, j);
-                                // BUGBUG: Is this right for Super?
-                                //objLogBox.Log("XWing: Row" + i1.ToString() + "(" + i1jj.ToString("X").PadLeft(2, '0') + ") " +
-                                //                     "and Row" + i2.ToString() + "(" + i2jj.ToString("X").PadLeft(2, '0') + ") " +
-                                //                     "have two " + (j+1).ToString() + "s");
+                                //objLogBox.Log("XWing: Row" + i1.ToString("X") + "(" + i1jj.ToString("X").PadLeft(2, '0') + ") " +
+                                //                     "and Row" + i2.ToString("X") + "(" + i2jj.ToString("X").PadLeft(2, '0') + ") " +
+                                //                     "have two " + szj + "s");
                                 if (i1jj == i2jj)
                                 {
-                                    objLogBox.Log("XWing: Rows " + i1.ToString() + " and " + i2.ToString() + 
+                                    objLogBox.Log("XWing: Rows " + i1.ToString("X") + " and " + i2.ToString("X") + 
                                                         " in locations [" + i2jj.ToString("X").PadLeft(2, '0') + "] " +
-                                                         "have " + (j + 1).ToString() + "s");
+                                                         "have " + szj + "s");
+
+                                    // Call FLoser('j') in the two columns of jj, except in rows i1 and i2.
                                     fRet = true;
                                 }
                             }
@@ -946,14 +949,16 @@ namespace SudokuForms
                                 // Col i1 and i2 have two 'j' characters.  Are they in the same rows?
                                 i1jj = FindChsCol(objBoard, i1, j);
                                 i2jj = FindChsCol(objBoard, i2, j);
-                                //objLogBox.Log("XWing: Col" + i1.ToString() + "(" + i1jj.ToString("X") + ") " +
-                                //                     "and Col" + i2.ToString() + "(" + i2jj.ToString("X") + ") " + 
-                                //                     "have two " + (j+1).ToString() + "s");
+                                //objLogBox.Log("XWing: Col" + i1.ToString("X") + "(" + i1jj.ToString("X").PadLeft(2, '0') + ") " +
+                                //                     "and Col" + i2.ToString("X") + "(" + i2jj.ToString("X").PadLeft(2, '0') + ") " +
+                                //                     "have two " + szj + "s");
                                 if (i1jj == i2jj)
                                 {
-                                    objLogBox.Log("XWing: Cols " + i1.ToString() + " and " + i2.ToString() +
-                                                        " in locations [" + i2jj.ToString("X") + "] " +
-                                                         "have " + (j + 1).ToString() + "s");
+                                    objLogBox.Log("XWing: Cols " + i1.ToString("X") + " and " + i2.ToString("X") +
+                                                        " in locations [" + i2jj.ToString("X").PadLeft(2, '0') + "] " +
+                                                         "have " + szj + "s");
+
+                                    // Call FLoser('j') in the two rows of jj, except in columns i1 and i2.
                                     fRet = true;
                                 }
                             }
@@ -980,11 +985,11 @@ namespace SudokuForms
             if (objBoard.fSuper) {
                 // Super
                 //   0..9 --> 0x30..0x38 --> '0'..'9' : add '0'
-                //   A..F --> 0x65..0x70 --> 'A'..'F' : add 'A', sub 10
+                //   A..F --> 0x41..0x46 --> 'A'..'F' : add 'A', sub 10
                 if (j <= 9) {
                     ch = (char)(j + 0x30);
                 } else {
-                    ch = (char)(j + 0x65 - 10);
+                    ch = (char)(j + 0x41 - 10 );
                 }
             }
             else {
@@ -1016,11 +1021,11 @@ namespace SudokuForms
             {
                 // Super
                 //   0..9 --> 0x30..0x38 --> '0'..'9' : add '0'
-                //   A..F --> 0x65..0x70 --> 'A'..'F' : add 'A', sub 10
+                //   A..F --> 0x41..0x46 --> 'A'..'F' : add 'A', sub 10
                 if (j <= 9) {
                     ch = (char)(j + 0x30);
                 } else {
-                    ch = (char)(j + 0x65 - 10);
+                    ch = (char)(j + 0x41 - 10);
                 }
             }
             else
