@@ -155,9 +155,9 @@ namespace SudokuForms
 
             yPoint = 8;
 
-            // 
+            //
             // RangeCheck
-            // 
+            //
             this.RangeCheck = new RadioButton();
             this.RangeCheck.AutoSize = true;
             this.RangeCheck.Location = new Point(8, yPoint);
@@ -167,9 +167,9 @@ namespace SudokuForms
             this.RangeCheck.UseVisualStyleBackColor = true;
             this.RangeCheck.CheckedChanged += new EventHandler(this.RangeCheck_CheckedChanged);
             yPoint += yPointDelta;
-            // 
+            //
             // LineFind
-            // 
+            //
             this.LineFind = new RadioButton();
             this.LineFind.AutoSize = true;
             this.LineFind.Location = new Point(8, yPoint);
@@ -179,9 +179,9 @@ namespace SudokuForms
             this.LineFind.UseVisualStyleBackColor = true;
             this.LineFind.CheckedChanged += new EventHandler(this.LineFind_CheckedChanged);
             yPoint += yPointDelta;
-            // 
+            //
             // SectorFind
-            // 
+            //
             this.SectorFind = new RadioButton();
             this.SectorFind.AutoSize = true;
             this.SectorFind.Location = new Point(8, yPoint);
@@ -191,19 +191,32 @@ namespace SudokuForms
             this.SectorFind.UseVisualStyleBackColor = true;
             this.SectorFind.CheckedChanged += new EventHandler(this.SectorFind_CheckedChanged);
             yPoint += yPointDelta;
+            //
+            // XWing
+            //
+            this.XWing = new RadioButton();
+            this.XWing.AutoSize = true;
+            this.XWing.Location = new Point(8, yPoint);
+            this.XWing.Name = "X-Wing";
+            this.XWing.Size = new Size(98, 24);
+            this.XWing.Text = "X-Wing";
+            this.XWing.UseVisualStyleBackColor = true;
+            this.XWing.CheckedChanged += new EventHandler(this.XWing_CheckedChanged);
+            yPoint += yPointDelta;
 
-            // 
+            //
             // TechniquePanel
-            // 
+            //
             this.TechniquePanel = new Panel();
             this.TechniquePanel.SuspendLayout();
             this.TechniquePanel.Controls.Add(this.RangeCheck);
             this.TechniquePanel.Controls.Add(this.LineFind);
             this.TechniquePanel.Controls.Add(this.SectorFind);
+            this.TechniquePanel.Controls.Add(this.XWing);
             this.TechniquePanel.BorderStyle = BorderStyle.FixedSingle;
             this.TechniquePanel.Location = new Point(4, 130);
             this.TechniquePanel.Name = "TechniquePanel";
-            this.TechniquePanel.Size = new Size(100, 74);
+            this.TechniquePanel.Size = new Size(100, 98);
             this.TechniquePanel.TabIndex = iTabIndex++;
 
             // Our default button.
@@ -221,7 +234,7 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new Point(4, 208);
+            this.btnLoad.Location = new Point(4, 232);
             this.btnLoad.Size = new Size(80, 36);
             this.btnLoad.TabIndex = iTabIndex++;
             this.btnLoad.Text = "Load";
@@ -235,7 +248,7 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new Point(4, 248);
+            this.btnSave.Location = new Point(4, 272);
             this.btnSave.Size = new Size(80, 36);
             this.btnSave.TabIndex = iTabIndex++;
             this.btnSave.Text = "Save";
@@ -249,7 +262,7 @@ namespace SudokuForms
             this.btnPrint.BackColor = Color.LightGray;
             this.btnPrint.ForeColor = Color.Black;
             this.btnPrint.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new Point(110, 228);
+            this.btnPrint.Location = new Point(110, 252);
             this.btnPrint.Size = new Size(80, 36);
             this.btnPrint.TabIndex = iTabIndex++;
             this.btnPrint.Text = "Print";
@@ -261,7 +274,7 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(4, 288);
+            this.CouldBe.Location = new Point(4, 312);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
             this.CouldBe.TabIndex = iTabIndex++;
@@ -274,7 +287,7 @@ namespace SudokuForms
             // LogBox
             //
             // BUGBUG: Add an objBoard.objBoard.fSuper test, grow this box downward.
-            objLogBox = new LogBox(4, 308, 294, objBoard.fSuper ? 430 : 330, iTabIndex);
+            objLogBox = new LogBox(4, 332, 294, objBoard.fSuper ? 430 : 306, iTabIndex);
             this.Controls.Add(objLogBox.objBox);
 
             // 
@@ -442,6 +455,15 @@ namespace SudokuForms
             }
         }
 
+        void XWing_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.XWing;
+            }
+        }
+
         void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;
@@ -479,6 +501,9 @@ namespace SudokuForms
                     break;
                 case Technique.SectorFind:
                     Techniques.FSectorsFind(objBoard, objLogBox);
+                    break;
+                case Technique.XWing:
+                    Techniques.XWing(objBoard, objLogBox);
                     break;
             }
         }
@@ -562,6 +587,7 @@ namespace SudokuForms
         RadioButton RangeCheck;
         RadioButton LineFind;
         RadioButton SectorFind;
+        RadioButton XWing;
         Panel TechniquePanel;
         Button btnLoad;
         Button btnPrint;

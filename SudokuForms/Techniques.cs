@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-// This is for Flavor flav. I don't understand it.
-using static SudokuForms.Game;
-using static SudokuForms.SortBitmask;
-
 namespace SudokuForms
 {
     // This class holds the functions used to solve the puzzle.
@@ -832,6 +828,217 @@ namespace SudokuForms
             objRange.ResetRangeColor();
 
             return ret;
+        }
+
+        // ==================================================================
+        //
+        // https://www.learn-sudoku.com/x-wing.html
+        //
+        // 'rcs' = 'row or column or sector'
+        // (I don't think that X-Wing is ever applied to Sectors.)
+        //
+        // Count the chars in each rcs
+        // These two rows each have two 4s, so they're our X-Wing.
+        //                                      1 2 3 4 5 6 7 8 9
+        //   [1][49][69][3][469][5][7][2][8] -> 1 1 1 2 1 2 1 1 2
+        //   [8][34] [1][9] [34][6][2][5][7] -> 1 1 2 2 1 1 1 1 1
+        //                               Our X-Wing : ^
+        // For each character count == 2, look for another row in the
+        // array where the same offset is also 2.  That's our X-Wing.
+        // 
+
+        public static bool XWing(Board objBoard, LogBox objLogBox)
+        {
+            bool fRet = false;
+            int ich;
+
+            // For each row|col|sec, the count of each char across the row|col|sec
+            int[,] mpicchRow = new int[objBoard.cDimension, objBoard.cDimension];
+            int[,] mpicchCol = new int[objBoard.cDimension, objBoard.cDimension];
+            //int[,] mpicchSec = new int[objBoard.cDimension, objBoard.cDimension];
+
+            if (objBoard.fSuper)
+            {
+                foreach (Square sq in objBoard.rgSquare)
+                {
+                    foreach (char ch in sq.btn.Text)
+                    {
+                        if (ch != ' ')
+                        {
+                            // Super
+                            //   '0'..'9' --> 0x30..0x39 --> 0..9 : subtract '0'
+                            //   'A'..'F' --> 0x65..0x70 --> A..F : subtract 'A', add 10
+                            if (ch <= '9') {
+                                ich = ch - '1';
+                            } else {
+                                ich = ch - 'A' + 10;
+                            }
+                            mpicchRow[sq.row, ich]++;
+                            mpicchCol[sq.col, ich]++;
+                            //mpicchSec[sq.sector, ich]++;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (Square sq in objBoard.rgSquare)
+                {
+                    foreach (char ch in sq.btn.Text)
+                    {
+                        if (ch != ' ')
+                        {
+                            // Sudoku and Hyper
+                            //   '1'..'9' --> 0x31..0x39 --> 0..8 : subtract '1'
+                            ich = ch - '1';
+                            mpicchRow[sq.row, ich]++;
+                            mpicchCol[sq.col, ich]++;
+                            //mpicchSec[sq.sector, ich]++;
+                        }
+                    }
+                }
+            }
+
+            for (int i1 = 0; i1 < objBoard.cDimension; i1++)
+            {
+                for (int j = 0; j < objBoard.cDimension; j++)
+                {
+                    int i1jj;   // The two locations of j within row|col i1
+                    int i2jj;   // The two locations of j within row|col i2
+
+                    // Row:
+                    if (mpicchRow[i1,j] == 2)
+                    {
+                        // We have found that the ith row has two "j" characters.
+                        // Is there another row, same value of j, that's also 2?
+                        // Note we start looking in the row _after_ where we just matched.
+                        for (int i2 = i1 + 1; i2 < objBoard.cDimension; i2++)
+                        {
+                            if (mpicchRow[i2,j] == 2)
+                            {
+                                // Rows i1 and i2 have two 'j' characters.  Are they in the same columns?
+                                i1jj = FindChsRow(objBoard, i1, j);
+                                i2jj = FindChsRow(objBoard, i2, j);
+                                // BUGBUG: Is this right for Super?
+                                //objLogBox.Log("XWing: Row" + i1.ToString() + "(" + i1jj.ToString("X").PadLeft(2, '0') + ") " +
+                                //                     "and Row" + i2.ToString() + "(" + i2jj.ToString("X").PadLeft(2, '0') + ") " +
+                                //                     "have two " + (j+1).ToString() + "s");
+                                if (i1jj == i2jj)
+                                {
+                                    objLogBox.Log("XWing: Rows " + i1.ToString() + " and " + i2.ToString() + 
+                                                        " in locations [" + i2jj.ToString("X").PadLeft(2, '0') + "] " +
+                                                         "have " + (j + 1).ToString() + "s");
+                                    fRet = true;
+                                }
+                            }
+                        }
+                    }
+                    // Column:
+                    if (mpicchCol[i1,j] == 2)
+                    {
+                        // We have found that the ith col has two "j" characters.
+                        // Is there another col, same value of j, that's also 2?
+                        // Note we start looking in the col _after_ where we just matched.
+                        for (int i2 = i1 + 1; i2 < objBoard.cDimension; i2++)
+                        {
+                            if (mpicchCol[i2,j] == 2)
+                            {
+                                // Col i1 and i2 have two 'j' characters.  Are they in the same rows?
+                                i1jj = FindChsCol(objBoard, i1, j);
+                                i2jj = FindChsCol(objBoard, i2, j);
+                                //objLogBox.Log("XWing: Col" + i1.ToString() + "(" + i1jj.ToString("X") + ") " +
+                                //                     "and Col" + i2.ToString() + "(" + i2jj.ToString("X") + ") " + 
+                                //                     "have two " + (j+1).ToString() + "s");
+                                if (i1jj == i2jj)
+                                {
+                                    objLogBox.Log("XWing: Cols " + i1.ToString() + " and " + i2.ToString() +
+                                                        " in locations [" + i2jj.ToString("X") + "] " +
+                                                         "have " + (j + 1).ToString() + "s");
+                                    fRet = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (fRet)
+            {
+                objLogBox.Log("X-Wing");
+            }
+            return fRet;
+        }
+
+        private static int FindChsRow(Board objBoard, int iRow, int j)
+        {
+            // There are exactly two Squares in the iRow'th Row, where the
+            // Text contains the char jCh+'1'. We will return both Columns
+            // as a two-digit hex number: col1+col4 -> '1' + '4' -> 0x14.
+
+            // Turn our index back into a character.
+            char ch;
+            if (objBoard.fSuper) {
+                // Super
+                //   0..9 --> 0x30..0x38 --> '0'..'9' : add '0'
+                //   A..F --> 0x65..0x70 --> 'A'..'F' : add 'A', sub 10
+                if (j <= 9) {
+                    ch = (char)(j + 0x30);
+                } else {
+                    ch = (char)(j + 0x65 - 10);
+                }
+            }
+            else {
+                // Sudoku and Hyper
+                //   0..8 --> 0x31..0x39 --> '1'..'9' : add '1'
+                ch = (char)(j + 0x31);
+            }
+
+            int iRet = 0;
+            for (int iCol = 0; iCol < objBoard.cDimension; iCol++)
+            {
+                if (objBoard.rgSquare[iCol,iRow].btn.Text.Contains(ch))
+                {
+                    iRet = (iRet * 16) + iCol;
+                }
+            }
+            return iRet;
+        }
+
+        private static int FindChsCol(Board objBoard, int iCol, int j)
+        {
+            // There are exactly two Squares in the iCol'th Column, where the
+            // Text contains the char jCh+'1'. We will return both Rows
+            // as a two-digit hex number: row2+rowA -> '2' + 'A' -> 0x2A.
+
+            // Turn our index back into a character.
+            char ch;
+            if (objBoard.fSuper)
+            {
+                // Super
+                //   0..9 --> 0x30..0x38 --> '0'..'9' : add '0'
+                //   A..F --> 0x65..0x70 --> 'A'..'F' : add 'A', sub 10
+                if (j <= 9) {
+                    ch = (char)(j + 0x30);
+                } else {
+                    ch = (char)(j + 0x65 - 10);
+                }
+            }
+            else
+            {
+                // Sudoku and Hyper
+                //   0..8 --> 0x31..0x39 --> '1'..'9' : add '1'
+                ch = (char)(j + 0x31);
+            }
+
+            int iRet = 0;
+            for (int iRow = 0; iRow < objBoard.cDimension; iRow++)
+            {
+                if (objBoard.rgSquare[iCol,iRow].btn.Text.Contains(ch))
+                {
+                    iRet = (iRet * 16) + iRow;
+                }
+            }
+            return iRet;
         }
 
     }

@@ -65,7 +65,8 @@ namespace SudokuForms
             none,
             RangeCheck,
             LineFind,
-            SectorFind
+            SectorFind,
+            XWing
         }
         public Technique curTechnique = Technique.none;
 
