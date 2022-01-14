@@ -903,10 +903,10 @@ namespace SudokuForms
             {
                 for (int j = 0; j < objBoard.cDimension; j++)
                 {
+                    string szj = (objBoard.fSuper ? (j).ToString("X") : (j + 1).ToString("X"));
+
                     int i1jj;   // The two locations of j within row|col i1
                     int i2jj;   // The two locations of j within row|col i2
-
-                    string szj = (objBoard.fSuper ? (j).ToString("X") : (j+1).ToString("X"));
 
                     // Row:
                     if (mpicchRow[i1,j] == 2)
@@ -926,16 +926,28 @@ namespace SudokuForms
                                 //                     "have two " + szj + "s");
                                 if (i1jj == i2jj)
                                 {
+                                    int col1 = i1jj / 16; // divide, the first (hex) digit
+                                    int col2 = i1jj % 16; // modulo or remainder, the second (hex) digit
+
+                                    // Rows i1 and i2 have the 'j' character in columns col1 and col2
                                     objLogBox.Log("XWing: Rows " + i1.ToString("X") + " and " + i2.ToString("X") + 
-                                                        " in locations [" + i2jj.ToString("X").PadLeft(2, '0') + "] " +
+                                                        " in cols [" + i2jj.ToString("X").PadLeft(2, '0') + "] " +
                                                          "have " + szj + "s");
 
                                     // Call FLoser('j') in the two columns of jj, except in rows i1 and i2.
-                                    fRet = true;
+                                    for (int cRow = 0; cRow < objBoard.cDimension; cRow++)
+                                    {
+                                        if ((cRow != i1) && (cRow != i2))
+                                        {
+                                            fRet |= objBoard.rgSquare[col1, cRow].FLoser(szj[0], objBoard);
+                                            fRet |= objBoard.rgSquare[col2, cRow].FLoser(szj[0], objBoard);
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+
                     // Column:
                     if (mpicchCol[i1,j] == 2)
                     {
@@ -954,12 +966,23 @@ namespace SudokuForms
                                 //                     "have two " + szj + "s");
                                 if (i1jj == i2jj)
                                 {
+                                    int row1 = i1jj / 16; // divide, the first (hex) digit
+                                    int row2 = i1jj % 16; // modulo or remainder, the second (hex) digit
+
+                                    // Cols i1 and i2 have the 'j' character in rows row1 and row2
                                     objLogBox.Log("XWing: Cols " + i1.ToString("X") + " and " + i2.ToString("X") +
-                                                        " in locations [" + i2jj.ToString("X").PadLeft(2, '0') + "] " +
+                                                        " in rows [" + i2jj.ToString("X").PadLeft(2, '0') + "] " +
                                                          "have " + szj + "s");
 
                                     // Call FLoser('j') in the two rows of jj, except in columns i1 and i2.
-                                    fRet = true;
+                                    for (int cCol = 0; cCol < objBoard.cDimension; cCol++)
+                                    {
+                                        if ((cCol != i1) && (cCol != i2))
+                                        {
+                                            fRet |= objBoard.rgSquare[cCol, row1].FLoser(szj[0], objBoard);
+                                            fRet |= objBoard.rgSquare[cCol, row1].FLoser(szj[0], objBoard);
+                                        }
+                                    }
                                 }
                             }
                         }
