@@ -263,7 +263,7 @@ namespace SudokuForms
                                 if (iWinner == -1) {
                                     sq.CouldBes(Text);
                                 } else {
-                                    sq.Winner(chWinner, sq.fOriginal, objGame.objBoard);
+                                    sq.Winner(chWinner, sq.fOriginal, objGame.objBoard.rgSquare);
                                 }
                             }
                             break;

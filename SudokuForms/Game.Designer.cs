@@ -327,12 +327,12 @@ namespace SudokuForms
             if (objBoard.fSuper) {
                 if ((keyChar >= '0' && keyChar <= '9') || (keyChar >= 'A' && keyChar <= 'F'))
                 {
-                    objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard);
+                    objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard.rgSquare);
                 }
             } else {
                 if (keyChar >= '1' && keyChar <= '9')
                 {
-                    objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard);
+                    objBoard.rgSquare[curCol, curRow].Winner(keyChar, true, objBoard.rgSquare);
                 }
             }
         }

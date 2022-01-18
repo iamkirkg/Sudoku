@@ -142,7 +142,7 @@ namespace SudokuForms
             btn.Text = argText;
         }
 
-        public void Winner(char chValue, bool fOriginal, Board objBoard)
+        public void Winner(char chValue, bool fOriginal, Square[,] rgSquare)
         {
             // For char values '0' through '9', iWinner is 0 to 9.
             // For char values 'A' through 'F', iWinner is 10 to 15.
@@ -165,7 +165,7 @@ namespace SudokuForms
             // This square has been declared to be a winner. But if its value is 
             // anywhere else in the row/column/sector, then the puzzle is broken.
             // This doesn't get specifically recorded in the saved XML file. Should it?
-            foreach (Square sq in objBoard.rgSquare) {
+            foreach (Square sq in rgSquare) {
                 if ((sq.chWinner == chValue) &&
                     (sq.btn.TabIndex != btn.TabIndex) &&
                     ((sq.row == row) || (sq.col == col) || (sq.sector == sector))
@@ -216,7 +216,7 @@ namespace SudokuForms
             string sz = btn.Text.Replace(" ", string.Empty);
             if (sz.Length == 1)
             {
-                Winner(sz[0], false, objBoard);
+                Winner(sz[0], false, objBoard.rgSquare);
             }
 
             return true;
