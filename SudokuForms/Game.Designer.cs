@@ -111,6 +111,8 @@ namespace SudokuForms
             this.FlavorPanel.ResumeLayout(false);
             this.FlavorPanel.PerformLayout();
 
+            Font myFont = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+
             // ------------------------------------------
             // 
             // btnReset
@@ -119,7 +121,7 @@ namespace SudokuForms
             this.btnReset.Click += Reset_Click;
             this.btnReset.BackColor = Color.LightGray;
             this.btnReset.ForeColor = Color.Black;
-            this.btnReset.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnReset.Font = myFont;
             this.btnReset.Location = new Point(4, 88);
             this.btnReset.Size = new Size(80, 36);
             this.btnReset.TabIndex = iTabIndex++;
@@ -132,7 +134,7 @@ namespace SudokuForms
             this.btnClear.Click += Clear_Click;
             this.btnClear.BackColor = Color.LightGray;
             this.btnClear.ForeColor = Color.Black;
-            this.btnClear.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnClear.Font = myFont;
             this.btnClear.Location = new Point(88, 88);
             this.btnClear.Size = new Size(80, 36);
             this.btnClear.TabIndex = iTabIndex++;
@@ -143,7 +145,7 @@ namespace SudokuForms
             // 
             this.btnStep = new Button();
             this.btnStep.Click += Step_Click;
-            this.btnStep.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnStep.Font = myFont;
             this.btnStep.Location = new Point(110, 140);
             this.btnStep.Size = new Size(80, 36);
             this.btnStep.TabIndex = iTabIndex++;
@@ -154,7 +156,7 @@ namespace SudokuForms
             //
             this.btnGo = new Button();
             this.btnGo.Click += Go_Click;
-            this.btnGo.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnGo.Font = myFont;
             this.btnGo.Location = new Point(110, 180);
             this.btnGo.Size = new Size(80, 36);
             this.btnGo.TabIndex = iTabIndex++;
@@ -243,7 +245,7 @@ namespace SudokuForms
             this.btnLoad.Click += Load_Click;
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
-            this.btnLoad.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoad.Font = myFont;
             this.btnLoad.Location = new Point(4, 232);
             this.btnLoad.Size = new Size(80, 36);
             this.btnLoad.TabIndex = iTabIndex++;
@@ -257,7 +259,7 @@ namespace SudokuForms
             this.btnSave.Click += Save_Click;
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
-            this.btnSave.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Font = myFont;
             this.btnSave.Location = new Point(4, 272);
             this.btnSave.Size = new Size(80, 36);
             this.btnSave.TabIndex = iTabIndex++;
@@ -271,7 +273,7 @@ namespace SudokuForms
             this.btnPrint.Click += Print_Click;
             this.btnPrint.BackColor = Color.LightGray;
             this.btnPrint.ForeColor = Color.Black;
-            this.btnPrint.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.Font = myFont;
             this.btnPrint.Location = new Point(110, 252);
             this.btnPrint.Size = new Size(80, 36);
             this.btnPrint.TabIndex = iTabIndex++;
