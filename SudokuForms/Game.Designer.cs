@@ -125,7 +125,6 @@ namespace SudokuForms
             this.btnReset.TabIndex = iTabIndex++;
             this.btnReset.Text = "Reset";
             this.Controls.Add(this.btnReset);
-
             // 
             // btnClear
             // 
@@ -145,11 +144,22 @@ namespace SudokuForms
             this.btnStep = new Button();
             this.btnStep.Click += Step_Click;
             this.btnStep.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.btnStep.Location = new Point(110, 148);
+            this.btnStep.Location = new Point(110, 140);
             this.btnStep.Size = new Size(80, 36);
             this.btnStep.TabIndex = iTabIndex++;
             this.btnStep.Text = "Step";
             this.Controls.Add(this.btnStep);
+            //
+            // btnGo
+            //
+            this.btnGo = new Button();
+            this.btnGo.Click += Go_Click;
+            this.btnGo.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.btnGo.Location = new Point(110, 180);
+            this.btnGo.Size = new Size(80, 36);
+            this.btnGo.TabIndex = iTabIndex++;
+            this.btnGo.Text = "Go!";
+            this.Controls.Add(this.btnGo);
 
             // ------------------------------------------
 
@@ -488,7 +498,6 @@ namespace SudokuForms
         // This is the ButtonClick function for the Step button.
         void Step_Click(object sender, EventArgs e)
         {
-            //Button btn = sender as Button;
             switch (curTechnique)
             {
                 case Technique.none:
@@ -506,6 +515,12 @@ namespace SudokuForms
                     Techniques.XWing(objBoard, objLogBox);
                     break;
             }
+        }
+
+        // This is the ButtonClick function for the Go button.
+        void Go_Click(object sender, EventArgs e)
+        {
+            Techniques.Go(objBoard, objLogBox);
         }
 
         void ClickSquare(int iTab)
@@ -582,6 +597,7 @@ namespace SudokuForms
         Button btnReset;
         Button btnClear;
         Button btnStep;
+        Button btnGo;
         public LogBox objLogBox;
         CheckBox CouldBe;
         RadioButton RangeCheck;

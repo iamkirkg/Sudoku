@@ -9,6 +9,24 @@ namespace SudokuForms
 
         // ==================================================================
         //
+        // Keep calling all the Techniques, until they all crap out.
+        public static bool Go(Board objBoard, LogBox objLogBox)
+        {
+            bool fProgress = false; // Did we do make any progress?
+            bool fContinue = true;  // Should we keep going?
+            while (fContinue)
+            {
+                fContinue = false;
+                while (AllRanges(objBoard, objLogBox))    { fContinue = true; fProgress = true;  }
+                while (FLineFind(objBoard, objLogBox))    { fContinue = true; fProgress = true; }
+                while (FSectorsFind(objBoard, objLogBox)) { fContinue = true; fProgress = true; }
+                while (XWing(objBoard, objLogBox))        { fContinue = true; fProgress = true; }
+            }
+            return fProgress;
+        }
+
+        // ==================================================================
+        //
         // Call for every Row and Column and Sector.
         public static bool AllRanges(Board objBoard, LogBox objLogBox)
         {
