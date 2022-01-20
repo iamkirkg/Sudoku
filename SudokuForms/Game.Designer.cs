@@ -165,14 +165,14 @@ namespace SudokuForms
 
             // ------------------------------------------
 
-            yPoint = 8;
+            yPoint = 4;
 
             //
             // RangeCheck
             //
             this.RangeCheck = new RadioButton();
             this.RangeCheck.AutoSize = true;
-            this.RangeCheck.Location = new Point(8, yPoint);
+            this.RangeCheck.Location = new Point(6, yPoint);
             this.RangeCheck.Name = "RangeCheck";
             this.RangeCheck.Size = new Size(98, 24);
             this.RangeCheck.Text = "RangeCheck";
@@ -184,7 +184,7 @@ namespace SudokuForms
             //
             this.LineFind = new RadioButton();
             this.LineFind.AutoSize = true;
-            this.LineFind.Location = new Point(8, yPoint);
+            this.LineFind.Location = new Point(6, yPoint);
             this.LineFind.Name = "LineFind";
             this.LineFind.Size = new Size(98, 24);
             this.LineFind.Text = "LineFind";
@@ -196,7 +196,7 @@ namespace SudokuForms
             //
             this.SectorFind = new RadioButton();
             this.SectorFind.AutoSize = true;
-            this.SectorFind.Location = new Point(8, yPoint);
+            this.SectorFind.Location = new Point(6, yPoint);
             this.SectorFind.Name = "SectorFind";
             this.SectorFind.Size = new Size(98, 24);
             this.SectorFind.Text = "SectorFind";
@@ -208,12 +208,24 @@ namespace SudokuForms
             //
             this.XWing = new RadioButton();
             this.XWing.AutoSize = true;
-            this.XWing.Location = new Point(8, yPoint);
+            this.XWing.Location = new Point(6, yPoint);
             this.XWing.Name = "X-Wing";
             this.XWing.Size = new Size(98, 24);
             this.XWing.Text = "X-Wing";
             this.XWing.UseVisualStyleBackColor = true;
             this.XWing.CheckedChanged += new EventHandler(this.XWing_CheckedChanged);
+            yPoint += yPointDelta;
+            //
+            // TryEmBoth
+            //
+            this.TryEmBoth = new RadioButton();
+            this.TryEmBoth.AutoSize = true;
+            this.TryEmBoth.Location = new Point(6, yPoint);
+            this.TryEmBoth.Name = "TryEmBoth";
+            this.TryEmBoth.Size = new Size(98, 24);
+            this.TryEmBoth.Text = "Try 'Em Both";
+            this.TryEmBoth.UseVisualStyleBackColor = true;
+            this.TryEmBoth.CheckedChanged += new EventHandler(this.TryEmBoth_CheckedChanged);
             yPoint += yPointDelta;
 
             //
@@ -225,10 +237,11 @@ namespace SudokuForms
             this.TechniquePanel.Controls.Add(this.LineFind);
             this.TechniquePanel.Controls.Add(this.SectorFind);
             this.TechniquePanel.Controls.Add(this.XWing);
+            this.TechniquePanel.Controls.Add(this.TryEmBoth);
             this.TechniquePanel.BorderStyle = BorderStyle.FixedSingle;
-            this.TechniquePanel.Location = new Point(4, 130);
+            this.TechniquePanel.Location = new Point(4, 128);
             this.TechniquePanel.Name = "TechniquePanel";
-            this.TechniquePanel.Size = new Size(100, 98);
+            this.TechniquePanel.Size = new Size(94, 106);
             this.TechniquePanel.TabIndex = iTabIndex++;
 
             // Our default button.
@@ -246,7 +259,7 @@ namespace SudokuForms
             this.btnLoad.BackColor = Color.LightGray;
             this.btnLoad.ForeColor = Color.Black;
             this.btnLoad.Font = myFont;
-            this.btnLoad.Location = new Point(4, 232);
+            this.btnLoad.Location = new Point(4, 238);
             this.btnLoad.Size = new Size(80, 36);
             this.btnLoad.TabIndex = iTabIndex++;
             this.btnLoad.Text = "Load";
@@ -260,7 +273,7 @@ namespace SudokuForms
             this.btnSave.BackColor = Color.LightGray;
             this.btnSave.ForeColor = Color.Black;
             this.btnSave.Font = myFont;
-            this.btnSave.Location = new Point(4, 272);
+            this.btnSave.Location = new Point(4, 276);
             this.btnSave.Size = new Size(80, 36);
             this.btnSave.TabIndex = iTabIndex++;
             this.btnSave.Text = "Save";
@@ -286,7 +299,7 @@ namespace SudokuForms
             this.CouldBe = new CheckBox();
             this.CouldBe.AutoSize = true;
             this.CouldBe.Checked = true;
-            this.CouldBe.Location = new Point(4, 312);
+            this.CouldBe.Location = new Point(4, 314);
             this.CouldBe.Name = "CouldBe";
             this.CouldBe.Size = new Size(104, 24);
             this.CouldBe.TabIndex = iTabIndex++;
@@ -476,6 +489,15 @@ namespace SudokuForms
             }
         }
 
+        void TryEmBoth_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = sender as RadioButton;
+            if (radio.Checked)
+            {
+                curTechnique = Technique.TryEmBoth;
+            }
+        }
+
         void CouldBe_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox box = sender as CheckBox;
@@ -515,6 +537,9 @@ namespace SudokuForms
                     break;
                 case Technique.XWing:
                     Techniques.XWing(objBoard, objLogBox);
+                    break;
+                case Technique.TryEmBoth:
+                    Techniques.TryEmBoth(objBoard, objLogBox);
                     break;
             }
         }
@@ -606,6 +631,7 @@ namespace SudokuForms
         RadioButton LineFind;
         RadioButton SectorFind;
         RadioButton XWing;
+        RadioButton TryEmBoth;
         Panel TechniquePanel;
         Button btnLoad;
         Button btnPrint;

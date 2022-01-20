@@ -1087,5 +1087,46 @@ namespace SudokuForms
             return iRet;
         }
 
+        public static bool TryEmBoth(Board objBoard, LogBox objLogBox)
+        {
+            int row = -1;
+            int col = -1;
+            char ch1 = 'X';
+            char ch2 = 'X';
+
+            // Walk through objBoard, find a Square with two CouldBes.
+            foreach (Square sq in objBoard.rgSquare)
+            {
+                if (sq.btn.Text.Length == 4)
+                {
+                    ch1 = sq.btn.Text[0];
+                    ch2 = sq.btn.Text[2];
+                    row = sq.row;
+                    col = sq.col;
+                    break;
+                }
+            }
+
+            if (ch1 == 'X') { return false; }
+
+            objLogBox.Log("Try'EmBoth: (" + col + "," + row + ") = '" + ch1 + ch2 + "'");
+
+            // Spawn two new Boards, both cloned from objBoard.
+            Board b1 = new Board(objBoard, 500, 0);
+            Board b2 = new Board(objBoard, 0, 640);
+
+            // Call Winner on the two options, in b1 and b2.
+            b1.rgSquare[col, row].Winner(ch1, false, b1.rgSquare);
+            b2.rgSquare[col, row].Winner(ch2, false, b2.rgSquare);
+
+            // Let fly on both of them.
+            Go(b1, objLogBox);
+            b1.rgSquare[col, row].SetBackColor(b1.rgSquare[col, row].colorTryEmBoth);
+            Go(b2, objLogBox);
+            b2.rgSquare[col, row].SetBackColor(b2.rgSquare[col, row].colorTryEmBoth);
+
+            return false;
+        }
+
     }
 }

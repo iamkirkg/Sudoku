@@ -30,6 +30,7 @@ namespace SudokuForms
         public readonly Color colorLoser = Color.Yellow;
         public readonly Color colorOriginal = Color.DarkGreen;
         public readonly Color colorWinner = Color.DarkBlue;
+        public readonly Color colorTryEmBoth = Color.Plum;
         public readonly static Color colorSector1 = Color.AliceBlue;
         public readonly static Color colorSector2 = Color.FloralWhite;
         public readonly static Color colorSectorH = Color.MistyRose;
@@ -68,6 +69,41 @@ namespace SudokuForms
             btn.KeyDown += fnKeyDown;
             btn.Click += fnClick;
 
+            objGame.Controls.Add(btn);
+        }
+
+        public Square(Square sqPrev, int xDelta, int yDelta)
+        {
+            objGame = sqPrev.objGame;
+            iBoard = sqPrev.iBoard;
+            iWinner = sqPrev.iWinner;
+            chWinner = sqPrev.chWinner;
+            fOriginal = sqPrev.fOriginal;
+            sector = sqPrev.sector;
+            hypersector = sqPrev.hypersector;
+            col = sqPrev.col;
+            row = sqPrev.row;
+
+            Point loc = new Point(sqPrev.btn.Location.X + xDelta,
+                                  sqPrev.btn.Location.Y + yDelta);
+
+            btn = new Button
+            {
+                BackColor = sqPrev.btn.BackColor,
+                ForeColor = sqPrev.btn.ForeColor,
+                Font = sqPrev.btn.Font,
+                Location = loc,
+                Size = sqPrev.btn.Size,
+                TabIndex = sqPrev.btn.TabIndex,
+                Text = sqPrev.btn.Text
+            };
+
+            // Do I need these?
+            //btn.KeyPress += fnKeyPress;
+            //btn.KeyDown += fnKeyDown;
+            //btn.Click += fnClick;
+
+            // Do I need this?
             objGame.Controls.Add(btn);
         }
 

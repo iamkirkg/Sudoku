@@ -148,7 +148,7 @@ namespace SudokuForms
 
             Debug.WriteLine("Board(" + cDimension + ") new");
 
-            argGame.ClientSize = new System.Drawing.Size(iBoardWidth, iBoardHeight);
+            argGame.ClientSize = new System.Drawing.Size(iBoardWidth+500, iBoardHeight+640);
 
             rgSquare = new Square[cDimension, cDimension];
 
@@ -180,6 +180,22 @@ namespace SudokuForms
                     xPoint += xDelta;
                 }
                 yPoint += yDelta;
+            }
+        }
+
+        public Board(Board boardPrev, int xDelta, int yDelta)
+        {
+            boardFlav = boardPrev.boardFlav;
+            xOrigin = boardPrev.xOrigin;
+            yOrigin = boardPrev.yOrigin;
+
+            rgSquare = new Square[cDimension, cDimension];
+            for (int y = 0; y < cDimension; y++)
+            {
+                for (int x = 0; x < cDimension; x++)
+                {
+                    rgSquare[x, y] = new Square(boardPrev.rgSquare[x, y], xDelta, yDelta);
+                }
             }
         }
 
