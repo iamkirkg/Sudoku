@@ -1111,19 +1111,31 @@ namespace SudokuForms
 
             objLogBox.Log("Try'EmBoth: (" + col + "," + row + ") = '" + ch1 + ch2 + "'");
 
-            // Spawn two new Boards, both cloned from objBoard.
-            Board b1 = new Board(objBoard, 500, 0);
-            Board b2 = new Board(objBoard, 0, 640);
-
-            // Call Winner on the two options, in b1 and b2.
+            TryEmBoards formB1 = new TryEmBoards(objBoard, objLogBox, col, row, ch1);
+            formB1.Show();
+            Board b1 = new Board(objBoard, formB1, -300, 0);
             b1.rgSquare[col, row].Winner(ch1, false, b1.rgSquare);
+
+            TryEmBoards formB2 = new TryEmBoards(objBoard, objLogBox, col, row, ch2);
+            formB2.Show();
+            Board b2 = new Board(objBoard, formB2, -300, 0);
             b2.rgSquare[col, row].Winner(ch2, false, b2.rgSquare);
 
-            // Let fly on both of them.
             Go(b1, objLogBox);
             b1.rgSquare[col, row].SetBackColor(b1.rgSquare[col, row].colorTryEmBoth);
             Go(b2, objLogBox);
             b2.rgSquare[col, row].SetBackColor(b2.rgSquare[col, row].colorTryEmBoth);
+
+            // Possible scenarios:
+            // 1. Either b1 or b2 completes. Apply that, go.
+            // 2. Both b1 and b2 complete. Should not happen! Error!
+            // 3. Either b1 or b2 hit an Error condition.
+            //    Apply the other action, continue.
+            // 4. Walk a/b1/b2; look for the same change (removal
+            //    of a CouldBe) from both b1 and b2. Apply that, go.
+            // 5. B1 and b2 stalled out, no conclusion can be drawn.
+            //    Continue to the next 'Square with two CouldBes',
+            //    start over with new b1 and b2.
 
             return false;
         }

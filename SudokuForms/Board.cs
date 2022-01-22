@@ -13,6 +13,10 @@ namespace SudokuForms
         private Flavor boardFlav;
         public Square[,] rgSquare;
 
+        // If this board is broken, in an error state,
+        // this will be nonNull, the Red square.
+        public Square sqError = null;
+
         public bool fSuper
         { // Are we 3x3 or 4x4?
             get { return boardFlav == Flavor.SuperSudoku; }
@@ -148,7 +152,7 @@ namespace SudokuForms
 
             Debug.WriteLine("Board(" + cDimension + ") new");
 
-            argGame.ClientSize = new System.Drawing.Size(iBoardWidth+500, iBoardHeight+640);
+            argGame.ClientSize = new System.Drawing.Size(iBoardWidth, iBoardHeight);
 
             rgSquare = new Square[cDimension, cDimension];
 
@@ -183,7 +187,7 @@ namespace SudokuForms
             }
         }
 
-        public Board(Board boardPrev, int xDelta, int yDelta)
+        public Board(Board boardPrev, Form homeForm, int xDelta, int yDelta)
         {
             boardFlav = boardPrev.boardFlav;
             xOrigin = boardPrev.xOrigin;
@@ -194,7 +198,7 @@ namespace SudokuForms
             {
                 for (int x = 0; x < cDimension; x++)
                 {
-                    rgSquare[x, y] = new Square(boardPrev.rgSquare[x, y], xDelta, yDelta);
+                    rgSquare[x, y] = new Square(boardPrev.rgSquare[x, y], homeForm, xDelta, yDelta);
                 }
             }
         }

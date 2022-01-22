@@ -72,8 +72,9 @@ namespace SudokuForms
             objGame.Controls.Add(btn);
         }
 
-        public Square(Square sqPrev, int xDelta, int yDelta)
+        public Square(Square sqPrev, Form homeForm, int xDelta, int yDelta)
         {
+            // What is this used for, in the spun-off Boards?
             objGame = sqPrev.objGame;
             iBoard = sqPrev.iBoard;
             iWinner = sqPrev.iWinner;
@@ -98,13 +99,12 @@ namespace SudokuForms
                 Text = sqPrev.btn.Text
             };
 
-            // Do I need these?
+            // Pretty sure I don't need these.
             //btn.KeyPress += fnKeyPress;
             //btn.KeyDown += fnKeyDown;
             //btn.Click += fnClick;
 
-            // Do I need this?
-            objGame.Controls.Add(btn);
+            homeForm.Controls.Add(btn);
         }
 
         public void Delete() {
@@ -206,6 +206,7 @@ namespace SudokuForms
                     (sq.btn.TabIndex != btn.TabIndex) &&
                     ((sq.row == row) || (sq.col == col) || (sq.sector == sector))
                    ) {
+                    objGame.objBoard.sqError = sq;
                     objGame.objLogBox.Log("Error: r" + sq.row + "c" + sq.col + ":r" + row + "c" + col + ":" + chValue);
                     colorFore = colorError;
                 }
