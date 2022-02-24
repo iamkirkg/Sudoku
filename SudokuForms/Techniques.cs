@@ -1136,6 +1136,9 @@ namespace SudokuForms
             // 5. B1 and b2 stalled out, no conclusion can be drawn.
             //    Continue to the next 'Square with two CouldBes',
             //    start over with new b1 and b2.
+            // 5a. Recursion! Split B1 into B11 and B12, B2 into
+            //     B21 and B22.  Fire up all four of those, keep 
+            //     splitting, pruning, applying.
 
             return false;
         }

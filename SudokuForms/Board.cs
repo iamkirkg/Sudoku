@@ -22,7 +22,7 @@ namespace SudokuForms
             get { return boardFlav == Flavor.SuperSudoku; }
         }
 
-        // Board origin
+        // Board origin. This scoots it over to the right of the buttons.
         private int xOrigin = 302;
         private int yOrigin = 4;
 
@@ -187,11 +187,14 @@ namespace SudokuForms
             }
         }
 
+        // Copy Constructor
         public Board(Board boardPrev, Form homeForm, int xDelta, int yDelta)
         {
             boardFlav = boardPrev.boardFlav;
-            xOrigin = boardPrev.xOrigin;
-            yOrigin = boardPrev.yOrigin;
+
+            // I think we don't need these. Only used in constructor, above.
+            //xOrigin = boardPrev.xOrigin;
+            //yOrigin = boardPrev.yOrigin;
 
             rgSquare = new Square[cDimension, cDimension];
             for (int y = 0; y < cDimension; y++)
